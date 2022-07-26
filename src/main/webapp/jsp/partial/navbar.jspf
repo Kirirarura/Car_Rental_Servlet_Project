@@ -1,0 +1,20 @@
+<nav>
+    <ul class="menu">
+        <li class="logo"><a href="${pageContext.request.contextPath}/jsp/index.jsp">Car Rental</a></li>
+        <li class="nav-item"><a href="${pageContext.request.contextPath}/jsp/index.jsp">Home</a></li>
+        <li class="nav-item"><a href="#">Order</a></li>
+        <% if (session.getAttribute("auth") == null) {%>
+        <li class="nav-item button"><a href="${pageContext.request.contextPath}/jsp/guest/login.jsp">Login</a></li>
+        <li class="nav-item button secondary "><a href="${pageContext.request.contextPath}/registration">Sigh Up</a></li>
+        <%}%>
+        <% if (session.getAttribute("auth") != null) {%>
+        <li class="nav-item"><a href="#">Hello, <%=session.getAttribute("role")%>
+        </a></li>
+        <li class="nav-item"><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+        <%}%>
+
+        <li class="toggle"><span class="bars"></span></li>
+    </ul>
+</nav>
+
+<%--/jsp/guest/registration.jsp--%>
