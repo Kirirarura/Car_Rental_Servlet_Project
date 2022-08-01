@@ -33,7 +33,7 @@ public class UserService {
         Optional<User> optionalUser = findByUsernameAndPassword(user, password);
 
         if (optionalUser.isPresent()){
-            if (optionalUser.get().isBlocked() != 0){
+            if (!optionalUser.get().isBlocked()){
                 return optionalUser.get();
             } else {
                 LOG.warn("User ({}) is blocked", user);

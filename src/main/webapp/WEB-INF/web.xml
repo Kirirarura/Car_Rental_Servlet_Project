@@ -7,6 +7,17 @@
         <welcome-file>jsp/guest/login.jsp</welcome-file>
     </welcome-file-list>
 
+    <context-param>
+        <param-name>dataSource</param-name>
+        <param-value>jdbc/mysql</param-value>
+    </context-param>
+
+    <resource-env-ref>
+        <description>Provide access for DataSource</description>
+        <resource-env-ref-name>jdbc/mysql</resource-env-ref-name>
+        <resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>
+    </resource-env-ref>
+
     <!--  Servlet config-->
 
     <servlet>
@@ -21,17 +32,23 @@
 
     <servlet-mapping>
         <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
         <url-pattern>*.css</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.png</url-pattern>
-    </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.js</url-pattern>
-    </servlet-mapping>
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>com.pavlenko.kyrylo.controller.filter.AuthenticationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 </web-app>

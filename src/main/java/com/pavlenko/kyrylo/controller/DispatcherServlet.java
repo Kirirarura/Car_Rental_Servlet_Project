@@ -1,13 +1,7 @@
 package com.pavlenko.kyrylo.controller;
 
 import com.pavlenko.kyrylo.controller.command.Command;
-import com.pavlenko.kyrylo.controller.command.impl.common.GetLogOutCommand;
-import com.pavlenko.kyrylo.controller.command.impl.guest.GetLoginCommand;
-import com.pavlenko.kyrylo.controller.command.impl.guest.GetRegistrationCommand;
-import com.pavlenko.kyrylo.controller.command.impl.guest.PostLoginCommand;
-import com.pavlenko.kyrylo.controller.command.impl.guest.PostRegistrationCommand;
 import com.pavlenko.kyrylo.controller.util.UriPath;
-import com.pavlenko.kyrylo.model.service.ServiceFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,17 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class DispatcherServlet extends HttpServlet {
 
-    private final Map<String, Command> getCommands = new HashMap<>();
-    private final Map<String, Command> postCommands = new HashMap<>();
-    private static final String COMMAND_NOT_FOUND = "Command not found";
+    private Map<String, Command> getCommands = new HashMap<>();
+    private Map<String, Command> postCommands = new HashMap<>();
 
     /**
-     * Creates an instance of serviceFactory,
-     * Puts all commands in map containers by using putGetCommands() and putPostCommands()
+     * Gets commands from the context
      *
      * @param config
      * @throws ServletException
@@ -35,31 +26,13 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        ServiceFactory service = ServiceFactory.getInstance();
-        putGetCommands(service);
-        putPostCommands(service);
+        getCommands = (Map<String, Command>) config.getServletContext().getAttribute("getCommands");
+        postCommands = (Map<String, Command>) config.getServletContext().getAttribute("postCommands");
     }
-
-    private void putGetCommands(ServiceFactory service) {
-        getCommands.put(UriPath.LOGIN, new GetLoginCommand());
-        getCommands.put(UriPath.LOGOUT, new GetLogOutCommand());
-        getCommands.put(UriPath.REGISTRATION, new GetRegistrationCommand());
-    }
-
-    private void putPostCommands(ServiceFactory service) {
-        postCommands.put(UriPath.LOGIN, new PostLoginCommand(service.createUserService()));
-        postCommands.put(UriPath.REGISTRATION, new PostRegistrationCommand(service.createUserService()));
-    }
-
     /**
      * Checks request URI according to command container,
      * Sends an error or executes command
      *
-     * @param request
-     * @param response
-     * @param commands
-     * @throws IOException
-     * @throws ServletException
      */
     private void processRequest(HttpServletRequest request, HttpServletResponse response, Map<String, Command> commands) throws IOException, ServletException {
         Command command = commands.get(request.getRequestURI());
