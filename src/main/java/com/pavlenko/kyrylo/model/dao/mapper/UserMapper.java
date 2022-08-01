@@ -17,7 +17,7 @@ public class UserMapper {
                 .lastName((rs.getString(Fields.LAST_NAME)))
                 .email(rs.getString(Fields.EMAIL))
                 .role(roleMapper.extractFromResultSet(rs))
-                .isBlocked(rs.getByte(Fields.IS_BLOCKED))
+                .isBlocked(rs.getInt(Fields.IS_BLOCKED))
                 .build();
     }
 }

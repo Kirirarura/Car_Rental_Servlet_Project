@@ -11,19 +11,19 @@ public class User {
     private String email;
     private String password;
     private Role role;
-    private byte isBlocked;
+    private boolean blocked;
 
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String email, String password, Role role, byte isBlocked) {
+    public User(Long id, String firstName, String lastName, String email, String password, Role role, boolean blocked) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.isBlocked = isBlocked;
+        this.blocked = blocked;
     }
 
     public User(UserDto userDto) {
@@ -82,12 +82,12 @@ public class User {
         this.role = role;
     }
 
-    public byte isBlocked() {
-        return isBlocked;
+    public boolean isBlocked() {
+        return blocked;
     }
 
-    public void setBlocked(byte blocked) {
-        this.isBlocked = blocked;
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
     public static UserBuilder builder() {
@@ -101,7 +101,7 @@ public class User {
         private String email;
         private String password;
         private Role role;
-        private byte isBlocked;
+        private boolean blocked;
 
         public UserBuilder id(Long id) {
             this.id = id;
@@ -133,8 +133,8 @@ public class User {
             return this;
         }
 
-        public UserBuilder isBlocked(byte isBlocked) {
-            this.isBlocked = isBlocked;
+        public UserBuilder isBlocked(int blocked) {
+            this.blocked = blocked != 1;
             return this;
         }
 
@@ -146,7 +146,7 @@ public class User {
                     this.email,
                     this.password,
                     this.role,
-                    this.isBlocked
+                    this.blocked
             );
         }
 
@@ -173,7 +173,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
-                ", isBlocked=" + isBlocked +
+                ", isBlocked=" + blocked +
                 '}';
     }
 }

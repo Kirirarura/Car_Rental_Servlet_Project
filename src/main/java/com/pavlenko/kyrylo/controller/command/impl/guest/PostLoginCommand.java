@@ -15,7 +15,6 @@ public class PostLoginCommand implements Command {
     private static final String PASSWORD = "password";
     private static final String USER_ID = "userId";
     private static final String ROLE = "role";
-    private static final String AUTH = "auth";
     private static final String AUTHENTICATION_EXCEPTION = "authenticationException";
     private static final String ACCOUNT_IS_BLOCKED_EXCEPTION = "accountIsBlocked";
 
@@ -32,7 +31,6 @@ public class PostLoginCommand implements Command {
 
         try {
             User user = userService.authentication(email, password);
-            request.getSession().setAttribute(AUTH, true);
             request.getSession().setAttribute(USER_ID, user.getId());
             request.getSession().setAttribute(ROLE, user.getRole());
         } catch (UserIsBlockedException e) {
@@ -43,6 +41,6 @@ public class PostLoginCommand implements Command {
             return JspFilePath.LOGIN;
         }
 
-        return JspFilePath.INDEX;
+        return JspFilePath.CATALOG;
     }
 }

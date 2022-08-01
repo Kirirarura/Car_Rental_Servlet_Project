@@ -3,11 +3,11 @@ package com.pavlenko.kyrylo.model.dao.impl;
 import com.pavlenko.kyrylo.model.dao.UserDao;
 import com.pavlenko.kyrylo.model.dao.impl.query.UserQueries;
 import com.pavlenko.kyrylo.model.dao.mapper.UserMapper;
-import com.pavlenko.kyrylo.model.entity.Role;
 import com.pavlenko.kyrylo.model.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,10 +23,15 @@ public class UserDaoImpl implements UserDao {
 
     private final UserMapper userMapper = new UserMapper();
 
+    private final DataSource ds;
+
+    public UserDaoImpl(DataSource dataSource) {
+        this.ds = dataSource;
+    }
+
     @Override
     public void create(User entity) {
-
-        try (Connection con = ConnectionDB.getConnection();
+        try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.CREATE_USER)) {
             statement.setString(1, entity.getFirstName());
             statement.setString(2, entity.getLastName());
@@ -63,7 +68,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findByUsernameAndPassword(String email, String password) {
-        try (Connection con = ConnectionDB.getConnection();
+        try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.FIND_USER_BY_EMAIL_AND_PASSWORD)) {
             statement.setString(1, email);
             statement.setString(2, password);
@@ -82,7 +87,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAllUsers() {
-        try (Connection con = ConnectionDB.getConnection();
+        try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.FIND_ALL_USERS)) {
             List<User> userList = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery();
@@ -93,6 +98,7 @@ public class UserDaoImpl implements UserDao {
             }
             return userList;
         } catch (SQLException e) {
+            LOG.error("{}, when trying to find all from table users", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -109,7 +115,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean uniqueEmail(String email) {
-        try (Connection con = ConnectionDB.getConnection();
+        try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.FIND_BY_EMAIL)) {
             statement.setString(1, email);
 
