@@ -1,6 +1,7 @@
 package com.pavlenko.kyrylo.model.dao;
 
 import com.pavlenko.kyrylo.model.entity.User;
+import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +11,9 @@ public interface UserDao extends GenericDao<User> {
 
     List<User> findAllUsers();
 
-    void blockById(Long id);
+    void blockById(int id) throws DataBaseException;
 
-    void unblockById(Long id);
+    void unblockById(int id) throws DataBaseException;
 
     boolean uniqueEmail(String email);
 }

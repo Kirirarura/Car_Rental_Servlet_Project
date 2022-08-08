@@ -1,6 +1,5 @@
 package com.pavlenko.kyrylo.controller.filter;
 
-import com.pavlenko.kyrylo.controller.util.UriPath;
 import com.pavlenko.kyrylo.model.entity.Role;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +16,6 @@ public class AuthenticationFilter implements Filter {
 
     private static final String ROLE_ATTRIBUTE = "role";
     private static final String USER_ID_ATTRIBUTE = "userId";
-
     private final Logger logger = LogManager.getLogger(AuthenticationFilter.class);
 
     @Override
@@ -37,11 +35,11 @@ public class AuthenticationFilter implements Filter {
         if (!checkResources(URI) && !checkAccess(URI, role)) {
             if (role.equals(Role.RoleEnum.GUEST)) {
                 logger.info("Redirect guest to Login page from URI ({})", URI);
-                response.sendRedirect(UriPath.LOGIN);
+                response.sendRedirect(LOGIN);
                 return;
             }
             logger.warn("User (id = {}) Forbidden uri: {}", session.getAttribute(USER_ID_ATTRIBUTE), URI);
-            response.sendError(403);
+            response.sendError(402);
             return;
         }
         filterChain.doFilter(servletRequest, servletResponse);
@@ -77,10 +75,12 @@ public class AuthenticationFilter implements Filter {
     }
 
     private boolean checkCommonAccess(String uri) {
-        return uri.equals(CATALOG) || uri.equals(INDEX);
+        return uri.equals(CATALOG) || uri.equals(INDEX) || uri.equals(ROOT)
+                || uri.startsWith("/Car_Rental_Servlet_Project_war");
     }
 
     private boolean checkResources(String uri) {
         return uri.startsWith(STATIC_RESOURCES_PREFIX);
     }
+
 }

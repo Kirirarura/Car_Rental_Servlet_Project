@@ -11,8 +11,7 @@ import java.util.List;
 public class GetAllUsersCommand implements Command {
 
     private final UserService userService;
-
-    private final String USER_LIST = "userList";
+    private static final String USER_LIST = "userList";
 
     public GetAllUsersCommand(UserService userService) {
         this.userService = userService;

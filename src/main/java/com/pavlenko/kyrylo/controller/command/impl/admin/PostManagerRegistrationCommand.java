@@ -1,4 +1,4 @@
-package com.pavlenko.kyrylo.controller.command.impl.guest;
+package com.pavlenko.kyrylo.controller.command.impl.admin;
 
 import com.pavlenko.kyrylo.controller.command.Command;
 import com.pavlenko.kyrylo.controller.command.impl.mapper.UserDetailsMapper;
@@ -12,11 +12,10 @@ import com.pavlenko.kyrylo.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class PostRegistrationCommand implements Command {
+public class PostManagerRegistrationCommand implements Command {
     private final UserDetailsMapper userDetailsMapper = new UserDetailsMapper();
     private final UserService userService;
-
-    public PostRegistrationCommand(UserService userService) {
+    public PostManagerRegistrationCommand(UserService userService) {
         this.userService = userService;
     }
 
@@ -28,12 +27,12 @@ public class PostRegistrationCommand implements Command {
 
         if (userValid) {
             try {
-                userService.registerNewAccount(userDto);
-                return UriPath.REDIRECT + UriPath.LOGIN;
+                userService.registerNewManagerAccount(userDto);
+                return UriPath.REDIRECT + UriPath.ADMIN_REGISTER_MANAGER;
             } catch (EmailIsAlreadyRegisteredException e) {
                 request.setAttribute("status", StatusesContainer.EMAIL_IS_RESERVED_EXCEPTION);
             }
         }
-        return JspFilePath.REGISTRATION;
+        return JspFilePath.ADMIN_MANAGER_REGISTRATION;
     }
 }

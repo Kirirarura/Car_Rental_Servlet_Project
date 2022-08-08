@@ -5,6 +5,7 @@ import com.pavlenko.kyrylo.model.dto.UserDto;
 import com.pavlenko.kyrylo.model.entity.Role;
 import com.pavlenko.kyrylo.model.entity.User;
 import com.pavlenko.kyrylo.model.exeption.AuthenticationException;
+import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.exeption.EmailIsAlreadyRegisteredException;
 import com.pavlenko.kyrylo.model.exeption.UserIsBlockedException;
 import org.apache.logging.log4j.LogManager;
@@ -51,7 +52,14 @@ public class UserService {
 
     public void registerNewAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException {
         checkUsernameIsUnique(userDto.getEmail());
-        User user = new User(userDto);
+        User user = new User(userDto, Role.RoleEnum.CUSTOMER);
+        userDao.create(user);
+        LOG.info("New account {} has been created", user);
+    }
+
+    public void registerNewManagerAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException {
+        checkUsernameIsUnique(userDto.getEmail());
+        User user = new User(userDto, Role.RoleEnum.MANAGER);
         userDao.create(user);
         LOG.info("New account {} has been created", user);
     }
@@ -61,6 +69,16 @@ public class UserService {
             LOG.info("An account with such email {} is already reserved", email);
             throw new EmailIsAlreadyRegisteredException();
         }
+    }
+
+    public void blockById(int id) throws DataBaseException {
+        userDao.blockById(id);
+        LOG.info("User (id = {}) has been blocked", id);
+    }
+
+    public void unblockById(int id) throws DataBaseException {
+        userDao.unblockById(id);
+        LOG.info("User (id = {}) has been unblocked", id);
     }
 
 }

@@ -1,13 +1,12 @@
-
 main {
     width: 90%;
     margin: auto ;
 }
 
-.list {
+.card-content {
     padding-top: 1rem;
 }
-.line {
+.card-item {
     margin-bottom: 2rem;
     display: grid;
     grid-template-columns: 4fr 2.5fr ;
@@ -17,9 +16,10 @@ main {
     border-radius: 0.3rem;
     cursor: pointer;
     transition: all 0.8s;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
 }
 
-.line:hover {
+.card-item:hover {
     background-color:  rgba(0, 0, 0, 1);
 }
 
@@ -63,20 +63,19 @@ main {
     text-decoration: none;
     color: teal;
 }
-.btn a {
+.btn input {
     transition: all 0.5s;
 }
 
-a:hover {
+input:hover {
     background-color:  rgba(30, 30, 30, 0.8);
 }
-
 
 @media all and (max-width: 768px) {
     .main {
         width: 100%;
     }
-    .line {
+    .card-item {
         grid-template-columns: 1fr;
     }
 }
