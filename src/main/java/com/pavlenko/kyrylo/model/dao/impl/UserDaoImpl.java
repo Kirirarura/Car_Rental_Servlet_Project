@@ -4,6 +4,7 @@ import com.pavlenko.kyrylo.model.dao.UserDao;
 import com.pavlenko.kyrylo.model.dao.impl.query.UserQueries;
 import com.pavlenko.kyrylo.model.dao.mapper.UserMapper;
 import com.pavlenko.kyrylo.model.entity.User;
+import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -104,13 +105,29 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void blockById(Long id) {
+    public void blockById(int id) throws DataBaseException {
+        try(Connection con = ds.getConnection();
+            PreparedStatement statement = con.prepareStatement(UserQueries.BLOCK_BY_ID)){
+            statement.setInt(1, id);
 
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOG.error("{}, when trying to block User by id ({})", e.getMessage(), id);
+            throw new DataBaseException();
+        }
     }
 
     @Override
-    public void unblockById(Long id) {
+    public void unblockById(int id) throws DataBaseException {
+        try(Connection con = ds.getConnection();
+            PreparedStatement statement = con.prepareStatement(UserQueries.UNBLOCK_BY_ID)){
+            statement.setInt(1, id);
 
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOG.error("{}, when trying to unblock User by id ({})", e.getMessage(), id);
+            throw new DataBaseException();
+        }
     }
 
     @Override

@@ -1,12 +1,5 @@
 const status = document.getElementById('status').value;
-if (status === 'successfulRegistration') {
-    Swal.fire({
-        icon: 'success',
-        title: 'Your account has been registered',
-        showConfirmButton: false,
-        timer: 2000
-    })
-} else if (status === 'emptyFieldException') {
+if (status === 'emptyFieldException') {
     Swal.fire({
         icon: 'error',
         title: 'Please fill in all fields',
@@ -52,6 +45,18 @@ if (status === 'successfulRegistration') {
     Swal.fire({
         icon: 'error',
         title: 'Such Email already reserved',
+        showConfirmButton: true
+    })
+} else if (status === 'userBlockedException') {
+    Swal.fire({
+        icon: 'error',
+        title: 'This account is blocked',
+        showConfirmButton: true,
+    })
+} else if (status === 'failedLoginException') {
+    Swal.fire({
+        icon: 'error',
+        title: 'Email or Password combination are wrong',
         showConfirmButton: true
     })
 }

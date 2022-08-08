@@ -15,4 +15,5 @@ public final class JspFilePath {
     public static final String LOGIN = GUEST_DIR + "loginPage.jsp";
     public static final String REGISTRATION = GUEST_DIR + "registrationPage.jsp";
     public static final String ADMIN_USERS = ADMIN_DIR + "userListPage.jsp";
+    public static final String ADMIN_MANAGER_REGISTRATION = ADMIN_DIR + "managerRegistration.jsp";
 }

@@ -37,7 +37,7 @@ public class DispatcherServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response, Map<String, Command> commands) throws IOException, ServletException {
         Command command = commands.get(request.getRequestURI());
         if (command == null) {
-            response.sendError(403);
+            response.sendError(401);
             return;
         }
         String result = command.execute(request);

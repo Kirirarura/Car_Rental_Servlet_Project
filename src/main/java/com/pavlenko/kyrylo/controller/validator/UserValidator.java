@@ -1,7 +1,7 @@
 package com.pavlenko.kyrylo.controller.validator;
 
 import com.pavlenko.kyrylo.controller.exeption.registration.*;
-import com.pavlenko.kyrylo.controller.validator.statuses.RegistrationStatus;
+import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
 import com.pavlenko.kyrylo.model.dto.UserDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,25 +36,25 @@ public class UserValidator {
             return true;
         } catch (EmptyFieldException e) {
             LOG.warn("Empty fields");
-            request.setAttribute("status", RegistrationStatus.EMPTY_FIELD_EXCEPTION);
+            request.setAttribute("status", StatusesContainer.EMPTY_FIELD_EXCEPTION);
         } catch (PasswordSizeOutOfBoundsException e) {
             LOG.warn("Password size is out of bounds");
-            request.setAttribute("status", RegistrationStatus.PASSWORD_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+            request.setAttribute("status", StatusesContainer.PASSWORD_SIZE_OUT_OF_BOUNDS_EXCEPTION);
         } catch (PasswordMatchException e) {
             LOG.warn("Repeat password doesn't match");
-            request.setAttribute("status", RegistrationStatus.PASSWORD_MATCH_EXCEPTION);
+            request.setAttribute("status", StatusesContainer.PASSWORD_MATCH_EXCEPTION);
         } catch (FirstNameSizeOutOfBoundsException e) {
             LOG.warn("Firstname size is out of bounds");
-            request.setAttribute("status", RegistrationStatus.FIRST_NAME_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+            request.setAttribute("status", StatusesContainer.FIRST_NAME_SIZE_OUT_OF_BOUNDS_EXCEPTION);
         } catch (LastNameSizeOutOfBoundsException e) {
             LOG.warn("Lastname size is out of bounds");
-            request.setAttribute("status", RegistrationStatus.LAST_NAME_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+            request.setAttribute("status", StatusesContainer.LAST_NAME_SIZE_OUT_OF_BOUNDS_EXCEPTION);
         } catch (EmailSizeOutOfBoundsException e) {
             LOG.warn("Email size is out of bounds");
-            request.setAttribute("status", RegistrationStatus.EMAIL_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+            request.setAttribute("status", StatusesContainer.EMAIL_SIZE_OUT_OF_BOUNDS_EXCEPTION);
         } catch (EmailNotMatchPatternException e) {
             LOG.warn("Email not match pattern");
-            request.setAttribute("status", RegistrationStatus.EMAIL_NOT_MATCH_PATTERN_EXCEPTION);
+            request.setAttribute("status", StatusesContainer.EMAIL_NOT_MATCH_PATTERN_EXCEPTION);
         }
         return false;
     }

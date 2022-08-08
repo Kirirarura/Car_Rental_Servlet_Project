@@ -13,7 +13,7 @@
     </c:when>
 
 <%--    <c:when test="${role.equals('MANAGER')}">--%>
-<%--        <%@include file="../../template/partial/managerHeader.jspf" %>--%>
+<%--        --%>
 <%--    </c:when>--%>
 
     <c:when test="${role.equals('ADMIN')}">

@@ -26,12 +26,12 @@ public class User {
         this.blocked = blocked;
     }
 
-    public User(UserDto userDto) {
+    public User(UserDto userDto, Role.RoleEnum role) {
         this.firstName = userDto.getFirstName();
         this.lastName = userDto.getLastName();
         this.email = userDto.getEmail();
         this.password = userDto.getPassword();
-        this.role = new Role(Role.RoleEnum.CUSTOMER);
+        this.role = new Role(role);
     }
 
     public Long getId() {

@@ -2,6 +2,9 @@ package com.pavlenko.kyrylo.controller.listener;
 
 import com.pavlenko.kyrylo.controller.command.Command;
 import com.pavlenko.kyrylo.controller.command.impl.admin.GetAllUsersCommand;
+import com.pavlenko.kyrylo.controller.command.impl.admin.GetManagerRegistrationCommand;
+import com.pavlenko.kyrylo.controller.command.impl.admin.PostBlockUnblockUserCommand;
+import com.pavlenko.kyrylo.controller.command.impl.admin.PostManagerRegistrationCommand;
 import com.pavlenko.kyrylo.controller.command.impl.common.GetCatalogCommand;
 import com.pavlenko.kyrylo.controller.command.impl.common.GetHomeCommand;
 import com.pavlenko.kyrylo.controller.command.impl.common.GetLogOutCommand;
@@ -41,6 +44,8 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         LOG.info("DataSource initialized");
         initServices(context);
         LOG.info("Services initialized");
+        initCommands(context);
+        LOG.info("Commands initialized");
     }
 
     private void initDatasource(ServletContext context) {
@@ -57,6 +62,12 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
     }
 
     private void initServices(ServletContext context){
+        UserDao userDao = new UserDaoImpl((DataSource) context.getAttribute("dataSource"));
+        UserService userService = new UserService(userDao);
+        context.setAttribute("userService", userService);
+    }
+
+    private void initCommands(ServletContext context){
         Map<String, Command> getCommands = new HashMap<>();
         Map<String, Command> postCommands = new HashMap<>();
 
@@ -64,28 +75,31 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         putPostCommands(postCommands, context);
 
         context.setAttribute("getCommands", getCommands);
-        LOG.info("getCommands initialized");
         context.setAttribute("postCommands", postCommands);
-        LOG.info("postCommands initialized");
     }
 
     private void putGetCommands(Map<String, Command> commands, ServletContext context) {
-        UserDao userDao = new UserDaoImpl((DataSource) context.getAttribute("dataSource"));
-        UserService userService = new UserService(userDao);
-
         commands.put(UriPath.LOGIN, new GetLoginCommand());
         commands.put(UriPath.LOGOUT, new GetLogOutCommand());
         commands.put(UriPath.REGISTRATION, new GetRegistrationCommand());
-        commands.put(UriPath.ADMIN_USER_LIST, new GetAllUsersCommand(userService));
         commands.put(UriPath.CATALOG, new GetCatalogCommand());
         commands.put(UriPath.INDEX, new GetHomeCommand());
+        commands.put(UriPath.ADMIN_USER_LIST, new GetAllUsersCommand((UserService) context.getAttribute("userService")));
+        commands.put(UriPath.ADMIN_REGISTER_MANAGER, new GetManagerRegistrationCommand());
     }
 
-    private void putPostCommands(Map<String, Command> commands, ServletContext context) {
-        UserDao userDao = new UserDaoImpl((DataSource) context.getAttribute("dataSource"));
-        UserService userService = new UserService(userDao);
-
-        commands.put(UriPath.LOGIN, new PostLoginCommand(userService));
-        commands.put(UriPath.REGISTRATION, new PostRegistrationCommand(userService));
+    private void putPostCommands(Map<String, Command> commands, ServletContext context){
+        commands.put(
+                UriPath.LOGIN,
+                new PostLoginCommand((UserService) context.getAttribute("userService")));
+        commands.put(
+                UriPath.REGISTRATION,
+                new PostRegistrationCommand((UserService) context.getAttribute("userService")));
+        commands.put(
+                UriPath.ADMIN_BLOCK_UNBLOCK_USER,
+                new PostBlockUnblockUserCommand((UserService) context.getAttribute("userService")));
+        commands.put(
+                UriPath.ADMIN_REGISTER_MANAGER,
+                new PostManagerRegistrationCommand((UserService) context.getAttribute("userService")));
     }
 }
