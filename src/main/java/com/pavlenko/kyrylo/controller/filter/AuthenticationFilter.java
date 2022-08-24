@@ -19,12 +19,17 @@ public class AuthenticationFilter implements Filter {
     private final Logger logger = LogManager.getLogger(AuthenticationFilter.class);
 
     @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        Filter.super.init(filterConfig);
+    }
+
+    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
 
-        final String URI = request.getRequestURI();
+        final String URI = request.getRequestURI().replaceAll(PROJECT_NAME, "");
 
         if (session.getAttribute(ROLE_ATTRIBUTE) == null) {
             session.setAttribute(ROLE_ATTRIBUTE, Role.RoleEnum.GUEST.toString());
@@ -35,11 +40,11 @@ public class AuthenticationFilter implements Filter {
         if (!checkResources(URI) && !checkAccess(URI, role)) {
             if (role.equals(Role.RoleEnum.GUEST)) {
                 logger.info("Redirect guest to Login page from URI ({})", URI);
-                response.sendRedirect(LOGIN);
+                response.sendRedirect(PROJECT_NAME + LOGIN);
                 return;
             }
             logger.warn("User (id = {}) Forbidden uri: {}", session.getAttribute(USER_ID_ATTRIBUTE), URI);
-            response.sendError(402);
+            response.sendError(403);
             return;
         }
         filterChain.doFilter(servletRequest, servletResponse);
@@ -59,7 +64,7 @@ public class AuthenticationFilter implements Filter {
     }
 
     private boolean checkCustomerAccess(String uri) {
-        return checkCommonAccess(uri) || uri.startsWith(USER_PREFIX) || uri.equals(LOGOUT);
+        return checkCommonAccess(uri) || uri.startsWith(CUSTOMER_PREFIX) || uri.equals(LOGOUT);
     }
 
     private boolean checkManagerAccess(String uri) {
@@ -75,12 +80,14 @@ public class AuthenticationFilter implements Filter {
     }
 
     private boolean checkCommonAccess(String uri) {
-        return uri.equals(CATALOG) || uri.equals(INDEX) || uri.equals(ROOT)
-                || uri.startsWith("/Car_Rental_Servlet_Project_war");
+        return uri.equals(CATALOG) || uri.equals(INDEX) || uri.equals(ROOT);
     }
 
     private boolean checkResources(String uri) {
         return uri.startsWith(STATIC_RESOURCES_PREFIX);
     }
-
+    @Override
+    public void destroy() {
+        Filter.super.destroy();
+    }
 }

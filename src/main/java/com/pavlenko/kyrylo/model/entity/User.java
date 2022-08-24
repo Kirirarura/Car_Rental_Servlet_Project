@@ -15,7 +15,6 @@ public class User {
 
     public User() {
     }
-
     public User(Long id, String firstName, String lastName, String email, String password, Role role, boolean blocked) {
         this.id = id;
         this.firstName = firstName;
@@ -150,7 +149,6 @@ public class User {
             );
         }
 
-        public UserBuilder(){}
     }
 
     @Override

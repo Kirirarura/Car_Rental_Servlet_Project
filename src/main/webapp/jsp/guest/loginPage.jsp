@@ -6,7 +6,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login page</title>
-    <link rel="stylesheet" href="<c:url value="/static/css/login-register.css"/>">
+    <link rel="stylesheet" href="<c:url value="/static/css/form.css"/>">
     <%@ include file="../partial/head.jspf" %>
 </head>
 <body>
@@ -30,7 +30,9 @@
                         <input type="password" placeholder="Type your password" name="password" required="required">
                     </label>
                 </div>
-                <input type="submit" class="btn" value="Log in">
+                <div class="form-control">
+                    <input type="submit" class="btn" value="Log in">
+                </div>
                 <div class="form-control">
                     <p class="text">Don't have an account? <a href="registrationPage.jsp">Register</a></p>
                 </div>
@@ -40,7 +42,7 @@
 
     <footer>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.19/dist/sweetalert2.all.min.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/messages.js"></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/messages/login&RegisterMessages.js"></script>
     </footer>
 
 

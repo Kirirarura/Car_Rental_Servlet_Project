@@ -1,0 +1,39 @@
+.filter-form {
+    width: 85%;
+    margin: 1rem auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 1.5rem;
+    padding: 0;
+}
+
+.filter-form-item {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 3px;
+    padding: .5rem;
+    color: white;
+    box-shadow: 2px 4px 8px rgb(0, 0, 0);
+}
+
+.head-btn{
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    background-color: teal;
+    padding: 15px;
+    color: white;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    font-family: inherit;
+    font-size: 16px;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    align-items: center;
+}
+
+.vertical {
+    border-left: 0.1rem solid black;
+    height: auto;
+}

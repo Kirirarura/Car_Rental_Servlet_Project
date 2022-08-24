@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 
 public class UserValidator {
 
+    private static final String STATUS = "status";
     private static final int PASSWORD_MIN_SIZE = 8;
     private static final int PASSWORD_MAX_SIZE = 64;
     private static final int FIRST_NAME_MAX_SIZE = 32;
@@ -20,10 +21,9 @@ public class UserValidator {
     private static final int EMAIL_MAX_SIZE = 128;
     public static final String EMAIL_PATTERN = "^[A-Za-z\\d._]+@[A-Za-z\\d.-]+\\.[A-Za-z]{2,6}$";
 
-    private static final Logger LOG = LogManager.getLogger(UserValidator.class);
+    private static final Logger logger = LogManager.getLogger(UserValidator.class);
 
-    private UserValidator() {
-    }
+    private UserValidator() {}
 
     public static boolean validate(UserDto userDto, HttpServletRequest request) {
         try {
@@ -35,26 +35,26 @@ public class UserValidator {
             checkEmailPattern(userDto.getEmail());
             return true;
         } catch (EmptyFieldException e) {
-            LOG.warn("Empty fields");
-            request.setAttribute("status", StatusesContainer.EMPTY_FIELD_EXCEPTION);
+            logger.warn("Empty fields");
+            request.setAttribute(STATUS, StatusesContainer.EMPTY_FIELD_EXCEPTION);
         } catch (PasswordSizeOutOfBoundsException e) {
-            LOG.warn("Password size is out of bounds");
-            request.setAttribute("status", StatusesContainer.PASSWORD_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+            logger.warn("Password size is out of bounds");
+            request.setAttribute(STATUS, StatusesContainer.PASSWORD_SIZE_OUT_OF_BOUNDS_EXCEPTION);
         } catch (PasswordMatchException e) {
-            LOG.warn("Repeat password doesn't match");
-            request.setAttribute("status", StatusesContainer.PASSWORD_MATCH_EXCEPTION);
+            logger.warn("Repeat password doesn't match");
+            request.setAttribute(STATUS, StatusesContainer.PASSWORD_MATCH_EXCEPTION);
         } catch (FirstNameSizeOutOfBoundsException e) {
-            LOG.warn("Firstname size is out of bounds");
-            request.setAttribute("status", StatusesContainer.FIRST_NAME_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+            logger.warn("Firstname size is out of bounds");
+            request.setAttribute(STATUS, StatusesContainer.FIRST_NAME_SIZE_OUT_OF_BOUNDS_EXCEPTION);
         } catch (LastNameSizeOutOfBoundsException e) {
-            LOG.warn("Lastname size is out of bounds");
-            request.setAttribute("status", StatusesContainer.LAST_NAME_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+            logger.warn("Lastname size is out of bounds");
+            request.setAttribute(STATUS, StatusesContainer.LAST_NAME_SIZE_OUT_OF_BOUNDS_EXCEPTION);
         } catch (EmailSizeOutOfBoundsException e) {
-            LOG.warn("Email size is out of bounds");
-            request.setAttribute("status", StatusesContainer.EMAIL_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+            logger.warn("Email size is out of bounds");
+            request.setAttribute(STATUS, StatusesContainer.EMAIL_SIZE_OUT_OF_BOUNDS_EXCEPTION);
         } catch (EmailNotMatchPatternException e) {
-            LOG.warn("Email not match pattern");
-            request.setAttribute("status", StatusesContainer.EMAIL_NOT_MATCH_PATTERN_EXCEPTION);
+            logger.warn("Email not match pattern");
+            request.setAttribute(STATUS, StatusesContainer.EMAIL_NOT_MATCH_PATTERN_EXCEPTION);
         }
         return false;
     }

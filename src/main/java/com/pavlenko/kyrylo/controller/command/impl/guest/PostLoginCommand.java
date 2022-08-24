@@ -6,10 +6,13 @@ import com.pavlenko.kyrylo.controller.util.UriPath;
 import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
 import com.pavlenko.kyrylo.model.entity.User;
 import com.pavlenko.kyrylo.model.exeption.AuthenticationException;
+import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.exeption.UserIsBlockedException;
 import com.pavlenko.kyrylo.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
 public class PostLoginCommand implements Command {
 
@@ -17,7 +20,6 @@ public class PostLoginCommand implements Command {
     private static final String PASSWORD = "password";
     private static final String USER_ID = "userId";
     private static final String ROLE = "role";
-
     private final UserService userService;
 
     public PostLoginCommand(UserService userService) {
@@ -32,15 +34,22 @@ public class PostLoginCommand implements Command {
         try {
             User user = userService.authentication(email, password);
             request.getSession().setAttribute(USER_ID, user.getId());
-            request.getSession().setAttribute(ROLE, user.getRole());
+            request.getSession().setAttribute(ROLE, user.getRole().getValue().toString());
 
+            if (user.getRole().getValue().toString().equals("MANAGER")){
+                return UriPath.REDIRECT + UriPath.MANAGER_ALL_REQUESTS;
+            }
             return UriPath.REDIRECT + UriPath.CATALOG;
         } catch (UserIsBlockedException e) {
-            request.setAttribute("status", StatusesContainer.USER_BLOCKED_EXCEPTION);
+            request.setAttribute(STATUS, StatusesContainer.USER_BLOCKED_EXCEPTION);
             return JspFilePath.LOGIN;
         } catch (AuthenticationException e) {
-            request.setAttribute("status", StatusesContainer.FAILED_LOGIN_EXCEPTION);
+            request.setAttribute(STATUS, StatusesContainer.FAILED_LOGIN_EXCEPTION);
+            return JspFilePath.LOGIN;
+        } catch (DataBaseException e) {
+            request.setAttribute(STATUS, StatusesContainer.AUTHENTICATION_EXCEPTION);
             return JspFilePath.LOGIN;
         }
+
     }
 }

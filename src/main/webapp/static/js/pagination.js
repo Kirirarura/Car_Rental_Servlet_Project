@@ -40,7 +40,7 @@ $(function(){
 
         getPageList(totalPages, currentPage, paginationSize).forEach(item => {
             $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
-                .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+                .toggleClass("active-pagination", item === currentPage).append($("<a>").addClass("page-link")
                 .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
         });
 
@@ -57,7 +57,7 @@ $(function(){
     $(".card-content").show();
     showPage(1);
 
-    $(document).on("click", ".pagination li.current-page:not(.active)", function(){
+    $(document).on("click", ".pagination li.current-page:not(.active-pagination)", function(){
         return showPage(+$(this).text());
     });
 

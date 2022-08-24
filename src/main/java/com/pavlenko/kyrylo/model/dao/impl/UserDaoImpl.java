@@ -9,10 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,18 +17,17 @@ import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 
-    private final Logger LOG = LogManager.getLogger(UserDaoImpl.class);
-
+    private final Logger logger = LogManager.getLogger(UserDaoImpl.class);
     private final UserMapper userMapper = new UserMapper();
-
     private final DataSource ds;
+    private static final String ERROR_MASSAGE = "Error message: {}";
 
     public UserDaoImpl(DataSource dataSource) {
         this.ds = dataSource;
     }
 
     @Override
-    public void create(User entity) {
+    public void create(User entity) throws DataBaseException {
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.CREATE_USER)) {
             statement.setString(1, entity.getFirstName());
@@ -42,33 +38,54 @@ public class UserDaoImpl implements UserDao {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            LOG.error("{}, when trying to create new User", e.getMessage());
-            throw new RuntimeException(e);
+            logger.error(ERROR_MASSAGE, e.getMessage());
+            throw new DataBaseException();
         }
     }
 
     @Override
-    public Optional<User> findById(long id) {
-        return Optional.empty();
+    public User findById(Long id) throws DataBaseException {
+        try (Connection con = ds.getConnection();
+             PreparedStatement statement = con.prepareStatement(UserQueries.FIND_BY_ID)) {
+            statement.setInt(1, Math.toIntExact(id));
+
+            ResultSet rs = statement.executeQuery();
+            User user = null;
+            if (rs.next()){
+                user = userMapper.extractFromResultSet(rs);
+            }
+            return user;
+        } catch (SQLException e) {
+            logger.error(ERROR_MASSAGE, e.getMessage());
+            throw new DataBaseException();
+        }
     }
 
     @Override
-    public List<User> findAll() {
-        return null;
-    }
+    public List<User> findAll() throws DataBaseException {
+        try (Connection con = ds.getConnection();
+             Statement statement = con.createStatement()) {
+            List<User> userList = new ArrayList<>();
+            ResultSet resultSet = statement.executeQuery(UserQueries.FIND_ALL_USERS);
 
-    @Override
-    public void update(User entity) {
-
+            while (resultSet.next()) {
+                User user = userMapper.extractFromResultSet(resultSet);
+                userList.add(user);
+            }
+            return userList;
+        } catch (SQLException e) {
+            logger.error(ERROR_MASSAGE, e.getMessage());
+            throw new DataBaseException();
+        }
     }
 
     @Override
     public void delete(long id) {
-
+        throw new IllegalArgumentException();
     }
 
     @Override
-    public Optional<User> findByUsernameAndPassword(String email, String password) {
+    public Optional<User> findByUsernameAndPassword(String email, String password) throws DataBaseException {
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.FIND_USER_BY_EMAIL_AND_PASSWORD)) {
             statement.setString(1, email);
@@ -82,56 +99,38 @@ public class UserDaoImpl implements UserDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public List<User> findAllUsers() {
-        try (Connection con = ds.getConnection();
-             PreparedStatement statement = con.prepareStatement(UserQueries.FIND_ALL_USERS)) {
-            List<User> userList = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                User user = userMapper.extractFromResultSet(resultSet);
-                userList.add(user);
-            }
-            return userList;
-        } catch (SQLException e) {
-            LOG.error("{}, when trying to find all from table users", e.getMessage());
-            throw new RuntimeException(e);
+            logger.error(ERROR_MASSAGE, e.getMessage());
+            throw new DataBaseException();
         }
     }
 
     @Override
     public void blockById(int id) throws DataBaseException {
-        try(Connection con = ds.getConnection();
-            PreparedStatement statement = con.prepareStatement(UserQueries.BLOCK_BY_ID)){
+        try (Connection con = ds.getConnection();
+             PreparedStatement statement = con.prepareStatement(UserQueries.BLOCK_BY_ID)) {
             statement.setInt(1, id);
-
             statement.executeUpdate();
         } catch (SQLException e) {
-            LOG.error("{}, when trying to block User by id ({})", e.getMessage(), id);
+            logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         }
     }
 
     @Override
     public void unblockById(int id) throws DataBaseException {
-        try(Connection con = ds.getConnection();
-            PreparedStatement statement = con.prepareStatement(UserQueries.UNBLOCK_BY_ID)){
+        try (Connection con = ds.getConnection();
+             PreparedStatement statement = con.prepareStatement(UserQueries.UNBLOCK_BY_ID)) {
             statement.setInt(1, id);
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            LOG.error("{}, when trying to unblock User by id ({})", e.getMessage(), id);
+            logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         }
     }
 
     @Override
-    public boolean uniqueEmail(String email) {
+    public boolean uniqueEmail(String email) throws DataBaseException {
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.FIND_BY_EMAIL)) {
             statement.setString(1, email);
@@ -139,8 +138,8 @@ public class UserDaoImpl implements UserDao {
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
-            LOG.error("{}, when trying to find User by username={}", e.getMessage(), email);
-            throw new RuntimeException(e);
+            logger.error(ERROR_MASSAGE, e.getMessage());
+            throw new DataBaseException();
         }
     }
 }

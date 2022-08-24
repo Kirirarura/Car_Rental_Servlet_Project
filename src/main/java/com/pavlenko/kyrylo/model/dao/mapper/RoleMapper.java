@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class RoleMapper {
     public Role extractFromResultSet(ResultSet rs) throws SQLException {
         return new Role(
-                rs.getByte(Fields.ROLE_ID),
+                rs.getLong(Fields.ROLE_ID),
                 Role.RoleEnum.valueOf(rs.getString(Fields.ROLE))
         );
     }

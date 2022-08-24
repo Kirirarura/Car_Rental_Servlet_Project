@@ -1,6 +1,7 @@
 <nav>
     <ul class="menu">
         <li class="logo"><a href="${pageContext.request.contextPath}/index">Car Rental</a></li>
+        <li class="nav-item"><a href="${pageContext.request.contextPath}/Customer/myRequests">My Requests</a></li>
         <li class="nav-item"><a href="${pageContext.request.contextPath}/catalog">Catalog</a></li>
         <li class="nav-item"><a href="#">Hello, <%=session.getAttribute("role")%>,
             Your id <%=session.getAttribute("userId")%></a></li>
