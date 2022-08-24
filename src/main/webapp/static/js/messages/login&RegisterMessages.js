@@ -1,4 +1,6 @@
 const status = document.getElementById('status').value;
+// ----- Register messages --------
+
 if (status === 'emptyFieldException') {
     Swal.fire({
         icon: 'error',
@@ -47,7 +49,18 @@ if (status === 'emptyFieldException') {
         title: 'Such Email already reserved',
         showConfirmButton: true
     })
-} else if (status === 'userBlockedException') {
+}
+else if (status === 'registrationException') {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error occurred during registration',
+        showConfirmButton: true
+    })
+}
+
+// ----- Login messages --------
+
+else if (status === 'userBlockedException') {
     Swal.fire({
         icon: 'error',
         title: 'This account is blocked',
@@ -57,6 +70,13 @@ if (status === 'emptyFieldException') {
     Swal.fire({
         icon: 'error',
         title: 'Email or Password combination are wrong',
+        showConfirmButton: true
+    })
+}
+else if (status === 'authenticationException') {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error occurred during authentication process',
         showConfirmButton: true
     })
 }

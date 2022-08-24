@@ -12,9 +12,9 @@
         <%@include file="../../jsp/partial/customerHeader.jspf" %>
     </c:when>
 
-<%--    <c:when test="${role.equals('MANAGER')}">--%>
-<%--        --%>
-<%--    </c:when>--%>
+    <c:when test="${role.equals('MANAGER')}">
+        <%@include file="../../jsp/partial/managerHeader.jspf" %>
+    </c:when>
 
     <c:when test="${role.equals('ADMIN')}">
         <%@include file="../../jsp/partial/adminHeader.jspf" %>

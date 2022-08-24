@@ -5,18 +5,14 @@ import com.pavlenko.kyrylo.controller.util.JspFilePath;
 import com.pavlenko.kyrylo.controller.util.UriPath;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.service.UserService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.ID;
+
 public class PostBlockUnblockUserCommand implements Command {
 
-    private static final String ID = "id";
     private static final String IS_BLOCKED = "isBlocked";
-
-    Logger LOG = LogManager.getLogger(PostBlockUnblockUserCommand.class);
-
     private final UserService userService;
 
     public PostBlockUnblockUserCommand(UserService userService) {

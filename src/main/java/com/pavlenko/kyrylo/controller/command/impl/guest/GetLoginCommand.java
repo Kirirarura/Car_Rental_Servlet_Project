@@ -6,6 +6,7 @@ import com.pavlenko.kyrylo.controller.util.JspFilePath;
 import javax.servlet.http.HttpServletRequest;
 
 public class GetLoginCommand implements Command {
+
     @Override
     public String execute(HttpServletRequest request) {
         return JspFilePath.LOGIN;

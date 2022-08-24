@@ -7,14 +7,18 @@ import com.pavlenko.kyrylo.controller.util.UriPath;
 import com.pavlenko.kyrylo.controller.validator.UserValidator;
 import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
 import com.pavlenko.kyrylo.model.dto.UserDto;
+import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.exeption.EmailIsAlreadyRegisteredException;
 import com.pavlenko.kyrylo.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+
 public class PostManagerRegistrationCommand implements Command {
     private final UserDetailsMapper userDetailsMapper = new UserDetailsMapper();
     private final UserService userService;
+
     public PostManagerRegistrationCommand(UserService userService) {
         this.userService = userService;
     }
@@ -30,7 +34,9 @@ public class PostManagerRegistrationCommand implements Command {
                 userService.registerNewManagerAccount(userDto);
                 return UriPath.REDIRECT + UriPath.ADMIN_REGISTER_MANAGER;
             } catch (EmailIsAlreadyRegisteredException e) {
-                request.setAttribute("status", StatusesContainer.EMAIL_IS_RESERVED_EXCEPTION);
+                request.setAttribute(STATUS, StatusesContainer.EMAIL_IS_RESERVED_EXCEPTION);
+            } catch (DataBaseException e) {
+                request.setAttribute(STATUS, StatusesContainer.REGISTRATION_EXCEPTION);
             }
         }
         return JspFilePath.ADMIN_MANAGER_REGISTRATION;

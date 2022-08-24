@@ -1,10 +1,11 @@
 package com.pavlenko.kyrylo.model.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Role {
+public class Role implements Serializable {
 
-    private Byte id;
+    private Long id;
     private RoleEnum value;
 
     public Role() {
@@ -14,16 +15,16 @@ public class Role {
         this.value = role;
     }
 
-    public Role(Byte id, RoleEnum role) {
+    public Role(Long id, RoleEnum role) {
         this.id = id;
         this.value = role;
     }
 
-    public Byte getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Byte id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

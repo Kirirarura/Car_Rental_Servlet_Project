@@ -2,13 +2,13 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
 
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
     <%@ include file="../partial/head.jspf" %>
-    <link rel="stylesheet"  href="<c:url value="/static/css/homepage.css"/>">
+    <link rel="stylesheet" href="<c:url value="/static/css/homepage.css"/>">
 </head>
 <body>
     <header>

@@ -15,70 +15,66 @@ import java.util.List;
 import java.util.Optional;
 public class UserService {
 
-    private final Logger LOG = LogManager.getLogger(UserService.class);
+    private final Logger logger = LogManager.getLogger(UserService.class);
     private final UserDao userDao;
 
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
 
-    public Optional<User> findById(Long id) {
+    public User findById(Long id) throws DataBaseException {
         return userDao.findById(id);
     }
 
-    public List<User> findAllUsers() {
-        return userDao.findAllUsers();
+    public List<User> findAllUsers() throws DataBaseException {
+        return userDao.findAll();
     }
 
-    public User authentication(String user, String password) throws UserIsBlockedException, AuthenticationException {
-        Optional<User> optionalUser = findByUsernameAndPassword(user, password);
+    public User authentication(String user, String password) throws UserIsBlockedException, AuthenticationException, DataBaseException {
+        Optional<User> optionalUser = userDao.findByUsernameAndPassword(user, password);
 
         if (optionalUser.isPresent()){
             if (!optionalUser.get().isBlocked()){
                 return optionalUser.get();
             } else {
-                LOG.warn("User ({}) is blocked", user);
+                logger.warn("User ({}) is blocked", user);
                 throw new UserIsBlockedException();
             }
         } else {
-            LOG.warn("The user credentials entered are incorrect");
+            logger.warn("The user credentials entered are incorrect");
             throw new AuthenticationException();
         }
     }
 
-    public Optional<User> findByUsernameAndPassword(String username, String password) {
-        return userDao.findByUsernameAndPassword(username, password);
-    }
-
-    public void registerNewAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException {
+    public void registerNewAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException, DataBaseException {
         checkUsernameIsUnique(userDto.getEmail());
         User user = new User(userDto, Role.RoleEnum.CUSTOMER);
         userDao.create(user);
-        LOG.info("New account {} has been created", user);
+        logger.info("New user account {} has been created", user);
     }
 
-    public void registerNewManagerAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException {
+    public void registerNewManagerAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException, DataBaseException {
         checkUsernameIsUnique(userDto.getEmail());
         User user = new User(userDto, Role.RoleEnum.MANAGER);
         userDao.create(user);
-        LOG.info("New account {} has been created", user);
+        logger.info("New manager account {} has been created", user);
     }
 
-    private void checkUsernameIsUnique(String email) throws EmailIsAlreadyRegisteredException {
+    private void checkUsernameIsUnique(String email) throws EmailIsAlreadyRegisteredException, DataBaseException {
         if (userDao.uniqueEmail(email)) {
-            LOG.info("An account with such email {} is already reserved", email);
+            logger.info("An account with such email {} is already reserved", email);
             throw new EmailIsAlreadyRegisteredException();
         }
     }
 
     public void blockById(int id) throws DataBaseException {
         userDao.blockById(id);
-        LOG.info("User (id = {}) has been blocked", id);
+        logger.info("User (id = {}) has been blocked", id);
     }
 
     public void unblockById(int id) throws DataBaseException {
         userDao.unblockById(id);
-        LOG.info("User (id = {}) has been unblocked", id);
+        logger.info("User (id = {}) has been unblocked", id);
     }
 
 }
