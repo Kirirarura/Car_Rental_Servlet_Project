@@ -30,6 +30,7 @@ public class CarDaoImpl implements CarDao {
     private final DataSource ds;
     private static final String ERROR_MASSAGE = "Error message: {}";
     private static final String EDIT_ERROR_MESSAGE = "Error occurred while trying to edit car with id ({}), {}";
+    private static final String CLOSE_MESSAGES = "Can not close connection, resultSet or statement";
 
     public CarDaoImpl(DataSource ds) {
         this.ds = ds;
@@ -55,10 +56,11 @@ public class CarDaoImpl implements CarDao {
 
     @Override
     public Car findById(Long id) throws DataBaseException {
+        ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(CarQueries.FIND_CAR_BY_ID)) {
             statement.setLong(1, id);
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             if (rs.next()) {
                 return carMapper.extractFromResultSet(rs);
             }
@@ -66,17 +68,23 @@ public class CarDaoImpl implements CarDao {
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
+        } finally {
+            try {
+                Objects.requireNonNull(rs).close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
         }
     }
 
     @Override
     public List<Car> findAll() throws DataBaseException {
         try (Connection con = ds.getConnection();
-             PreparedStatement statement = con.prepareStatement(CarQueries.FIND_ALL_FROM_CARS)){
+             Statement statement = con.createStatement();
+             ResultSet rs = statement.executeQuery(CarQueries.FIND_ALL_FROM_CARS)){
             List<Car> carsList = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Car car = carMapper.extractFromResultSet(resultSet);
+            while (rs.next()) {
+                Car car = carMapper.extractFromResultSet(rs);
                 carsList.add(car);
             }
             return carsList;
@@ -90,11 +98,11 @@ public class CarDaoImpl implements CarDao {
     public List<Car> findAllCarsWithFilters(Map<String, String> filterParam, boolean adminRequest) throws DataBaseException {
         String queryWithFilters = CatalogQueryBuilder.buildCarQueryFilterForFindAll(filterParam, adminRequest);
         try (Connection con = ds.getConnection();
-        PreparedStatement statement = con.prepareStatement(queryWithFilters)) {
+             Statement statement = con.createStatement();
+             ResultSet rs = statement.executeQuery(queryWithFilters)) {
             List<Car> carsList = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Car car = carMapper.extractFromResultSet(resultSet);
+            while (rs.next()) {
+                Car car = carMapper.extractFromResultSet(rs);
                 carsList.add(car);
             }
             return carsList;
@@ -107,9 +115,10 @@ public class CarDaoImpl implements CarDao {
 
     public List<Quality> findAllQualityClasses() throws DataBaseException {
         try (Connection con = ds.getConnection();
-             Statement statement = con.createStatement()) {
+             Statement statement = con.createStatement();
+             ResultSet rs = statement.executeQuery(CarQueries.FIND_ALL_QUALITY_CLASSES)) {
+
             List<Quality> qualityClassList = new ArrayList<>();
-            ResultSet rs = statement.executeQuery(CarQueries.FIND_ALL_QUALITY_CLASSES);
             while (rs.next()) {
                 Quality quality = qualityMapper.extractFromResultSet(rs);
                 qualityClassList.add(quality);
@@ -123,9 +132,9 @@ public class CarDaoImpl implements CarDao {
 
     public List<CarStatus> findAllStatuses() throws DataBaseException {
         try (Connection con = ds.getConnection();
-             Statement statement = con.createStatement()) {
+             Statement statement = con.createStatement();
+             ResultSet rs = statement.executeQuery(CarQueries.FIND_ALL_CAR_STATUSES)) {
             List<CarStatus> statusList = new ArrayList<>();
-            ResultSet rs = statement.executeQuery(CarQueries.FIND_ALL_CAR_STATUSES);
             while (rs.next()) {
                 CarStatus status = carStatusMapper.extractFromResultSet(rs);
                 statusList.add(status);
@@ -140,9 +149,9 @@ public class CarDaoImpl implements CarDao {
     @Override
     public List<Brand> findAllBrands() throws DataBaseException {
         try (Connection con = ds.getConnection();
-             Statement statement = con.createStatement()) {
+             Statement statement = con.createStatement();
+             ResultSet rs = statement.executeQuery(CarQueries.FIND_ALL_BRANDS)) {
             List<Brand> brandList = new ArrayList<>();
-            ResultSet rs = statement.executeQuery(CarQueries.FIND_ALL_BRANDS);
             while (rs.next()) {
                 Brand brand = brandMapper.extractFromResultSet(rs);
                 brandList.add(brand);
@@ -159,10 +168,11 @@ public class CarDaoImpl implements CarDao {
 
     @Override
     public Brand findBrandById(Long id) throws DataBaseException {
+        ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(CarQueries.FIND_BRAND_BY_ID)) {
             statement.setInt(1, Math.toIntExact(id));
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             if (rs.next()) {
                 return brandMapper.extractFromResultSet(rs);
             } else {
@@ -171,15 +181,22 @@ public class CarDaoImpl implements CarDao {
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
+        } finally {
+            try {
+                Objects.requireNonNull(rs).close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
         }
     }
 
     @Override
     public Quality findQualityById(Long id) throws DataBaseException {
+        ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(CarQueries.FIND_QUALITY_CLASS_BY_ID)) {
             statement.setInt(1, Math.toIntExact(id));
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             if (rs.next()) {
                 return qualityMapper.extractFromResultSet(rs);
             } else {
@@ -188,6 +205,12 @@ public class CarDaoImpl implements CarDao {
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
+        } finally {
+            try {
+                Objects.requireNonNull(rs).close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
         }
     }
 
@@ -260,10 +283,11 @@ public class CarDaoImpl implements CarDao {
 
     @Override
     public int checkCarStatusId(Long carId) throws DataBaseException {
+        ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(CarQueries.SELECT_CAR_STATUS)) {
             statement.setInt(1, Math.toIntExact(carId));
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             int statusId = 0;
             if (rs.next()){
                 statusId = rs.getInt("car_status_id");
@@ -272,6 +296,12 @@ public class CarDaoImpl implements CarDao {
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
+        } finally {
+            try {
+                Objects.requireNonNull(rs).close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
         }
     }
 
