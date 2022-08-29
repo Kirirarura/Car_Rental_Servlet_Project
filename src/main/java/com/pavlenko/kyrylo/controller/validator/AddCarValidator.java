@@ -1,9 +1,6 @@
 package com.pavlenko.kyrylo.controller.validator;
 
-import com.pavlenko.kyrylo.controller.exeption.car.DescriptionSizeOutOfBoundsException;
-import com.pavlenko.kyrylo.controller.exeption.car.ModelOutOfBoundsException;
-import com.pavlenko.kyrylo.controller.exeption.car.PriceSizeOutOfBoundsException;
-import com.pavlenko.kyrylo.controller.exeption.car.WrongInputException;
+import com.pavlenko.kyrylo.controller.exeption.car.*;
 import com.pavlenko.kyrylo.controller.exeption.registration.EmptyFieldException;
 import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
 import com.pavlenko.kyrylo.model.dto.CarDto;
@@ -11,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 
 public class AddCarValidator {
 
@@ -27,9 +25,10 @@ public class AddCarValidator {
 
     public static boolean validate(CarDto carDto, HttpServletRequest request) {
         try {
-            checkPriceInput(carDto.getPrice());
-            checkPriceSize(carDto.getPrice());
             checkModelSize(carDto.getModel());
+            checkPriceInput(carDto.getPrice());
+            checkPriceNegativeInput(carDto.getPrice());
+            checkPriceSize(carDto.getPrice());
             checkDescriptionSize(carDto.getDescription());
             return true;
         } catch (WrongInputException e) {
@@ -47,6 +46,9 @@ public class AddCarValidator {
         } catch (DescriptionSizeOutOfBoundsException e) {
             logger.warn("Description size out of bounds");
             request.setAttribute(STATUS, StatusesContainer.DESCRIPTION_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+        } catch (PriceNegativeException e) {
+            logger.warn("Price must be positive number");
+            request.setAttribute(STATUS, StatusesContainer.PRICE_NEGATIVE_EXCEPTION);
         }
         return false;
     }
@@ -72,6 +74,13 @@ public class AddCarValidator {
             throw new WrongInputException();
         }
     }
+
+    private static void checkPriceNegativeInput(String input) throws PriceNegativeException {
+        if (new BigDecimal(input).signum() <= 0){
+            throw new PriceNegativeException();
+        }
+    }
+
 
     private static void checkPriceSize(String input) throws EmptyFieldException, PriceSizeOutOfBoundsException {
         if (fieldIsEmpty(input)) {

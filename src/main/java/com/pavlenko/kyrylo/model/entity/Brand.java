@@ -2,6 +2,7 @@ package com.pavlenko.kyrylo.model.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Random;
 
 public class Brand implements Serializable {
 
@@ -55,12 +56,16 @@ public class Brand implements Serializable {
     }
 
     public enum BrandEnum {
-        Nisan,
+        Nissan,
         Mercedes,
         Hyundai,
         Honda,
         Tesla,
-        BMW,
+        BMW;
 
+        public static Brand.BrandEnum getRandomBrand() {
+            Random random = new Random();
+            return values()[random.nextInt(values().length)];
+        }
     }
 }

@@ -1,7 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="messages" />
+
+<!DOCTYPE>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,25 +21,30 @@
 
     <main>
         <input type="hidden" id="status" value="<%= request.getAttribute("status")%>">
+        <input type="hidden" id="lang" value="<%= session.getAttribute("lang")%>">
 
         <div class="container">
-            <h1>Log In</h1>
+            <h1><fmt:message key="loginPage.title"/></h1>
             <form action="${pageContext.request.contextPath}/login" method="post">
                 <div class="form-control">
-                    <label>Email
-                        <input type="text" placeholder="Type your email" name="email" required="required">
+                    <label><fmt:message key="loginPage.email"/>
+                        <input type="text" placeholder="<fmt:message key="loginPage.email.placeHolder"/>"
+                               name="email" required="required">
                     </label>
                 </div>
                 <div class="form-control">
-                    <label>Password
-                        <input type="password" placeholder="Type your password" name="password" required="required">
+                    <label><fmt:message key="loginPage.password"/>
+                        <input type="password" placeholder="<fmt:message key="loginPage.password.placeHolder"/>"
+                               name="password" required="required">
                     </label>
                 </div>
                 <div class="form-control">
-                    <input type="submit" class="btn" value="Log in">
+                    <input type="submit" class="btn" value="<fmt:message key="loginPage.button"/>">
                 </div>
                 <div class="form-control">
-                    <p class="text">Don't have an account? <a href="registrationPage.jsp">Register</a></p>
+                    <p class="text"><fmt:message key="loginPage.additionalText"/>
+                        <a href="registrationPage.jsp"><fmt:message key="loginPage.register"/></a>
+                    </p>
                 </div>
             </form>
         </div>

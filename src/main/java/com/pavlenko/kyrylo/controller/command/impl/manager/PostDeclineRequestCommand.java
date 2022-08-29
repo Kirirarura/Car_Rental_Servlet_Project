@@ -3,6 +3,7 @@ package com.pavlenko.kyrylo.controller.command.impl.manager;
 import com.pavlenko.kyrylo.controller.command.Command;
 import com.pavlenko.kyrylo.controller.util.JspFilePath;
 import com.pavlenko.kyrylo.controller.util.UriPath;
+import com.pavlenko.kyrylo.controller.validator.DeclineBookingValidator;
 import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.service.BookingService;
@@ -27,20 +28,17 @@ public class PostDeclineRequestCommand implements Command {
         String declineDescription = request.getParameter(DECLINE_DESCRIPTION);
         Long bookingId = Long.valueOf(request.getParameter(BOOKING_ID));
         Long carId = Long.valueOf(request.getParameter(CAR_ID));
-        if (!fieldIsEmpty(declineDescription)) {
+
+        boolean isValid = DeclineBookingValidator.validate(declineDescription, request);
+        if (isValid){
             try {
                 bookingService.declineRequest(bookingId, declineDescription, carId);
                 return UriPath.REDIRECT + UriPath.MANAGER_MY_REQUESTS;
             } catch (DataBaseException e) {
                 request.setAttribute(STATUS, StatusesContainer.FAILED_DECLINE_REQUEST_EXCEPTION);
             }
-        } else {
-            request.setAttribute(STATUS, StatusesContainer.EMPTY_FIELD_EXCEPTION);
         }
         return JspFilePath.MANAGER_MY_REQUESTS;
     }
 
-    private boolean fieldIsEmpty(String field) {
-        return field == null || field.trim().isEmpty();
-    }
 }

@@ -55,7 +55,7 @@ public class DispatcherServlet extends HttpServlet {
 
     private void renderPage(HttpServletRequest req, HttpServletResponse resp, String pagePath) throws ServletException, IOException {
         if (pagePath.startsWith(UriPath.REDIRECT)) {
-            resp.sendRedirect(pagePath.replace(UriPath.REDIRECT, UriPath.PROJECT_NAME));
+            resp.sendRedirect(pagePath.replace(UriPath.REDIRECT, req.getContextPath()));
         } else {
             req.getRequestDispatcher(pagePath).forward(req, resp);
         }

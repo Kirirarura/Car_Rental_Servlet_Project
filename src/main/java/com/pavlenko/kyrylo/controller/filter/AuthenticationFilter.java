@@ -29,7 +29,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
 
-        final String URI = request.getRequestURI().replaceAll(PROJECT_NAME, "");
+        final String URI = request.getRequestURI().replaceAll(request.getContextPath(), "");
 
         if (session.getAttribute(ROLE_ATTRIBUTE) == null) {
             session.setAttribute(ROLE_ATTRIBUTE, Role.RoleEnum.GUEST.toString());
@@ -40,7 +40,7 @@ public class AuthenticationFilter implements Filter {
         if (!checkResources(URI) && !checkAccess(URI, role)) {
             if (role.equals(Role.RoleEnum.GUEST)) {
                 logger.info("Redirect guest to Login page from URI ({})", URI);
-                response.sendRedirect(PROJECT_NAME + LOGIN);
+                response.sendRedirect(request.getContextPath() + LOGIN);
                 return;
             }
             logger.warn("User (id = {}) Forbidden uri: {}", session.getAttribute(USER_ID_ATTRIBUTE), URI);

@@ -34,7 +34,7 @@ public class PostTakeOnReviewCommand implements Command {
                 request.setAttribute(STATUS, StatusesContainer.BOOKING_ALREADY_ON_REVIEW_EXCEPTION);
             }
         } catch (DataBaseException e) {
-            request.setAttribute(STATUS, StatusesContainer.BOOKING_INFO_LOADING_EXCEPTION);
+            request.setAttribute(STATUS, StatusesContainer.FAILED_TAKE_ON_REVIEW_EXCEPTION);
         }
         return JspFilePath.MANAGER_ERROR_PAGE;
     }

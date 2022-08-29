@@ -1,6 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages"/>
 
 <!DOCTYPE>
 <html>
@@ -17,15 +21,16 @@
 
 <main>
     <input type="hidden" id="status" value="<%= request.getAttribute("status")%>">
+    <input type="hidden" id="lang" value="<%= session.getAttribute("lang")%>">
 
     <c:set var="brandList" value="${sessionScope.brandList}"/>
     <c:set var="qualityClassList" value="${sessionScope.qualityClassList}"/>
 
     <div class="container">
-        <h1>Add New Car</h1>
+        <h1><fmt:message key="addNewCar.title"/></h1>
         <form action="${pageContext.request.contextPath}/Admin/addNewCar" method="post">
             <div class="form-control">
-                <label>Brand
+                <label><fmt:message key="addNewCar.brand"/>
                     <select name="brandId">
                         <c:forEach items="${brandList}" var="brand" varStatus="loop">
                             <option value="${brand.id}">
@@ -36,17 +41,19 @@
                 </label>
             </div>
             <div class="form-control">
-                <label>Model
-                    <input type="text" placeholder="Type model" name="model" required="required">
+                <label><fmt:message key="addNewCar.model"/>
+                    <input type="text" placeholder="<fmt:message key="addNewCar.model.placeHolder"/>" name="model"
+                           required="required">
                 </label>
             </div>
             <div class="form-control">
-                <label>Price
-                    <input type="text" placeholder="Type Price" name="price" required="required">
+                <label><fmt:message key="addNewCar.price"/>
+                    <input type="text" placeholder="<fmt:message key="addNewCar.price.placeHolder"/>" name="price"
+                           required="required">
                 </label>
             </div>
             <div class="form-control">
-                <label>Quality class
+                <label><fmt:message key="addNewCar.qualityClass"/>
                     <select name="qualityId">
                         <c:forEach items="${qualityClassList}" var="quality" varStatus="loop">
                             <option value="${quality.id}">
@@ -57,12 +64,13 @@
                 </label>
             </div>
             <div class="form-control">
-                <label>Description
-                    <input type="text" placeholder="Type description" name="description" required="required">
+                <label><fmt:message key="addNewCar.description"/>
+                    <input type="text" placeholder="<fmt:message key="addNewCar.description.placeHolder"/>"
+                           name="description" required="required">
                 </label>
             </div>
             <div class="form-control">
-                <input type="submit" class="btn" value="Add new car">
+                <input type="submit" class="btn" value="<fmt:message key="addNewCar.button"/>">
             </div>
         </form>
     </div>
@@ -70,7 +78,10 @@
 
 <footer>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.19/dist/sweetalert2.all.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/messages/edit&addNewCarMessages.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/js/messages/infoLoadingMessages.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/js/messages/edit&addNewCarMessages.js"></script>
 </footer>
 
 </body>

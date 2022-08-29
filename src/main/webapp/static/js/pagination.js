@@ -50,8 +50,8 @@ $(function(){
     }
 
     $(".pagination").append(
-        $("<li>").addClass("page-item").addClass("prev-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
-        $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+        $("<li>").addClass("page-item").addClass("prev-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("<=")),
+        $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("=>"))
     );
 
     $(".card-content").show();

@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class BookingDaoImpl implements BookingDao {
 
@@ -25,6 +24,7 @@ public class BookingDaoImpl implements BookingDao {
     private static final String ERROR_MASSAGE = "Error message: {}";
     private static final String ROLLBACK_FAILED_MASSAGE = "Rollback failed, {}";
     private static final String ROLLBACK_MASSAGE = "Rollback {}";
+    private static final String CLOSE_MESSAGES = "Can not close connection, resultSet or statement";
 
 
     public BookingDaoImpl(DataSource ds) {
@@ -51,9 +51,9 @@ public class BookingDaoImpl implements BookingDao {
     @Override
     public List<Booking> findAll() throws DataBaseException {
         try (Connection con = ds.getConnection();
-             Statement statement = con.createStatement()) {
+             Statement statement = con.createStatement();
+             ResultSet rs = statement.executeQuery(BookingQueries.FIND_ALL_PENDING_REVIEW)) {
             List<Booking> bookingList = new ArrayList<>();
-            ResultSet rs = statement.executeQuery(BookingQueries.FIND_ALL_PENDING_REVIEW);
             while (rs.next()) {
                 Booking booking = bookingMapper.extractFromResultSet(rs);
                 bookingList.add(booking);
@@ -72,7 +72,7 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     public void registerNewBooking(Booking entity, Long carId, Long carStatusId)
-            throws DataBaseException, SQLException {
+            throws DataBaseException {
         Connection con = null;
         PreparedStatement createStatement = null;
         PreparedStatement editCarStatusStatement = null;
@@ -102,9 +102,14 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ROLLBACK_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            Objects.requireNonNull(con).close();
-            Objects.requireNonNull(createStatement).close();
-            Objects.requireNonNull(editCarStatusStatement).close();
+            try {
+                if (con != null) con.close();
+                if (createStatement != null) createStatement.close();
+                if (editCarStatusStatement != null) editCarStatusStatement.close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
+
         }
 
     }
@@ -126,10 +131,11 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     public List<Booking> findByUserId(Long id) throws DataBaseException {
+        ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(BookingQueries.FIND_BY_USER_ID)) {
             statement.setInt(1, Math.toIntExact(id));
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             List<Booking> bookingList = new ArrayList<>();
             while (rs.next()) {
                 Booking booking = bookingMapper.extractFromResultSet(rs);
@@ -139,15 +145,22 @@ public class BookingDaoImpl implements BookingDao {
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
         }
     }
 
     @Override
     public List<Booking> findAllRequestsByManagerId(Long id) throws DataBaseException {
+        ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(BookingQueries.FIND_ALL_BY_MANAGER_ID)) {
             statement.setInt(1, Math.toIntExact(id));
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             List<Booking> bookingList = new ArrayList<>();
             while (rs.next()) {
                 Booking booking = bookingMapper.extractFromResultSet(rs);
@@ -157,11 +170,17 @@ public class BookingDaoImpl implements BookingDao {
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
         }
     }
 
     @Override
-    public void terminateRequestByID(Long id, Long carId, Long statusId) throws DataBaseException, SQLException {
+    public void terminateRequestByID(Long id, Long carId, Long statusId) throws DataBaseException {
         Connection con = null;
         PreparedStatement terminateStatement = null;
         PreparedStatement editCarStatusStatement = null;
@@ -193,9 +212,14 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ROLLBACK_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            Objects.requireNonNull(con).close();
-            Objects.requireNonNull(terminateStatement).close();
-            Objects.requireNonNull(editCarStatusStatement).close();
+            try {
+                if (con != null) con.close();
+                if (terminateStatement != null) terminateStatement.close();
+                if (editCarStatusStatement != null) editCarStatusStatement.close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
+
         }
     }
 
@@ -230,7 +254,7 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     public void registerReturn(Long bookingId, BigDecimal extraFee, Long carId, Long statusId)
-            throws DataBaseException, SQLException {
+            throws DataBaseException {
         Connection con = null;
         PreparedStatement registerReturnStatement = null;
         PreparedStatement editCarStatusStatement = null;
@@ -252,9 +276,7 @@ public class BookingDaoImpl implements BookingDao {
             logger.info("Return of request with id: {}, was registered", bookingId);
         } catch (SQLException e) {
             try {
-                if (con != null) {
-                    con.rollback();
-                }
+                if (con != null) con.rollback();
             } catch (SQLException ex) {
                 logger.error(ROLLBACK_FAILED_MASSAGE, ex.getMessage());
                 throw new DataBaseException();
@@ -262,16 +284,20 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ROLLBACK_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            Objects.requireNonNull(con).close();
-            Objects.requireNonNull(registerReturnStatement).close();
-            Objects.requireNonNull(editCarStatusStatement).close();
+            try {
+                if (con != null) con.close();
+                if (registerReturnStatement != null) registerReturnStatement.close();
+                if (editCarStatusStatement != null) editCarStatusStatement.close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
+
         }
     }
 
     @Override
     public void addDecliningInfo(Long bookingId, String declineDescription, Long carId,
-                                 Long bookingStatusId, Long carStatusId)
-            throws DataBaseException, SQLException {
+                                 Long bookingStatusId, Long carStatusId) throws DataBaseException {
         Connection con = null;
         PreparedStatement addDeclineInfoStatement = null;
         PreparedStatement editBookingStatusStatement = null;
@@ -310,24 +336,49 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ROLLBACK_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            Objects.requireNonNull(con).close();
-            Objects.requireNonNull(addDeclineInfoStatement).close();
-            Objects.requireNonNull(editBookingStatusStatement).close();
-            Objects.requireNonNull(editCarStatusStatement).close();
+            try {
+                if (con != null) con.close();
+                if (addDeclineInfoStatement != null) addDeclineInfoStatement.close();
+                if (editBookingStatusStatement != null) editBookingStatusStatement.close();
+                if (editCarStatusStatement != null) editCarStatusStatement.close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
+
         }
     }
 
     @Override
     public boolean checkStatus(Long bookingId, Long statusId) throws DataBaseException {
+        ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(BookingQueries.FIND_STATUS)) {
             statement.setInt(1, Math.toIntExact(bookingId));
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             int status = 0;
             if (rs.next()) {
                 status = rs.getInt("status_id");
             }
             return status == statusId;
+        } catch (SQLException e) {
+            logger.error(ERROR_MASSAGE, e.getMessage());
+            throw new DataBaseException();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
+        }
+    }
+
+    @Override
+    public void additionalPayment(Long bookingId) throws DataBaseException {
+        try (Connection con = ds.getConnection();
+             PreparedStatement statement = con.prepareStatement(BookingQueries.UPDATE_ADDITIONAL_FEE)) {
+            statement.setInt(1, 0);
+            statement.setInt(2, Math.toIntExact(bookingId));
+            statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();

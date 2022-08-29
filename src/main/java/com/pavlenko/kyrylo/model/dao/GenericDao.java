@@ -3,7 +3,6 @@ package com.pavlenko.kyrylo.model.dao;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface GenericDao<T>{
 

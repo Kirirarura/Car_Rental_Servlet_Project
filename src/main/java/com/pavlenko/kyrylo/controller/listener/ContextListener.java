@@ -5,10 +5,7 @@ import com.pavlenko.kyrylo.controller.command.impl.admin.*;
 import com.pavlenko.kyrylo.controller.command.impl.common.GetCatalogCommand;
 import com.pavlenko.kyrylo.controller.command.impl.common.GetHomeCommand;
 import com.pavlenko.kyrylo.controller.command.impl.common.GetLogOutCommand;
-import com.pavlenko.kyrylo.controller.command.impl.customer.GetRentCarCommand;
-import com.pavlenko.kyrylo.controller.command.impl.customer.GetRentRequestsCommand;
-import com.pavlenko.kyrylo.controller.command.impl.customer.PostRentCarCommand;
-import com.pavlenko.kyrylo.controller.command.impl.customer.TerminateRequestCommand;
+import com.pavlenko.kyrylo.controller.command.impl.customer.*;
 import com.pavlenko.kyrylo.controller.command.impl.guest.GetLoginCommand;
 import com.pavlenko.kyrylo.controller.command.impl.guest.GetRegistrationCommand;
 import com.pavlenko.kyrylo.controller.command.impl.guest.PostLoginCommand;
@@ -108,11 +105,15 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         commands.put(UriPath.ADMIN_USER_LIST, new GetAllUsersCommand((UserService) context.getAttribute(USER_SERVICE)));
         commands.put(UriPath.ADMIN_REGISTER_MANAGER, new GetManagerRegistrationCommand());
         commands.put(UriPath.ADMIN_CAR_EDIT, new GetEditCarCommand((CarService) context.getAttribute(CAR_SERVICE)));
-        commands.put(UriPath.ADMIN_ADD_NEW_CAR, new GetAddNewCarCommand((CarService) context.getAttribute(CAR_SERVICE)));
+        commands.put(UriPath.ADMIN_ADD_NEW_CAR,
+                new GetAddNewCarCommand((CarService) context.getAttribute(CAR_SERVICE)));
         commands.put(UriPath.CUSTOMER_RENT_CAR, new GetRentCarCommand((CarService) context.getAttribute(CAR_SERVICE)));
-        commands.put(UriPath.CUSTOMER_REQUESTS, new GetRentRequestsCommand((BookingService) context.getAttribute(BOOKING_SERVICE), (CarService) context.getAttribute(CAR_SERVICE)));
-        commands.put(UriPath.MANAGER_ALL_REQUESTS, new GetAllRequestsCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
-        commands.put(UriPath.MANAGER_MY_REQUESTS, new GetMyRequestsCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
+        commands.put(UriPath.CUSTOMER_REQUESTS,
+                new GetRentRequestsCommand((BookingService) context.getAttribute(BOOKING_SERVICE), (CarService) context.getAttribute(CAR_SERVICE)));
+        commands.put(UriPath.MANAGER_ALL_REQUESTS,
+                new GetAllRequestsCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
+        commands.put(UriPath.MANAGER_MY_REQUESTS,
+                new GetMyRequestsCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
         commands.put(UriPath.MANAGER_REGISTER_RETURN, new GetRegisterReturnCommand());
     }
 
@@ -137,7 +138,7 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
                         (UserService) context.getAttribute(USER_SERVICE),
                         (CarService) context.getAttribute(CAR_SERVICE)));
         commands.put(UriPath.CUSTOMER_TERMINATE_REQUEST,
-                new TerminateRequestCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
+                new PostTerminateRequestCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
         commands.put(UriPath.MANAGER_TAKE_ON_REVIEW,
                 new PostTakeOnReviewCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
         commands.put(UriPath.MANAGER_ACCEPT_REQUEST,
@@ -146,5 +147,7 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
                 new PostRegisterReturnCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
         commands.put(UriPath.MANAGER_DECLINE_REQUEST,
                 new PostDeclineRequestCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
+        commands.put(UriPath.CUSTOMER_ADDITIONAL_PAYMENT,
+                new PostAdditionalPaymentCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
     }
 }

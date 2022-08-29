@@ -1,6 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="messages" />
 
 <!DOCTYPE>
 <html>
@@ -20,7 +24,9 @@
 
 <main>
     <input type="hidden" id="status" value="<%= request.getAttribute("status")%>">
-    <h1>Requests pool</h1>
+    <input type="hidden" id="lang" value="<%= session.getAttribute("lang")%>">
+
+    <h1><fmt:message key="manager.allRequests.title"/> </h1>
     <div class="card-content">
         <c:forEach var="booking" items="${requestScope.bookingList}">
             <div class="card-item">
@@ -30,18 +36,20 @@
                         <h3 class="secondaryInfo"><c:out value="${booking.startDate} - ${booking.endDate}"/></h3>
                     </div>
                     <div class="details">
-                        <h2 class="primaryInfo">User ID: <c:out value="${booking.user.firstName} "/></h2>
-                        <h3 class="secondaryInfo">Passport number: <c:out value="${booking.userDetails} "/></h3>
-
+                        <h2 class="primaryInfo"><fmt:message key="manager.allRequests.name"/> <c:out value="${booking.user.firstName} "/></h2>
+                        <h3 class="secondaryInfo"><fmt:message key="manager.allRequests.passport"/> <c:out value="${booking.userDetails} "/></h3>
                     </div>
                     <div class="details">
-                        <h2 class="primaryInfo">Price: <c:out value="${booking.price}"/></h2>
+                        <h2 class="primaryInfo"><fmt:message key="manager.allRequests.car"/> <c:out value="${booking.car.brand} ${booking.car.modelName}"/></h2>
+                    </div>
+                    <div class="details">
+                        <h2 class="primaryInfo"><fmt:message key="manager.allRequests.price"/> <c:out value="${booking.price}"/></h2>
                         <c:choose>
                             <c:when test="${booking.withDriver}">
-                                <h3 class="secondaryInfo">With driver option selected</h3>
+                                <h3 class="secondaryInfo"><fmt:message key="manager.allRequests.withDriver"/></h3>
                             </c:when>
                             <c:when test="${!booking.withDriver}">
-                                <h3 class="secondaryInfo">Without driver option selected</h3>
+                                <h3 class="secondaryInfo"><fmt:message key="manager.allRequests.withoutDriver"/></h3>
                             </c:when>
                         </c:choose>
                     </div>
@@ -52,7 +60,7 @@
                           method="post" name="blockUnblock">
                         <input type="text" name="id" value="${booking.id}" hidden="hidden">
                             <div class="block">
-                                <input type="submit" class="btn" value="Take on review">
+                                <input type="submit" class="btn" value="<fmt:message key="manager.allRequests.takeOnReview"/>">
                             </div>
                     </form>
                 </div>

@@ -23,20 +23,16 @@ public class PostRegisterReturnCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        double extraFee = 0;
         boolean damaged = false;
-        if(request.getParameter("returnInTime") == null){
-            extraFee += 20;
-        }
+        boolean returnedInTime = request.getParameter("returnInTime") != null;
         if (request.getParameter("damaged") != null){
-            extraFee +=50;
             damaged = true;
         }
 
         Long carId = (Long) request.getSession().getAttribute(CAR_ID);
         Long bookingId = (Long) request.getSession().getAttribute(BOOKING_ID);
         try {
-            bookingService.registerReturn(carId, bookingId, BigDecimal.valueOf(extraFee), damaged);
+            bookingService.registerReturn(carId, bookingId, returnedInTime, damaged);
             request.getSession().removeAttribute(CAR_ID);
             request.getSession().removeAttribute(BOOKING_ID);
             return UriPath.REDIRECT + UriPath.MANAGER_MY_REQUESTS;

@@ -25,10 +25,12 @@ public final class UriPath {
     public static final String CUSTOMER_RENT_CAR = CUSTOMER_PREFIX + "/rent";
     public static final String CUSTOMER_REQUESTS = CUSTOMER_PREFIX + "/myRequests";
     public static final String CUSTOMER_TERMINATE_REQUEST = CUSTOMER_PREFIX + "/terminate";
+    public static final String CUSTOMER_ADDITIONAL_PAYMENT = CUSTOMER_PREFIX + "/additionalPayment";
     public static final String MANAGER_ALL_REQUESTS = MANAGER_PREFIX + "/allRequests";
     public static final String MANAGER_TAKE_ON_REVIEW = MANAGER_PREFIX + "/onReview";
     public static final String MANAGER_MY_REQUESTS = MANAGER_PREFIX + "/myRequests";
     public static final String MANAGER_ACCEPT_REQUEST = MANAGER_PREFIX + "/acceptRequest";
     public static final String MANAGER_REGISTER_RETURN = MANAGER_PREFIX + "/registerReturn";
     public static final String MANAGER_DECLINE_REQUEST = MANAGER_PREFIX + "/declineRequest";
+
 }

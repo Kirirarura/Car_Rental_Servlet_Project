@@ -6,7 +6,6 @@ import com.pavlenko.kyrylo.model.entity.Booking;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.List;
 
 public class BookingService {
@@ -20,11 +19,8 @@ public class BookingService {
 
     public void registerNewBooking(BookingDto bookingDto) throws DataBaseException {
         Booking booking = new Booking(bookingDto);
-        try {
-            bookingDao.registerNewBooking(booking, bookingDto.getCar().getCarId(), 2L);
-        } catch (SQLException e) {
-            throw new DataBaseException();
-        }
+        bookingDao.registerNewBooking(booking, bookingDto.getCar().getCarId(), 2L);
+
     }
 
     public List<Booking> findByUserId(Long id) throws DataBaseException {
@@ -32,11 +28,7 @@ public class BookingService {
     }
 
     public void terminateRequestById(Long bookingId, Long carId) throws DataBaseException {
-        try {
-            bookingDao.terminateRequestByID(bookingId, carId, 1L);
-        } catch (SQLException e) {
-            throw new DataBaseException();
-        }
+        bookingDao.terminateRequestByID(bookingId, carId, 1L);
     }
 
     public List<Booking> findAllRequests() throws DataBaseException {
@@ -59,16 +51,12 @@ public class BookingService {
         bookingDao.updateBookingStatusId(bookingId, statusId);
     }
 
-    public void registerReturn(Long carId, Long bookingId, BigDecimal extraFee, boolean damaged) throws DataBaseException {
+    public void registerReturn(Long carId, Long bookingId, boolean returnedInTime, boolean damaged)
+            throws DataBaseException {
         long statusId = 1L;
-        if (damaged){
-            statusId = 3L;
-        }
-        try {
-            bookingDao.registerReturn(bookingId, extraFee, carId, statusId);
-        } catch (SQLException e) {
-            throw new DataBaseException();
-        }
+        BigDecimal extraFee = calculateFee(returnedInTime, damaged);
+        if (damaged) statusId = 3L;
+        bookingDao.registerReturn(bookingId, extraFee, carId, statusId);
     }
 
     public boolean checkIfCanceled(Long bookingId) throws DataBaseException {
@@ -76,11 +64,21 @@ public class BookingService {
     }
 
     public void declineRequest(Long bookingId, String declineDescription, Long carId) throws DataBaseException {
-        try {
-            bookingDao.addDecliningInfo(bookingId, declineDescription, carId, 5L, 1L);
-        } catch (SQLException e) {
-            throw new DataBaseException();
-        }
+        bookingDao.addDecliningInfo(bookingId, declineDescription, carId, 5L, 1L);
+    }
 
+    public void additionalPayment(Long bookingId) throws DataBaseException {
+        bookingDao.additionalPayment(bookingId);
+    }
+
+    public BigDecimal calculateFee(boolean returnedInTime, boolean damaged) {
+        BigDecimal extraFee = new BigDecimal(0);
+        if (!returnedInTime) {
+            extraFee = extraFee.add(new BigDecimal(20));
+        }
+        if (damaged) {
+            extraFee = extraFee.add(new BigDecimal(50));
+        }
+        return extraFee;
     }
 }

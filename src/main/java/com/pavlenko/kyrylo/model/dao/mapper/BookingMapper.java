@@ -24,6 +24,8 @@ public class BookingMapper {
                 .startDate(LocalDate.parse(rs.getString(Fields.BOOKING_START_DATE)))
                 .endDate(LocalDate.parse(rs.getString(Fields.BOOKING_END_DATE)))
                 .price(rs.getBigDecimal(Fields.BOOKING_PRICE))
+                .declineInfo(rs.getString(Fields.BOOKING_DECLINE_INFO))
+                .additionalFee(rs.getBigDecimal(Fields.BOOKING_ADDITIONAL_FEE))
                 .build();
     }
 }

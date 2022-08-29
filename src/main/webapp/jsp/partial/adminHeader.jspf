@@ -1,12 +1,36 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages"/>
 <nav>
     <ul class="menu">
         <li class="logo"><a href="${pageContext.request.contextPath}/index">Car Rental</a></li>
-        <li class="nav-item"><a href="${pageContext.request.contextPath}/Admin/userList">User management</a></li>
-        <li class="nav-item"><a href="${pageContext.request.contextPath}/Admin/registrationManager">Manager registration</a></li>
-        <li class="nav-item"><a href="${pageContext.request.contextPath}/catalog">Catalog</a></li>
-        <li class="nav-item"><a href="#">Hello, <%=session.getAttribute("role")%>,
-            Your id <%=session.getAttribute("userId")%></a></li>
-        <li class="nav-item button"><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+        <%@include file="../partial/languageButton.jspf" %>
+        <li class="nav-item">
+            <a href="${pageContext.request.contextPath}/Admin/userList">
+                <fmt:message key="header.admin.userManagement"/>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="${pageContext.request.contextPath}/Admin/registrationManager">
+                <fmt:message key="header.admin.managerRegistration"/>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="${pageContext.request.contextPath}/catalog">
+                <fmt:message key="header.catalog"/>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#">
+                <fmt:message key="header.hello"/><%=session.getAttribute("userId")%>
+            </a>
+        </li>
+        <li class="nav-item button">
+            <a href="${pageContext.request.contextPath}/logout">
+                <fmt:message key="header.logout"/>
+            </a>
+        </li>
         <li class="toggle"><span class="bars"></span></li>
     </ul>
 </nav>

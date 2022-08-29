@@ -21,6 +21,7 @@ public class UserDaoImpl implements UserDao {
     private final UserMapper userMapper = new UserMapper();
     private final DataSource ds;
     private static final String ERROR_MASSAGE = "Error message: {}";
+    private static final String CLOSE_MESSAGES = "Can not close connection, resultSet or statement";
 
     public UserDaoImpl(DataSource dataSource) {
         this.ds = dataSource;
@@ -45,11 +46,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findById(Long id) throws DataBaseException {
+        ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.FIND_BY_ID)) {
             statement.setInt(1, Math.toIntExact(id));
-
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             User user = null;
             if (rs.next()){
                 user = userMapper.extractFromResultSet(rs);
@@ -58,18 +59,26 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
+
         }
     }
 
     @Override
     public List<User> findAll() throws DataBaseException {
         try (Connection con = ds.getConnection();
-             Statement statement = con.createStatement()) {
+             Statement statement = con.createStatement();
+             ResultSet rs = statement.executeQuery(UserQueries.FIND_ALL_USERS);) {
             List<User> userList = new ArrayList<>();
-            ResultSet resultSet = statement.executeQuery(UserQueries.FIND_ALL_USERS);
 
-            while (resultSet.next()) {
-                User user = userMapper.extractFromResultSet(resultSet);
+
+            while (rs.next()) {
+                User user = userMapper.extractFromResultSet(rs);
                 userList.add(user);
             }
             return userList;
@@ -86,13 +95,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findByUsernameAndPassword(String email, String password) throws DataBaseException {
+        ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.FIND_USER_BY_EMAIL_AND_PASSWORD)) {
             statement.setString(1, email);
             statement.setString(2, password);
 
-            ResultSet rs = statement.executeQuery();
-
+            rs = statement.executeQuery();
             if (rs.next()) {
                 return Optional.of(userMapper.extractFromResultSet(rs));
             } else {
@@ -101,6 +110,12 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
         }
     }
 
@@ -130,16 +145,23 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean uniqueEmail(String email) throws DataBaseException {
+    public boolean emailAlreadyExists(String email) throws DataBaseException {
+        ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.FIND_BY_EMAIL)) {
             statement.setString(1, email);
 
-            ResultSet resultSet = statement.executeQuery();
-            return resultSet.next();
+            rs = statement.executeQuery();
+            return rs.next();
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
+            }
         }
     }
 }

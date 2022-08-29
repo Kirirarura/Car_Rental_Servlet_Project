@@ -47,21 +47,21 @@ public class UserService {
     }
 
     public void registerNewAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException, DataBaseException {
-        checkUsernameIsUnique(userDto.getEmail());
+        checkEmailIsUnique(userDto.getEmail());
         User user = new User(userDto, Role.RoleEnum.CUSTOMER);
         userDao.create(user);
         logger.info("New user account {} has been created", user);
     }
 
     public void registerNewManagerAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException, DataBaseException {
-        checkUsernameIsUnique(userDto.getEmail());
+        checkEmailIsUnique(userDto.getEmail());
         User user = new User(userDto, Role.RoleEnum.MANAGER);
         userDao.create(user);
         logger.info("New manager account {} has been created", user);
     }
 
-    private void checkUsernameIsUnique(String email) throws EmailIsAlreadyRegisteredException, DataBaseException {
-        if (userDao.uniqueEmail(email)) {
+    private void checkEmailIsUnique(String email) throws EmailIsAlreadyRegisteredException, DataBaseException {
+        if (userDao.emailAlreadyExists(email)) {
             logger.info("An account with such email {} is already reserved", email);
             throw new EmailIsAlreadyRegisteredException();
         }
