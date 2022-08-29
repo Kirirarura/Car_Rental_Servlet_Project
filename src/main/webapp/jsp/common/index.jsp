@@ -1,6 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages" />
 
 <!DOCTYPE>
 <html>
@@ -18,10 +22,10 @@
     <main>
         <section id="hero">
             <div id="hero-content">
-                <h2>Need a car?</h2>
-                <h2>Need a driver?</h2>
-                <p>We have everything you need</p>
-                <a href="${pageContext.request.contextPath}/catalog">Discover our huge catalog</a>
+                <h2><fmt:message key="index.firstTitle"/> </h2>
+                <h2><fmt:message key="index.secondTitle"/></h2>
+                <p><fmt:message key="index.text"/></p>
+                <a href="${pageContext.request.contextPath}/catalog"><fmt:message key="index.link"/></a>
             </div>
         </section>
     </main>

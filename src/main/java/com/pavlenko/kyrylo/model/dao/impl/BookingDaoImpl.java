@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class BookingDaoImpl implements BookingDao {
 
@@ -104,9 +103,9 @@ public class BookingDaoImpl implements BookingDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(con).close();
-                Objects.requireNonNull(createStatement).close();
-                Objects.requireNonNull(editCarStatusStatement).close();
+                if (con != null) con.close();
+                if (createStatement != null) createStatement.close();
+                if (editCarStatusStatement != null) editCarStatusStatement.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -148,7 +147,7 @@ public class BookingDaoImpl implements BookingDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(rs).close();
+                if (rs != null) rs.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -173,7 +172,7 @@ public class BookingDaoImpl implements BookingDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(rs).close();
+                if (rs != null) rs.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -214,9 +213,9 @@ public class BookingDaoImpl implements BookingDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(con).close();
-                Objects.requireNonNull(terminateStatement).close();
-                Objects.requireNonNull(editCarStatusStatement).close();
+                if (con != null) con.close();
+                if (terminateStatement != null) terminateStatement.close();
+                if (editCarStatusStatement != null) editCarStatusStatement.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -277,9 +276,7 @@ public class BookingDaoImpl implements BookingDao {
             logger.info("Return of request with id: {}, was registered", bookingId);
         } catch (SQLException e) {
             try {
-                if (con != null) {
-                    con.rollback();
-                }
+                if (con != null) con.rollback();
             } catch (SQLException ex) {
                 logger.error(ROLLBACK_FAILED_MASSAGE, ex.getMessage());
                 throw new DataBaseException();
@@ -288,9 +285,9 @@ public class BookingDaoImpl implements BookingDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(con).close();
-                Objects.requireNonNull(registerReturnStatement).close();
-                Objects.requireNonNull(editCarStatusStatement).close();
+                if (con != null) con.close();
+                if (registerReturnStatement != null) registerReturnStatement.close();
+                if (editCarStatusStatement != null) editCarStatusStatement.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -340,10 +337,10 @@ public class BookingDaoImpl implements BookingDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(con).close();
-                Objects.requireNonNull(addDeclineInfoStatement).close();
-                Objects.requireNonNull(editBookingStatusStatement).close();
-                Objects.requireNonNull(editCarStatusStatement).close();
+                if (con != null) con.close();
+                if (addDeclineInfoStatement != null) addDeclineInfoStatement.close();
+                if (editBookingStatusStatement != null) editBookingStatusStatement.close();
+                if (editCarStatusStatement != null) editCarStatusStatement.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -368,10 +365,23 @@ public class BookingDaoImpl implements BookingDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(rs).close();
+                if (rs != null) rs.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
+        }
+    }
+
+    @Override
+    public void additionalPayment(Long bookingId) throws DataBaseException {
+        try (Connection con = ds.getConnection();
+             PreparedStatement statement = con.prepareStatement(BookingQueries.UPDATE_ADDITIONAL_FEE)) {
+            statement.setInt(1, 0);
+            statement.setInt(2, Math.toIntExact(bookingId));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(ERROR_MASSAGE, e.getMessage());
+            throw new DataBaseException();
         }
     }
 

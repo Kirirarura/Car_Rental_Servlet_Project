@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 
@@ -62,7 +61,7 @@ public class UserDaoImpl implements UserDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(rs).close();
+                if (rs != null) rs.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -113,7 +112,7 @@ public class UserDaoImpl implements UserDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(rs).close();
+                if (rs != null) rs.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -146,7 +145,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean uniqueEmail(String email) throws DataBaseException {
+    public boolean emailAlreadyExists(String email) throws DataBaseException {
         ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(UserQueries.FIND_BY_EMAIL)) {
@@ -159,7 +158,7 @@ public class UserDaoImpl implements UserDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(rs).close();
+                if (rs != null) rs.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }

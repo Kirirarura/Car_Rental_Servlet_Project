@@ -29,13 +29,13 @@ public class BookingQueries {
                     " user_id,  car_id, user_details, with_driver, booking_start_date, booking_end_date, price)" +
                     " values (?, ?, ?, ?, ?, ?, ?)";
 
-    public static final String FIND_BY_ID =
-            FIND_ALL + WHERE_ID;
+
     public static final String FIND_STATUS =
             "SELECT status_id FROM booking" +
                     WHERE_ID;
     public static final String FIND_BY_USER_ID =
-            FIND_ALL + " WHERE user_id = ?";
+            FIND_ALL + " WHERE user_id = ?" +
+                    " ORDER BY creation_date DESC";
 
     public static final String TERMINATE_REQUEST_BY_ID =
             UPDATE +
@@ -61,6 +61,11 @@ public class BookingQueries {
 
     public static final String ADD_DECLINE_INFO =
             UPDATE +
-                    " SET additional_info = ?" +
+                    " SET decline_info = ?" +
+                    WHERE_ID;
+
+    public static final String UPDATE_ADDITIONAL_FEE =
+            UPDATE +
+                    " SET additional_fee = ?" +
                     WHERE_ID;
 }

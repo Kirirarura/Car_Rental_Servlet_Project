@@ -61,7 +61,11 @@ public class BookingValidator {
 
     }
 
-    private static void checkFirstDate(String startDate) throws DatesPeriodException {
+    private static void checkFirstDate(String startDate) throws DatesPeriodException, EmptyFieldException {
+        if (fieldIsEmpty(startDate)){
+            throw new EmptyFieldException();
+        }
+
         LocalDate today = LocalDate.now();
         LocalDate date = LocalDate.parse(startDate);
         if (date.isBefore(today)){

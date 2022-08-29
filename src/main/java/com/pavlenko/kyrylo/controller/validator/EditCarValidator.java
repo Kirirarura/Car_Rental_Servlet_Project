@@ -1,6 +1,7 @@
 package com.pavlenko.kyrylo.controller.validator;
 
 import com.pavlenko.kyrylo.controller.exeption.car.DescriptionSizeOutOfBoundsException;
+import com.pavlenko.kyrylo.controller.exeption.car.PriceNegativeException;
 import com.pavlenko.kyrylo.controller.exeption.car.PriceSizeOutOfBoundsException;
 import com.pavlenko.kyrylo.controller.exeption.car.WrongInputException;
 import com.pavlenko.kyrylo.controller.exeption.registration.EmptyFieldException;
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 
 public class EditCarValidator {
 
@@ -17,6 +19,7 @@ public class EditCarValidator {
     private static final int PRICE_MIN_SIZE = 2;
     private static final int DESCRIPTION_MAX_SIZE = 50;
     private static final int DESCRIPTION_MIN_SIZE = 4;
+    private static final String PRICE = "price";
 
     private static final Logger logger = LogManager.getLogger(EditCarValidator.class);
 
@@ -24,6 +27,7 @@ public class EditCarValidator {
     public static boolean validate(String label, String input, HttpServletRequest request) {
         try {
             checkPriceInput(label, input);
+            checkPriceNegativeInput(label, input);
             checkPriceSize(label, input);
             checkDescriptionSize(label, input);
             return true;
@@ -39,6 +43,9 @@ public class EditCarValidator {
         } catch (DescriptionSizeOutOfBoundsException e) {
             logger.error("Description size out of bounds");
             request.setAttribute(STATUS, StatusesContainer.DESCRIPTION_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+        } catch (PriceNegativeException e) {
+            logger.error("Price can not be negative");
+            request.setAttribute(STATUS, StatusesContainer.PRICE_NEGATIVE_EXCEPTION);
         }
         return false;
     }
@@ -46,11 +53,18 @@ public class EditCarValidator {
         if (fieldIsEmpty(input)) {
             throw new EmptyFieldException();
         }
-        if (label.equals("price")) {
+        if (label.equals(PRICE)) {
             try {
-                Double.parseDouble(input);
+                new BigDecimal(input);
             } catch (NumberFormatException nfe) {
                 throw new WrongInputException();
+            }
+        }
+    }
+    private static void checkPriceNegativeInput(String label, String input) throws PriceNegativeException {
+        if (label.equals(PRICE)) {
+            if (new BigDecimal(input).signum() <= 0){
+                throw new PriceNegativeException();
             }
         }
     }
@@ -58,7 +72,7 @@ public class EditCarValidator {
         if (fieldIsEmpty(input)) {
             throw new EmptyFieldException();
         }
-        if (label.equals("price")) {
+        if (label.equals(PRICE)) {
             if ((input.length() > PRICE_MAX_SIZE) || (input.length() < PRICE_MIN_SIZE)){
                 throw new PriceSizeOutOfBoundsException();
             }

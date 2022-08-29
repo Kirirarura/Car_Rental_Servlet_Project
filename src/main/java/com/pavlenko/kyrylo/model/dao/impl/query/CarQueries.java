@@ -16,13 +16,10 @@ public class CarQueries {
                     "?)";
 
     public static final String FIND_ALL_FROM_CARS =
-            "SELECT * FROM cars " +
+            "SELECT * FROM cars" +
                     " INNER JOIN brands ON cars.brand_id = brands.id" +
                     " INNER JOIN quality_class ON cars.quality_class_id = quality_class.id" +
                     " INNER JOIN car_status ON cars.car_status_id = car_status.id";
-
-    public static final String FIND_ALL_CARS_AVAILABLE =
-                    " WHERE car_status_name = 'AVAILABLE'";
 
     public static final String FIND_CAR_BY_ID =
             FIND_ALL_FROM_CARS + WHERE_ID;

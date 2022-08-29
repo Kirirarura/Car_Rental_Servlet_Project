@@ -17,6 +17,8 @@ public class Booking {
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal price;
+    private String declineInfo;
+    private BigDecimal additionalFee;
 
     public Booking() {
     }
@@ -32,8 +34,9 @@ public class Booking {
                 LocalDate.parse(bookingDto.getEndDate()), bookingDto.isWithDriver());
     }
 
-    public Booking(Long id, User user, BookingStatus bookingStatus, Car car, String userDetails, boolean withDriver,
-                   LocalDate startDate, LocalDate endDate, BigDecimal price) {
+    public Booking(Long id, User user, BookingStatus bookingStatus, Car car, String userDetails,
+                   boolean withDriver, LocalDate startDate, LocalDate endDate,
+                   BigDecimal price, String declineInfo, BigDecimal additionalFee) {
         this.id = id;
         this.user = user;
         this.bookingStatus = bookingStatus;
@@ -43,6 +46,8 @@ public class Booking {
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
+        this.declineInfo = declineInfo;
+        this.additionalFee = additionalFee;
     }
 
     public Long getId() {
@@ -121,6 +126,22 @@ public class Booking {
         this.price = price;
     }
 
+    public String getDeclineInfo() {
+        return declineInfo;
+    }
+
+    public void setDeclineInfo(String declineInfo) {
+        this.declineInfo = declineInfo;
+    }
+
+    public BigDecimal getAdditionalFee() {
+        return additionalFee;
+    }
+
+    public void setAdditionalFee(BigDecimal additionalFee) {
+        this.additionalFee = additionalFee;
+    }
+
     public static class BookingBuilder {
         private Long id;
         private User user;
@@ -131,6 +152,8 @@ public class Booking {
         private LocalDate startDate;
         private LocalDate endDate;
         private BigDecimal price;
+        private String declineInfo;
+        private BigDecimal additionalFee;
 
         public BookingBuilder id(Long id) {
             this.id = id;
@@ -175,6 +198,14 @@ public class Booking {
             this.price = price;
             return this;
         }
+        public BookingBuilder additionalFee(BigDecimal fee){
+            this.additionalFee = fee;
+            return this;
+        }
+        public BookingBuilder declineInfo(String declineInfo){
+            this.declineInfo = declineInfo;
+            return this;
+        }
 
         public Booking build(){
             return new Booking(
@@ -186,7 +217,9 @@ public class Booking {
                     this.withDriver,
                     this.startDate,
                     this.endDate,
-                    this.price
+                    this.price,
+                    this.declineInfo,
+                    this.additionalFee
             );
         }
     }

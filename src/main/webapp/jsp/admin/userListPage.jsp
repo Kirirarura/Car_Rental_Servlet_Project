@@ -1,6 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="messages" />
 
 <!DOCTYPE>
 <html>
@@ -20,8 +24,9 @@
 
 <main>
     <input type="hidden" id="status" value="<%= request.getAttribute("status")%>">
+    <input type="hidden" id="lang" value="<%= session.getAttribute("lang")%>">
 
-    <h1>User List</h1>
+    <h1><fmt:message key="userManagement.title"/> </h1>
     <div class="card-content">
         <c:forEach var="user" items="${requestScope.userList}">
             <div class="card-item">
@@ -43,14 +48,14 @@
                     <div class="status-container">
                         <div class="status">
                             <c:if test="${!user.blocked}">
-                                <p>User not blocked</p>
+                                <p><fmt:message key="userManagement.userNotBlocked"/></p>
                             </c:if>
                             <c:if test="${user.blocked}">
-                                <p>User blocked</p>
+                                <p><fmt:message key="userManagement.userBlocked"/></p>
                             </c:if>
                         </div>
                         <div class="block">
-                            <input type="submit" class="btn" value="Block/Unblock">
+                            <input type="submit" class="btn" value="<fmt:message key="userManagement.button"/>">
                         </div>
                     </div>
                 </form>

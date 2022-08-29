@@ -55,5 +55,7 @@ public class Fields {
     public static final String BOOKING_START_DATE = "booking_start_date";
     public static final String BOOKING_END_DATE = "booking_end_date";
     public static final String BOOKING_PRICE = "price";
+    public static final String BOOKING_DECLINE_INFO = "decline_info";
+    public static final String BOOKING_ADDITIONAL_FEE = "additional_fee";
 
 }

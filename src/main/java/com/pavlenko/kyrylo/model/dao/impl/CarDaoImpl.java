@@ -70,7 +70,7 @@ public class CarDaoImpl implements CarDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(rs).close();
+                if (rs != null) rs.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -183,7 +183,7 @@ public class CarDaoImpl implements CarDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(rs).close();
+                if (rs != null) rs.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -207,7 +207,7 @@ public class CarDaoImpl implements CarDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(rs).close();
+                if (rs != null) rs.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }
@@ -298,7 +298,7 @@ public class CarDaoImpl implements CarDao {
             throw new DataBaseException();
         } finally {
             try {
-                Objects.requireNonNull(rs).close();
+                if (rs != null) rs.close();
             } catch (SQLException e) {
                 logger.error(CLOSE_MESSAGES, e);
             }

@@ -39,7 +39,7 @@ public class PostRentCarCommand implements Command {
         boolean withDriver = request.getParameter(WITH_DRIVER) != null;
         Long userId = (Long) request.getSession().getAttribute(USER_ID);
         Car car = (Car) request.getSession().getAttribute("car");
-        User user = null;
+        User user;
 
         try {
             user = userService.findById(userId);
@@ -51,7 +51,7 @@ public class PostRentCarCommand implements Command {
                     return UriPath.REDIRECT + UriPath.CATALOG;
                 }
             } else {
-                request.setAttribute(STATUS, StatusesContainer.REGISTRATION_EXCEPTION);
+                request.setAttribute(STATUS, StatusesContainer.CAR_ALREADY_BOOKED_EXCEPTION);
             }
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, StatusesContainer.REGISTRATION_EXCEPTION);

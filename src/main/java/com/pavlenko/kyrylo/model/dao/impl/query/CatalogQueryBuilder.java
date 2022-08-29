@@ -1,5 +1,6 @@
 package com.pavlenko.kyrylo.model.dao.impl.query;
 
+import com.pavlenko.kyrylo.model.dao.impl.CarDaoImpl;
 import com.pavlenko.kyrylo.model.entity.Brand;
 import com.pavlenko.kyrylo.model.entity.Quality;
 import org.apache.logging.log4j.LogManager;
@@ -8,31 +9,33 @@ import org.apache.logging.log4j.Logger;
 import java.util.Map;
 
 public class CatalogQueryBuilder {
+
+    private static final Logger logger = LogManager.getLogger(CatalogQueryBuilder.class);
     private static final String WHERE = " WHERE";
     private static final String AND = " AND";
     private static final String BRAND_TYPE = " brand_id = (SELECT id FROM brands WHERE brand_name = '%s')";
-    private static final String QUALITY_TYPE = " quality_class_id = (SELECT id FROM quality_class WHERE quality_class_name = '%s')";
+    private static final String QUALITY_TYPE =
+            " quality_class_id = (SELECT id FROM quality_class WHERE quality_class_name = '%s')";
     private static final String STATUS_AVAILABLE = " car_status_name = 'AVAILABLE'";
 
-    private CatalogQueryBuilder() {}
+    private CatalogQueryBuilder() {
+    }
 
     public static String buildCarQueryFilterForFindAll(Map<String, String> filterFieldMap, boolean adminRequest) {
-        String result;
+        String result = null;
         String condition = "";
         if (filterFieldMap.isEmpty()) {
             result = CarQueries.FIND_ALL_FROM_CARS;
         } else {
             condition = buildFullCondition(filterFieldMap);
-            if (condition.length() > 0){
+            if (condition.length() > 0) {
                 result = CarQueries.FIND_ALL_FROM_CARS + WHERE + condition;
-            } else {
-                result = CarQueries.FIND_ALL_FROM_CARS;
             }
         }
-        if (adminRequest){
+        if (adminRequest) {
             return result;
         } else {
-            if (condition.length() == 0){
+            if (condition.length() == 0) {
                 result = result + WHERE + STATUS_AVAILABLE;
             } else {
                 result = result + AND + STATUS_AVAILABLE;
@@ -68,10 +71,13 @@ public class CatalogQueryBuilder {
                 condition.append(addition);
             }
         }
-        if (conditionIsNotEmpty(condition)) {
+        if (conditionIsNotEmpty(conditions) && conditionIsNotEmpty(condition)) {
             conditions.append(AND).append(condition);
+        } else {
+            conditions.append(condition);
         }
     }
+
     private static boolean conditionIsNotEmpty(StringBuilder condition) {
         return condition.length() > 0;
     }

@@ -51,12 +51,11 @@ public class BookingService {
         bookingDao.updateBookingStatusId(bookingId, statusId);
     }
 
-    public void registerReturn(Long carId, Long bookingId, BigDecimal extraFee, boolean damaged)
+    public void registerReturn(Long carId, Long bookingId, boolean returnedInTime, boolean damaged)
             throws DataBaseException {
         long statusId = 1L;
-        if (damaged) {
-            statusId = 3L;
-        }
+        BigDecimal extraFee = calculateFee(returnedInTime, damaged);
+        if (damaged) statusId = 3L;
         bookingDao.registerReturn(bookingId, extraFee, carId, statusId);
     }
 
@@ -66,5 +65,20 @@ public class BookingService {
 
     public void declineRequest(Long bookingId, String declineDescription, Long carId) throws DataBaseException {
         bookingDao.addDecliningInfo(bookingId, declineDescription, carId, 5L, 1L);
+    }
+
+    public void additionalPayment(Long bookingId) throws DataBaseException {
+        bookingDao.additionalPayment(bookingId);
+    }
+
+    public BigDecimal calculateFee(boolean returnedInTime, boolean damaged) {
+        BigDecimal extraFee = new BigDecimal(0);
+        if (!returnedInTime) {
+            extraFee = extraFee.add(new BigDecimal(20));
+        }
+        if (damaged) {
+            extraFee = extraFee.add(new BigDecimal(50));
+        }
+        return extraFee;
     }
 }

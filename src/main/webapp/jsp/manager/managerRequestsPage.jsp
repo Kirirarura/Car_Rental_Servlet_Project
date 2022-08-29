@@ -1,6 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="messages" />
 
 <!DOCTYPE>
 <html>
@@ -20,33 +24,35 @@
 
 <main>
     <input type="hidden" id="status" value="<%= request.getAttribute("status")%>">
-    <h1>Requests that you are working on</h1>
+    <input type="hidden" id="lang" value="<%= session.getAttribute("lang")%>">
+
+    <h1><fmt:message key="manager.myRequests.title"/> </h1>
     <div class="card-content">
         <c:forEach var="booking" items="${requestScope.bookingList}">
         <div class="card-item">
             <div class="container">
                 <div class="details">
-                    <h2 class="primaryInfo">Request Id:<c:out value="${booking.id} "/></h2>
-                    <h3 class="secondaryInfo">Car: <c:out value="${booking.car.brand} ${booking.car.modelName}"/></h3>
+                    <h2 class="primaryInfo"><fmt:message key="manager.myRequests.requestId"/> <c:out value="${booking.id} "/></h2>
+                    <h3 class="secondaryInfo"><fmt:message key="manager.myRequests.car"/> <c:out value="${booking.car.brand} ${booking.car.modelName}"/></h3>
                 </div>
                 <div class="details">
-                    <h2 class="primaryInfo">Period:</h2>
-                    <h3 class="secondaryInfo"> Period:<c:out value="${booking.startDate} - ${booking.endDate}"/></h3>
+                    <h2 class="primaryInfo"><fmt:message key="manager.myRequests.period"/></h2>
+                    <h3 class="secondaryInfo"><c:out value="${booking.startDate} - ${booking.endDate}"/></h3>
                 </div>
                 <div class="details">
-                    <h2 class="primaryInfo">User: <c:out
+                    <h2 class="primaryInfo"><fmt:message key="manager.myRequests.name"/> <c:out
                             value="${booking.user.firstName} ${booking.user.lastName}"/></h2>
-                    <h3 class="secondaryInfo">Passport number: <c:out value="${booking.userDetails} "/></h3>
+                    <h3 class="secondaryInfo"><fmt:message key="manager.myRequests.passport"/> <c:out value="${booking.userDetails} "/></h3>
 
                 </div>
                 <div class="details">
-                    <h2 class="primaryInfo">Price: <c:out value="${booking.price}"/></h2>
+                    <h2 class="primaryInfo"><fmt:message key="manager.myRequests.price"/> <c:out value="${booking.price}"/></h2>
                     <c:choose>
                         <c:when test="${booking.withDriver}">
-                            <h3 class="secondaryInfo">With driver option selected</h3>
+                            <h3 class="secondaryInfo"><fmt:message key="manager.myRequests.withDriver"/></h3>
                         </c:when>
                         <c:when test="${!booking.withDriver}">
-                            <h3 class="secondaryInfo">Without driver option selected</h3>
+                            <h3 class="secondaryInfo"><fmt:message key="manager.myRequests.withoutDriver"/></h3>
                         </c:when>
                     </c:choose>
                 </div>
@@ -55,7 +61,7 @@
                     <c:when test="${booking.bookingStatus == 'ON_REVIEW' || booking.bookingStatus == 'ACTIVE'}">
                         <div class="responses">
                             <div class="details">
-                                <h2 class="primaryInfo">Status: </h2>
+                                <h2 class="primaryInfo"><fmt:message key="manager.myRequests.status"/></h2>
                                 <h3 class="secondaryInfo"><c:out value="${booking.bookingStatus}"/></h3>
                             </div>
                             <c:choose>
@@ -65,7 +71,7 @@
                                               method="post" name="acceptRequest">
                                             <input type="text" name="id" value="${booking.id}" hidden="hidden">
                                             <div class="block">
-                                                <input type="submit" class="btn" value="Accept request">
+                                                <input type="submit" class="btn" value="<fmt:message key="manager.myRequests.accept"/>">
                                             </div>
                                         </form>
                                     </div>
@@ -77,7 +83,7 @@
                                             <input type="text" name="bookingId" value="${booking.id}" hidden="hidden">
                                             <input type="text" name="carId" value="${booking.car.carId}" hidden="hidden">
                                             <div class="block">
-                                                <input type="submit" class="btn" value="Register return">
+                                                <input type="submit" class="btn" value="<fmt:message key="manager.myRequests.return"/>">
                                             </div>
                                         </form>
                                     </div>
@@ -91,30 +97,35 @@
                                     <input type="text" name="bookingId" value="${booking.id}" hidden="hidden">
                                     <input type="text" name="carId" value="${booking.car.carId}" hidden="hidden">
                                     <div class="block">
-                                        <input type="submit" class="btn" value="Decline request">
+                                        <input type="submit" class="btn" value="<fmt:message key="manager.myRequests.decline"/>">
                                     </div>
                                     <input type="text" name="declineDescription" class="additionalInfo"
-                                       placeholder="Reason of declining..." required>
+                                       placeholder="<fmt:message key="manager.myRequests.decline.placeHolder"/>" required>
                                 </form>
                             </div>
                         </div>
                     </c:when>
                     <c:when test="${booking.bookingStatus == 'FINISHED'}">
                         <div class="details">
-                            <h2 class="primaryInfo">This request is finished </h2>
+                            <h2 class="primaryInfo"><fmt:message key="manager.myRequests.finished"/> </h2>
                         </div>
                     </c:when>
                     <c:when test="${booking.bookingStatus == 'DECLINED'}">
                         <div class="details">
-                            <h2 class="primaryInfo">This request is declined </h2>
+                            <h2 class="primaryInfo"><fmt:message key="manager.myRequests.declined"/></h2>
                         </div>
                     </c:when>
                     <c:when test="${booking.bookingStatus == 'TERMINATED'}">
                         <div class="details">
-                            <h2 class="primaryInfo">This request is terminated by user </h2>
+                            <h2 class="primaryInfo"><fmt:message key="manager.myRequests.terminated"/></h2>
                         </div>
                     </c:when>
                 </c:choose>
+            <c:if test="${booking.additionalFee.unscaledValue() != 0 && booking.bookingStatus == 'FINISHED'}">
+                <div class="details">
+                    <h2 class="primaryInfo"><fmt:message key="manager.myRequests.fee"/> ${booking.additionalFee}</h2>
+                </div>
+            </c:if>
             </div>
         </div>
     </c:forEach>

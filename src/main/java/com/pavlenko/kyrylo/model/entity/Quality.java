@@ -2,6 +2,7 @@ package com.pavlenko.kyrylo.model.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Random;
 
 public class Quality implements Serializable {
 
@@ -57,6 +58,11 @@ public class Quality implements Serializable {
     public enum QualityEnum {
         NEW,
         NORMAL,
-        OLD
+        OLD;
+
+        public static Quality.QualityEnum getRandomQuality(){
+            Random random = new Random();
+            return values()[random.nextInt(values().length)];
+        }
     }
 }

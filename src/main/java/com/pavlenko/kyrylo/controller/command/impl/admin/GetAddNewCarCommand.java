@@ -23,6 +23,7 @@ public class GetAddNewCarCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+
         try {
             List<Brand> brandList = carService.findAllBrands();
             List<Quality> qualityClassList = carService.findAllQualityClasses();

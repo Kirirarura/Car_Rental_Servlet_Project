@@ -1,6 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setBundle basename="messages" />
+
+<!DOCTYPE>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,36 +21,38 @@
 
 <main>
     <input type="hidden" id="status" value="<%= request.getAttribute("status")%>">
+    <input type="hidden" id="lang" value="<%= session.getAttribute("lang")%>">
+
     <div class="container">
-        <h1>Register</h1>
+        <h1><fmt:message key="registerPage.title"/> </h1>
         <form action="${pageContext.request.contextPath}/registration" method="post">
             <div class="form-control">
-                <label>First name
-                    <input type="text" placeholder="Type your firstname" name="firstname" required="required">
+                <label><fmt:message key="registerPage.firstName"/>
+                    <input type="text" placeholder="<fmt:message key="registerPage.firstName.placeHolder"/>" name="firstname" required="required">
                 </label>
             </div>
             <div class="form-control">
-                <label>Second name
-                    <input type="text" placeholder="Type your lastname" name="lastname" required="required">
+                <label><fmt:message key="registerPage.lastName"/>
+                    <input type="text" placeholder="<fmt:message key="registerPage.lastName.placeHolder"/>" name="lastname" required="required">
                 </label>
             </div>
             <div class="form-control">
-                <label>Email
+                <label><fmt:message key="registerPage.email"/>
                     <input type="email" placeholder="example@gmail.com" name="email" required="required">
                 </label>
             </div>
             <div class="form-control">
-                <label>Password
-                    <input type="password" placeholder="Type your password" name="password" required="required">
+                <label><fmt:message key="registerPage.password"/>
+                    <input type="password" placeholder="<fmt:message key="registerPage.password.placeHolder"/>" name="password" required="required">
                 </label>
             </div>
             <div class="form-control">
-                <label>Repeat password
-                    <input type="password" placeholder="Repeat your password" name="re-password" required="required">
+                <label><fmt:message key="registerPage.repassword"/>
+                    <input type="password" placeholder="<fmt:message key="registerPage.repassword.placeHolder"/>" name="re-password" required="required">
                 </label>
             </div>
             <div class="form-control">
-                <input type="submit" name="signup" value="Register" class="btn">
+                <input type="submit" name="signup" value="<fmt:message key="registerPage.button"/>" class="btn">
             </div>
         </form>
     </div>

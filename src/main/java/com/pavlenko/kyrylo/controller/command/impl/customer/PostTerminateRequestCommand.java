@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
-public class TerminateRequestCommand implements Command {
+public class PostTerminateRequestCommand implements Command {
 
     BookingService bookingService;
     public static final String BOOKING_ID = "bookingId";
     public static final String CAR_ID = "carId";
 
-    public TerminateRequestCommand(BookingService bookingService) {
+    public PostTerminateRequestCommand(BookingService bookingService) {
         this.bookingService = bookingService;
     }
 
