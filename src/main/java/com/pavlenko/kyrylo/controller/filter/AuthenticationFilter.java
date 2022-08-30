@@ -23,6 +23,11 @@ public class AuthenticationFilter implements Filter {
         Filter.super.init(filterConfig);
     }
 
+    /**
+     * Does nothing if user has access.
+     * Redirects to Login page if user is guest and access is denied.
+     * Send 403 Error if user is [CUSTOMER, MANAGER, ADMIN] and access is denied.
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;

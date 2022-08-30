@@ -12,6 +12,9 @@ import java.util.List;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Return page with requests on which the logged-in manager is working.
+ */
 public class GetMyRequestsCommand implements Command {
 
     BookingService bookingService;
@@ -29,7 +32,7 @@ public class GetMyRequestsCommand implements Command {
         Long managerId = (Long) request.getSession().getAttribute(USER_ID);
         try {
             List<Booking> bookingList = bookingService.findAllRequestsByManagerId(managerId);
-            request.setAttribute(BOOKING_LIST, bookingList);
+            request.getSession().setAttribute(BOOKING_LIST, bookingList);
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, StatusesContainer.BOOKING_INFO_LOADING_EXCEPTION);
         }

@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Process adding new car.
+ */
 public class PostAddNewCarCommand implements Command {
 
     private final CarService carService;
@@ -26,6 +29,10 @@ public class PostAddNewCarCommand implements Command {
         this.carService = carService;
     }
 
+    /**
+     * Validates carDto. Checks if craDto valid.
+     * If carDto valid registration continues.
+     */
     @Override
     public String execute(HttpServletRequest request) {
 

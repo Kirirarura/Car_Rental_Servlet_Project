@@ -2,12 +2,13 @@ package com.pavlenko.kyrylo.model.entity;
 
 import com.pavlenko.kyrylo.model.dto.BookingDto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Objects;
 
-public class Booking {
+public class Booking implements Serializable {
     private Long id;
     private User user;
     private BookingStatus bookingStatus;
@@ -49,7 +50,6 @@ public class Booking {
         this.declineInfo = declineInfo;
         this.additionalFee = additionalFee;
     }
-
     public Long getId() {
         return id;
     }

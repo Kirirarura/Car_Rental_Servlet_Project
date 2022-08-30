@@ -13,6 +13,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
+
+/**
+ * Manages business logic related to the user.
+ */
 public class UserService {
 
     private final Logger logger = LogManager.getLogger(UserService.class);
@@ -30,14 +34,25 @@ public class UserService {
         return userDao.findAll();
     }
 
-    public User authentication(String user, String password) throws UserIsBlockedException, AuthenticationException, DataBaseException {
-        Optional<User> optionalUser = userDao.findByUsernameAndPassword(user, password);
+    /**
+     * Manages user authentication.
+     * Checks if database contains combination of email and password.
+     * If such combination found checks if user is blocked.
+     *
+     * @param email Input from guest that represents user email.
+     * @param password Input from guest that represents user password.
+     * @throws UserIsBlockedException Indicates that user is blocked.
+     * @throws AuthenticationException Indicates that credentials was incorrect.
+     * @throws DataBaseException Indicates that error occurred during database accessing.
+     */
+    public User authentication(String email, String password) throws UserIsBlockedException, AuthenticationException, DataBaseException {
+        Optional<User> optionalUser = userDao.findByUsernameAndPassword(email, password);
 
         if (optionalUser.isPresent()){
             if (!optionalUser.get().isBlocked()){
                 return optionalUser.get();
             } else {
-                logger.warn("User ({}) is blocked", user);
+                logger.warn("User ({}) is blocked", email);
                 throw new UserIsBlockedException();
             }
         } else {
@@ -46,6 +61,14 @@ public class UserService {
         }
     }
 
+    /**
+     * Manages registration of new customer.
+     * Checks if email entered by guest is not present in the database.
+     *
+     * @param userDto An instance of userDto.
+     * @throws EmailIsAlreadyRegisteredException Indicates that email is already used.
+     * @throws DataBaseException Indicates that error occurred during database accessing.
+     */
     public void registerNewAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException, DataBaseException {
         checkEmailIsUnique(userDto.getEmail());
         User user = new User(userDto, Role.RoleEnum.CUSTOMER);
@@ -53,6 +76,14 @@ public class UserService {
         logger.info("New user account {} has been created", user);
     }
 
+    /**
+     * Manages registration of new manager.
+     * Checks if email entered by guest is not present in the database.
+     *
+     * @param userDto An instance of userDto.
+     * @throws EmailIsAlreadyRegisteredException Indicates that email is already used.
+     * @throws DataBaseException Indicates that error occurred during database accessing.
+     */
     public void registerNewManagerAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException, DataBaseException {
         checkEmailIsUnique(userDto.getEmail());
         User user = new User(userDto, Role.RoleEnum.MANAGER);
@@ -60,6 +91,9 @@ public class UserService {
         logger.info("New manager account {} has been created", user);
     }
 
+    /**
+     * Manages checking if email is unique.
+     */
     private void checkEmailIsUnique(String email) throws EmailIsAlreadyRegisteredException, DataBaseException {
         if (userDao.emailAlreadyExists(email)) {
             logger.info("An account with such email {} is already reserved", email);

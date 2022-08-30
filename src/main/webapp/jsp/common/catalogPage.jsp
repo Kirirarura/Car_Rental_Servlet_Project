@@ -144,8 +144,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.19/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/static/js/messages/infoLoadingMessages.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/static/js/messages/registerRentMessages.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/filter.js"></script>
 </footer>
 </body>

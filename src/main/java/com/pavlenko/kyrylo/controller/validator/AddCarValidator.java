@@ -10,6 +10,9 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 
+/**
+ * Validates carDto
+ */
 public class AddCarValidator {
 
     private static final String STATUS = "status";
@@ -23,6 +26,12 @@ public class AddCarValidator {
     private AddCarValidator() {
     }
 
+    /**
+     * Validates model, price, and description from carDto.
+     *
+     * @param carDto An instance of CarDto that must be validated.
+     * @return A boolean that indicates if carDto valid or not.
+     */
     public static boolean validate(CarDto carDto, HttpServletRequest request) {
         try {
             checkModelSize(carDto.getModel());

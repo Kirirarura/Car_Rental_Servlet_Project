@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Validates decline info.
+ */
 public class DeclineBookingValidator {
 
     private static final int DECLINE_INFO_MAX_SIZE = 50;
@@ -19,6 +22,12 @@ public class DeclineBookingValidator {
 
     private DeclineBookingValidator() {}
 
+    /**
+     * Validates decline info that manager must provide in case of declining request.
+     *
+     * @param input An input from manager that must be validated.
+     * @return A boolean that indicates if manager input is valid or not.
+     */
     public static boolean validate(String input, HttpServletRequest request) {
         try {
             checkDeclineInfo(input);

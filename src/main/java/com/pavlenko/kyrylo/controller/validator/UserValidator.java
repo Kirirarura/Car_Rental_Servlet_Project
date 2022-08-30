@@ -11,6 +11,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+/**
+ * Validates userDto
+ */
 public class UserValidator {
 
     private static final String STATUS = "status";
@@ -25,6 +28,12 @@ public class UserValidator {
 
     private UserValidator() {}
 
+    /**
+     * Validates password, firstName, lastName, email and password from userDto.
+     *
+     * @param userDto An instance of UserDto that must be validated.
+     * @return A boolean that indicates if userDto is valid or not.
+     */
     public static boolean validate(UserDto userDto, HttpServletRequest request) {
         try {
             checkPasswordSize(userDto.getPassword());

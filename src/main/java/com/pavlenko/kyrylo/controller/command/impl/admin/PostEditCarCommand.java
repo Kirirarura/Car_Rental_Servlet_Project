@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
+/**
+ * Process editing a car.
+ */
 public class PostEditCarCommand implements Command {
 
     private final CarService carService;

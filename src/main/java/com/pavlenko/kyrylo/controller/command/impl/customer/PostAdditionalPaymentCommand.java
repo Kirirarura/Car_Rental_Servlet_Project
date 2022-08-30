@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Process additional payment.
+ */
 public class PostAdditionalPaymentCommand implements Command {
 
     BookingService bookingService;

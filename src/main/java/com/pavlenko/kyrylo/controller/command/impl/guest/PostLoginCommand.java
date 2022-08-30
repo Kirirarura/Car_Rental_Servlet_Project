@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Process login.
+ */
 public class PostLoginCommand implements Command {
 
     private static final String EMAIL = "email";

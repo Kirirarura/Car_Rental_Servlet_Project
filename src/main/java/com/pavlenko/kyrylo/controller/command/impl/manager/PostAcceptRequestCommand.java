@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.ID;
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Process accepting request in case if everything with user data.
+ */
 public class PostAcceptRequestCommand implements Command {
 
     BookingService bookingService;

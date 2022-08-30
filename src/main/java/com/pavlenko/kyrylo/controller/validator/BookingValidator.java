@@ -17,6 +17,9 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Validates bookingDto
+ */
 public class BookingValidator {
 
     private static final String STATUS = "status";
@@ -25,6 +28,12 @@ public class BookingValidator {
 
     private BookingValidator() {}
 
+    /**
+     * Validates userDetails(passport data) and dates.
+     *
+     * @param bookingDto An instance of BookingDto that must be validated.
+     * @return A boolean that indicates if bookingDto valid or not.
+     */
     public static boolean validate(BookingDto bookingDto, HttpServletRequest request) {
         try {
             checkUserDetails(bookingDto.getUserDetails());

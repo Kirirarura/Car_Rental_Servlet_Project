@@ -6,6 +6,9 @@ import com.pavlenko.kyrylo.model.entity.Quality;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Manages fetching data about car from request.
+ */
 public class CarDetailsMapper {
 
     private static final String MODEL = "model";

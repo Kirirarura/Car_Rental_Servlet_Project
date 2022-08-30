@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
+/**
+ * Returns rent car page with form.
+ */
 public class GetRentCarCommand implements Command {
 
     private final CarService carService;

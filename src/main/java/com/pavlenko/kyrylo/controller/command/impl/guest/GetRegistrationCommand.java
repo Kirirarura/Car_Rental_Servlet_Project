@@ -6,6 +6,9 @@ import com.pavlenko.kyrylo.controller.util.JspFilePath;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Returns register page for guest.
+ */
 public class GetRegistrationCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {

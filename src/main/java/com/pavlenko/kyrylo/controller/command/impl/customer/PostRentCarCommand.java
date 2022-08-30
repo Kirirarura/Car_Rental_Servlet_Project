@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Process car rent request.
+ */
 public class PostRentCarCommand implements Command {
 
 

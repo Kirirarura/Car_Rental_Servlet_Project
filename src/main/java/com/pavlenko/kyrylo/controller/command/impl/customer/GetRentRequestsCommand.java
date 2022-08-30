@@ -13,6 +13,9 @@ import java.util.List;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Returns page with all requests of log in user.
+ */
 public class GetRentRequestsCommand implements Command {
 
     BookingService bookingService;

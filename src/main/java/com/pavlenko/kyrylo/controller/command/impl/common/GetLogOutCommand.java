@@ -6,6 +6,9 @@ import com.pavlenko.kyrylo.model.entity.Role;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Process logging out.
+ */
 public class GetLogOutCommand implements Command {
     private static final String USER_ID = "userId";
     private static final String ROLE = "role";

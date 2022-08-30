@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Responsible for client-server interaction.
+ * Invoke commands from request URI.
+ */
 public class DispatcherServlet extends HttpServlet {
 
     private final Logger logger = LogManager.getLogger(DispatcherServlet.class);
@@ -22,10 +26,7 @@ public class DispatcherServlet extends HttpServlet {
     private Map<String, Command> postCommands = new HashMap<>();
 
     /**
-     * Gets commands from the context
-     *
-     * @param config
-     * @throws ServletException
+     * Gets commands from a servlet context.
      */
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -37,8 +38,8 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     /**
-     * Checks request URI according to command container,
-     * Sends an error or executes command
+     * Checks request URI according to command container.
+     * Executes command or sends an error in case if command not found.
      */
     private void processRequest(HttpServletRequest request, HttpServletResponse response, Map<String, Command> commands) throws IOException, ServletException {
         String uri = request.getRequestURI().substring(request.getContextPath().length());
@@ -53,6 +54,9 @@ public class DispatcherServlet extends HttpServlet {
         renderPage(request, response, result);
     }
 
+    /**
+     * Fulfils PRG(Post-Redirect-Get) pattern.
+     */
     private void renderPage(HttpServletRequest req, HttpServletResponse resp, String pagePath) throws ServletException, IOException {
         if (pagePath.startsWith(UriPath.REDIRECT)) {
             resp.sendRedirect(pagePath.replace(UriPath.REDIRECT, req.getContextPath()));

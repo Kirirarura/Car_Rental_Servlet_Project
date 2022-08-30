@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
+/**
+ * Process taking request on the review.
+ * Checks if request already on review and if request was canceled.
+ */
 public class PostTakeOnReviewCommand implements Command {
 
     BookingService bookingService;

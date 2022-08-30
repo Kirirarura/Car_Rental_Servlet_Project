@@ -3,8 +3,8 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.lang}" />
-<fmt:setBundle basename="messages" />
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages"/>
 
 <!DOCTYPE>
 <html>
@@ -26,9 +26,9 @@
     <input type="hidden" id="status" value="<%= request.getAttribute("status")%>">
     <input type="hidden" id="lang" value="<%= session.getAttribute("lang")%>">
 
-    <h1><fmt:message key="manager.allRequests.title"/> </h1>
+    <h1><fmt:message key="manager.allRequests.title"/></h1>
     <div class="card-content">
-        <c:forEach var="booking" items="${requestScope.bookingList}">
+        <c:forEach var="booking" items="${sessionScope.bookingList}">
             <div class="card-item">
                 <div class="container">
                     <div class="details">
@@ -36,14 +36,18 @@
                         <h3 class="secondaryInfo"><c:out value="${booking.startDate} - ${booking.endDate}"/></h3>
                     </div>
                     <div class="details">
-                        <h2 class="primaryInfo"><fmt:message key="manager.allRequests.name"/> <c:out value="${booking.user.firstName} "/></h2>
-                        <h3 class="secondaryInfo"><fmt:message key="manager.allRequests.passport"/> <c:out value="${booking.userDetails} "/></h3>
+                        <h2 class="primaryInfo"><fmt:message key="manager.allRequests.name"/> <c:out
+                                value="${booking.user.firstName} "/></h2>
+                        <h3 class="secondaryInfo"><fmt:message key="manager.allRequests.passport"/> <c:out
+                                value="${booking.userDetails} "/></h3>
                     </div>
                     <div class="details">
-                        <h2 class="primaryInfo"><fmt:message key="manager.allRequests.car"/> <c:out value="${booking.car.brand} ${booking.car.modelName}"/></h2>
+                        <h2 class="primaryInfo"><fmt:message key="manager.allRequests.car"/> <c:out
+                                value="${booking.car.brand} ${booking.car.modelName}"/></h2>
                     </div>
                     <div class="details">
-                        <h2 class="primaryInfo"><fmt:message key="manager.allRequests.price"/> <c:out value="${booking.price}"/></h2>
+                        <h2 class="primaryInfo"><fmt:message key="manager.allRequests.price"/> <c:out
+                                value="${booking.price}"/></h2>
                         <c:choose>
                             <c:when test="${booking.withDriver}">
                                 <h3 class="secondaryInfo"><fmt:message key="manager.allRequests.withDriver"/></h3>
@@ -59,9 +63,10 @@
                     <form action="${pageContext.request.contextPath}/Manager/onReview"
                           method="post" name="blockUnblock">
                         <input type="text" name="id" value="${booking.id}" hidden="hidden">
-                            <div class="block">
-                                <input type="submit" class="btn" value="<fmt:message key="manager.allRequests.takeOnReview"/>">
-                            </div>
+                        <div class="block">
+                            <input type="submit" class="btn"
+                                   value="<fmt:message key="manager.allRequests.takeOnReview"/>">
+                        </div>
                     </form>
                 </div>
 
@@ -76,7 +81,8 @@
 <footer>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/pagination.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.19/dist/sweetalert2.all.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/messages/managerMessages.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/js/messages/managerMessages.js"></script>
 </footer>
 </body>
 </html>

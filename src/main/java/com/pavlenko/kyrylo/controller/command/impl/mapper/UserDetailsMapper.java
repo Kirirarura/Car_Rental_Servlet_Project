@@ -4,6 +4,9 @@ import com.pavlenko.kyrylo.model.dto.UserDto;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Manages fetching data about user from request.
+ */
 public class UserDetailsMapper {
 
     private static final String FIRSTNAME = "firstname";

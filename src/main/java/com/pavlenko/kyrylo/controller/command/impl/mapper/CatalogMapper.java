@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Manages fetching filter parameters from request.
+ */
 public class CatalogMapper {
     public Map<String, String> fetchFilterParametersFromRequest(HttpServletRequest request) {
         Map<String, String> filterParameters = new HashMap<>();

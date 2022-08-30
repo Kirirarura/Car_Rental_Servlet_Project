@@ -6,6 +6,9 @@ import com.pavlenko.kyrylo.controller.util.JspFilePath;
 import javax.servlet.http.HttpServletRequest;
 
 
+/**
+ * Returns register return page.
+ */
 public class GetRegisterReturnCommand implements Command {
 
     private static final String BOOKING_ID = "bookingId";

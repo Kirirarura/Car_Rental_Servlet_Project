@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Process declining of user request.
+ */
 public class PostDeclineRequestCommand implements Command {
 
     BookingService bookingService;
@@ -30,6 +33,7 @@ public class PostDeclineRequestCommand implements Command {
         Long carId = Long.valueOf(request.getParameter(CAR_ID));
 
         boolean isValid = DeclineBookingValidator.validate(declineDescription, request);
+
         if (isValid){
             try {
                 bookingService.declineRequest(bookingId, declineDescription, carId);
@@ -38,6 +42,7 @@ public class PostDeclineRequestCommand implements Command {
                 request.setAttribute(STATUS, StatusesContainer.FAILED_DECLINE_REQUEST_EXCEPTION);
             }
         }
+
         return JspFilePath.MANAGER_MY_REQUESTS;
     }
 

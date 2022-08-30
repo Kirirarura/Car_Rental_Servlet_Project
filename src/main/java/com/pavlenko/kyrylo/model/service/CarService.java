@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Manages business logic related to the car.
+ */
 public class CarService {
 
     private static final String PRICE = "price";
@@ -41,6 +44,16 @@ public class CarService {
         return carDao.findQualityById(id);
     }
 
+
+    /**
+     * Manages catalog loading.
+     *
+     * @param filterParam Map with filters, that can contains Brand, Quality or nothing.
+     * @param role User role that effects output.
+     * @param sort Sorting parameter.
+     * @param order Order parameter for sorting.
+     * @throws DataBaseException Indicates that error occurred during database accessing.
+     */
     public List<Car> findAllCars(Map<String, String> filterParam, String role, String sort, String order) throws DataBaseException {
         List<Car> carList;
 
@@ -64,6 +77,15 @@ public class CarService {
         return carDao.findAllBrands();
     }
 
+    /**
+     * Manages editing of car details.
+     *
+     * @param label Indicates what information that is going to be edited.
+     * @param input New information that is going to be edited.
+     * @param id ID of car that is going to be edited.
+     * @param inputID ID of Status, Quality to edit.
+     * @throws DataBaseException Indicates that error occurred during database accessing.
+     */
     public void editCarInfo(String label, String input, Long id, Long inputID) throws DataBaseException {
         switch (label) {
             case "status":
@@ -95,6 +117,13 @@ public class CarService {
         logger.info("New car was added...");
     }
 
+    /**
+     * Sorting of catalog according to sort, order parameters
+     *
+     * @param input Car list received from database.
+     * @param sort Sort parameter [Price, Name].
+     * @param order Order of sorting.
+     */
     private List<Car> sortedCarList(List<Car> input, String sort, String order) {
         List<Car> carList;
         if (sort.equals(PRICE)) {
