@@ -5,6 +5,9 @@ import com.pavlenko.kyrylo.controller.util.JspFilePath;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Returns Home page.
+ */
 public class GetHomeCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {

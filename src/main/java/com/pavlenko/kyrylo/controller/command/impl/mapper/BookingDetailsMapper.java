@@ -6,6 +6,9 @@ import com.pavlenko.kyrylo.model.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Manages fetching data about booking from request.
+ */
 public class BookingDetailsMapper {
     private static final String PASSPORT_DATA = "passportData";
     private static final String START_DATE = "startDate";

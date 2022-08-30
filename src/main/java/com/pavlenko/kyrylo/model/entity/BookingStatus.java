@@ -1,8 +1,9 @@
 package com.pavlenko.kyrylo.model.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class BookingStatus {
+public class BookingStatus implements Serializable {
     private Long id;
     private BookingStatus.BookingEnum value;
 

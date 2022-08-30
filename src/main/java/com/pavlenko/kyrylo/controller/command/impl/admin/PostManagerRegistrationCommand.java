@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Process registration of a new manager.
+ */
 public class PostManagerRegistrationCommand implements Command {
     private final UserDetailsMapper userDetailsMapper = new UserDetailsMapper();
     private final UserService userService;

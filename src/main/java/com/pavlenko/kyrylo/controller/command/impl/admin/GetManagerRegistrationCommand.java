@@ -5,6 +5,9 @@ import com.pavlenko.kyrylo.controller.util.JspFilePath;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Returns manager registration page
+ */
 public class GetManagerRegistrationCommand implements Command {
 
     @Override

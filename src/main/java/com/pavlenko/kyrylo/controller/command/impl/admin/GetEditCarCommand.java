@@ -15,6 +15,10 @@ import java.util.List;
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.ID;
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+
+/**
+ * Returns editing car page
+ */
 public class GetEditCarCommand implements Command {
 
     private final CarService carService;
@@ -23,6 +27,9 @@ public class GetEditCarCommand implements Command {
         this.carService = carService;
     }
 
+    /**
+     * Loads car, car status and quality lists.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         Long id = Long.valueOf(request.getParameter(ID));

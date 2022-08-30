@@ -12,6 +12,9 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 
+/**
+ * Validates car editing info.
+ */
 public class EditCarValidator {
 
     private static final String STATUS = "status";
@@ -24,6 +27,14 @@ public class EditCarValidator {
     private static final Logger logger = LogManager.getLogger(EditCarValidator.class);
 
     private EditCarValidator() {}
+
+    /**
+     * Validates car price input or description input, depending on the label.
+     *
+     * @param label Indicates what type of information is going to be edited.
+     * @param input Data for editing that must be validated.
+     * @return A boolean that indicates if input valid or not.
+     */
     public static boolean validate(String label, String input, HttpServletRequest request) {
         try {
             checkPriceInput(label, input);

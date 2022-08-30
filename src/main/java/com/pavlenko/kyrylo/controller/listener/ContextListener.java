@@ -36,6 +36,9 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Context Listener makes initialization datasource, services and commands.
+ */
 @WebListener
 public class ContextListener implements ServletContextListener, HttpSessionListener {
 

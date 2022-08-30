@@ -16,6 +16,11 @@ import java.util.Map;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+
+/**
+ * Returns Catalog page. Takes parameters from user input
+ *  * to sort or/and select one specific characteristic of car.
+ */
 public class GetCatalogCommand implements Command {
 
     private final CarService carService;
@@ -33,7 +38,6 @@ public class GetCatalogCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-
         Map<String, String> filterParam = catalogMapper.fetchFilterParametersFromRequest(request);
         String sort = "empty";
         String order = "empty";

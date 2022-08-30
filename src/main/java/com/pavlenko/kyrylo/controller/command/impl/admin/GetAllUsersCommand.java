@@ -11,8 +11,11 @@ import java.util.List;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
-public class GetAllUsersCommand implements Command {
 
+/**
+ * Returns user list page
+ */
+public class GetAllUsersCommand implements Command {
     private final UserService userService;
     private static final String USER_LIST = "userList";
 
@@ -20,16 +23,19 @@ public class GetAllUsersCommand implements Command {
         this.userService = userService;
     }
 
+    /**
+     * Loads Customer list.
+     */
     @Override
     public String execute(HttpServletRequest request) {
-        List<User> userList = null;
         try {
-            userList = userService.findAllUsers();
+            List<User> userList = userService.findAllUsers();
+            request.setAttribute(USER_LIST, userList);
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, "FindAllUsersException");
         }
 
-        request.setAttribute(USER_LIST, userList);
+
         return JspFilePath.ADMIN_USERS;
     }
 }

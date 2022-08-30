@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.ID;
 
+/**
+ * Process deleting a car.
+ */
 public class PostDeleteCarCommand implements Command {
 
 

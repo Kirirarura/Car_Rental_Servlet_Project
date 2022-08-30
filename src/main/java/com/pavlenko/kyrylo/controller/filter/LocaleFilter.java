@@ -1,6 +1,5 @@
 package com.pavlenko.kyrylo.controller.filter;
 
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -10,6 +9,10 @@ public class LocaleFilter implements Filter {
 
     private static final String LANG = "lang";
 
+    /**
+     * Process localization.
+     * Sets attribute "lang" by default to "en".
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;

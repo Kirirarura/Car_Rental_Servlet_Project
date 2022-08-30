@@ -12,6 +12,9 @@ import java.math.BigDecimal;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Process registering return.
+ */
 public class PostRegisterReturnCommand implements Command {
 
     BookingService bookingService;

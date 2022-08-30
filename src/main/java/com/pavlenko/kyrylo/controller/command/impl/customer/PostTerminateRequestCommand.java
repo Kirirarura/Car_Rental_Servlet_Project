@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
+/**
+ * Process canceling of user request by user.
+ */
 public class PostTerminateRequestCommand implements Command {
 
     BookingService bookingService;

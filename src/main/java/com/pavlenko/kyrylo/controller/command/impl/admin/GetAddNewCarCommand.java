@@ -13,6 +13,9 @@ import java.util.List;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Returns add new car page.
+ */
 public class GetAddNewCarCommand implements Command {
 
     private final CarService carService;
@@ -21,6 +24,10 @@ public class GetAddNewCarCommand implements Command {
         this.carService = carService;
     }
 
+    /**
+     * Loads Brand and Quality lists.
+     * Returns add new car page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
 

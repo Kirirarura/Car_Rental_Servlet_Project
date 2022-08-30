@@ -2,9 +2,10 @@ package com.pavlenko.kyrylo.model.entity;
 
 import com.pavlenko.kyrylo.model.dto.UserDto;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;

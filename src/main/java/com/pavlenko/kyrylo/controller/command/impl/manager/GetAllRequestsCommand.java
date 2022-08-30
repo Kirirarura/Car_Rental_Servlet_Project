@@ -12,6 +12,9 @@ import java.util.List;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 
+/**
+ * Returns page with all requests, pool of users requests
+ */
 public class GetAllRequestsCommand implements Command {
 
     private static final String BOOKING_LIST = "bookingList";
@@ -25,7 +28,7 @@ public class GetAllRequestsCommand implements Command {
     public String execute(HttpServletRequest request) {
         try {
             List<Booking> bookingList = bookingService.findAllRequests();
-            request.setAttribute(BOOKING_LIST, bookingList);
+            request.getSession().setAttribute(BOOKING_LIST, bookingList);
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, StatusesContainer.BOOKING_INFO_LOADING_EXCEPTION);
         }

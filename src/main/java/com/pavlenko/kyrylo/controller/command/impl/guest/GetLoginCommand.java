@@ -5,6 +5,9 @@ import com.pavlenko.kyrylo.controller.util.JspFilePath;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Returns login page for guest.
+ */
 public class GetLoginCommand implements Command {
 
     @Override

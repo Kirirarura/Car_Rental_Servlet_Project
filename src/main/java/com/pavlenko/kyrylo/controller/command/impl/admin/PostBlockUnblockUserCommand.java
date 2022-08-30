@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.ID;
 
+/**
+ * Process blocking and unblocking user.
+ */
 public class PostBlockUnblockUserCommand implements Command {
 
     private static final String IS_BLOCKED = "isBlocked";
