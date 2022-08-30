@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="/WEB-INF/tld/myTagLib.tld" prefix="myTg"%>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
@@ -15,7 +16,6 @@
     <link rel="stylesheet" href="<c:url value="/static/css/catalogPage.css"/>">
     <link rel="stylesheet" href="<c:url value="/static/css/pagination.css"/>">
     <link rel="stylesheet" href="<c:url value="/static/css/filter.css"/>">
-
 </head>
 
 <body>
@@ -62,7 +62,7 @@
             <select name="qualityValue">
                 <c:forEach items="${qualityClassList}" var="quality" varStatus="loop">
                     <option value="${quality.value}">
-                            ${quality.value}
+                        <myTg:stars carQuality="${quality.value}"></myTg:stars>
                     </option>
                 </c:forEach>
             </select>
@@ -101,7 +101,7 @@
                         <h2 class="title"><c:out value="${car.brand} ${car.modelName}"/></h2>
                         <p><fmt:message key="catalog.price"/>
                             <c:out value="${car.price}"/>$/<fmt:message key="catalog.perDay"/></p>
-                        <p class="quality"><fmt:message key="catalog.quality"/> <c:out value="${car.qualityClass}"/></p>
+                        <p class="quality"><fmt:message key="catalog.quality"/><myTg:stars carQuality="${car.qualityClass}"></myTg:stars></p>
                         <c:if test="${sessionScope.role=='ADMIN'}">
                             <p><c:out value="${car.status}"/></p>
                         </c:if>
