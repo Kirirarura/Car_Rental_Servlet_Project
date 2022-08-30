@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="/WEB-INF/tld/myTagLib.tld" prefix="myTg"%>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
@@ -57,7 +58,7 @@
                     <select name="qualityId">
                         <c:forEach items="${qualityClassList}" var="quality" varStatus="loop">
                             <option value="${quality.id}">
-                                    ${quality.value}
+                                <myTg:stars carQuality="${quality.value}"></myTg:stars>
                             </option>
                         </c:forEach>
                     </select>

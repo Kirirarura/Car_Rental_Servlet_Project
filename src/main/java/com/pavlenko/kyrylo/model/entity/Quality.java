@@ -56,10 +56,19 @@ public class Quality implements Serializable {
     }
 
     public enum QualityEnum {
-        NEW,
-        NORMAL,
-        OLD;
+        NEW(3),
+        NORMAL(2),
+        OLD(1);
 
+        private final int starNumber;
+
+        QualityEnum(int starNumber) {
+            this.starNumber = starNumber;
+        }
+
+        public int getStarNumber() {
+            return starNumber;
+        }
         public static Quality.QualityEnum getRandomQuality(){
             Random random = new Random();
             return values()[random.nextInt(values().length)];
