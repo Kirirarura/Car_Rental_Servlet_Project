@@ -38,18 +38,23 @@ public class PostAddNewCarCommand implements Command {
 
         Long brandId = Long.valueOf(request.getParameter(BRAND));
         Long qualityId = Long.valueOf(request.getParameter(QUALITY));
-
+        CarDto carDto = null;
         try {
             Brand brand = carService.findBrandById(brandId);
             Quality quality = carService.findQualityById(qualityId);
-            CarDto carDto = carDetailsMapper.fetchUserDtoFromRequest(request, brand, quality);
-            boolean isValid = AddCarValidator.validate(carDto, request);
-            if (isValid) {
-                carService.registerNewCar(carDto);
-                return UriPath.REDIRECT + UriPath.CATALOG;
-            }
+            carDto = carDetailsMapper.fetchUserDtoFromRequest(request, brand, quality);
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, StatusesContainer.FAILED_ADD_CAR_EXCEPTION);
+        }
+
+        boolean isValid = AddCarValidator.validate(carDto, request);
+        if (isValid) {
+            try {
+                carService.registerNewCar(carDto);
+            } catch (DataBaseException e) {
+                request.setAttribute(STATUS, StatusesContainer.FAILED_ADD_CAR_EXCEPTION);
+            }
+            return UriPath.REDIRECT + UriPath.CATALOG;
         }
         return JspFilePath.ADMIN_ADD_NEW_CAR;
     }

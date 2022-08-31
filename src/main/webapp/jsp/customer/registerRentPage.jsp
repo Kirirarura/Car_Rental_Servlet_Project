@@ -21,6 +21,8 @@
 
 <main>
     <input type="hidden" id="status" value="<%= request.getAttribute("status")%>">
+    <input type="hidden" id="lang" value="<%= session.getAttribute("lang")%>">
+
     <c:set var="car" value="${sessionScope.car}"/>
     <div class="container">
         <h1><fmt:message key="customer.registerRent.title"/></h1>

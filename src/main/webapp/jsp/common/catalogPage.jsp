@@ -101,7 +101,7 @@
                         <h2 class="title"><c:out value="${car.brand} ${car.modelName}"/></h2>
                         <p><fmt:message key="catalog.price"/>
                             <c:out value="${car.price}"/>$/<fmt:message key="catalog.perDay"/></p>
-                        <p class="quality"><fmt:message key="catalog.quality"/><myTg:stars carQuality="${car.qualityClass}"></myTg:stars></p>
+                        <p class="quality"><fmt:message key="catalog.quality"/> <myTg:stars carQuality="${car.qualityClass}"></myTg:stars></p>
                         <c:if test="${sessionScope.role=='ADMIN'}">
                             <p><c:out value="${car.status}"/></p>
                         </c:if>
