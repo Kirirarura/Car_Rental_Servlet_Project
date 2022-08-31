@@ -3,6 +3,7 @@ package com.pavlenko.kyrylo.model.dao.impl;
 import com.pavlenko.kyrylo.model.dao.CarDao;
 import com.pavlenko.kyrylo.model.dao.impl.query.CarQueries;
 import com.pavlenko.kyrylo.model.dao.impl.query.CatalogQueryBuilder;
+import com.pavlenko.kyrylo.model.dao.impl.util.DBUtil;
 import com.pavlenko.kyrylo.model.dao.mapper.BrandMapper;
 import com.pavlenko.kyrylo.model.dao.mapper.CarMapper;
 import com.pavlenko.kyrylo.model.dao.mapper.CarStatusMapper;
@@ -30,7 +31,6 @@ public class CarDaoImpl implements CarDao {
     private final DataSource ds;
     private static final String ERROR_MASSAGE = "Error message: {}";
     private static final String EDIT_ERROR_MESSAGE = "Error occurred while trying to edit car with id ({}), {}";
-    private static final String CLOSE_MESSAGES = "Can not close connection, resultSet or statement";
 
     public CarDaoImpl(DataSource ds) {
         this.ds = ds;
@@ -69,11 +69,7 @@ public class CarDaoImpl implements CarDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (rs != null) rs.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
+            DBUtil.closeResources(rs);
         }
     }
 
@@ -182,11 +178,7 @@ public class CarDaoImpl implements CarDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (rs != null) rs.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
+            DBUtil.closeResources(rs);
         }
     }
 
@@ -206,11 +198,7 @@ public class CarDaoImpl implements CarDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (rs != null) rs.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
+            DBUtil.closeResources(rs);
         }
     }
 
@@ -297,11 +285,7 @@ public class CarDaoImpl implements CarDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (rs != null) rs.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
+            DBUtil.closeResources(rs);
         }
     }
 
