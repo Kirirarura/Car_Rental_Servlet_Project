@@ -49,7 +49,7 @@
             </div>
             <div class="form-control">
                 <label><fmt:message key="addNewCar.price"/>
-                    <input type="text" placeholder="<fmt:message key="addNewCar.price.placeHolder"/>" name="price"
+                    <input type="number" placeholder="<fmt:message key="addNewCar.price.placeHolder"/>" name="price"
                            required="required">
                 </label>
             </div>
@@ -79,8 +79,6 @@
 
 <footer>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.19/dist/sweetalert2.all.min.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/static/js/messages/infoLoadingMessages.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/static/js/messages/edit&addNewCarMessages.js"></script>
 </footer>

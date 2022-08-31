@@ -6,19 +6,17 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Error Page</title>
+    <title>400 Error Page</title>
     <link rel="stylesheet" href="<c:url value="/static/css/error.css"/>">
     <%@ include file="/jsp/partial/head.jspf" %>
 </head>
 <body>
 <tf:chooseHeader role="${sessionScope.role}"/>
 
-
 <div class="error-container">
-    <h2 class="error-name">Error 404</h2>
-    <p class="error text">Ops, Looks like page not found</p>
+    <h2 class="error-name">Error 400</h2>
+    <p class="error text">Ops, Bad Request</p>
     <a class="home-button" href="${pageContext.request.contextPath}/index">Home</a>
 </div>
-
 </body>
 </html>

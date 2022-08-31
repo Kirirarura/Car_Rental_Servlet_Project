@@ -6,19 +6,18 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Car</title>
-    <link rel="stylesheet" href="<c:url value="/static/css/form.css"/>">
+    <title>403 Error Page</title>
+    <link rel="stylesheet" href="<c:url value="/static/css/error.css"/>">
     <%@ include file="/jsp/partial/head.jspf" %>
 </head>
 
+<body>
 <tf:chooseHeader role="${sessionScope.role}"/>
 
-<body>
-<div class="container">
-    <div class="row text-center">
-        <p>Error 403</p>
-        <p>Please contact our help center</p>
-    </div>
+<div class="error-container">
+    <h2 class="error-name">Error 403</h2>
+    <p class="error text">Ops, Forbidden access</p>
+    <a class="home-button" href="${pageContext.request.contextPath}/index">Home</a>
 </div>
 </body>
 </html>
