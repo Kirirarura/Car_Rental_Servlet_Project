@@ -2,6 +2,7 @@ package com.pavlenko.kyrylo.model.dao.impl;
 
 import com.pavlenko.kyrylo.model.dao.UserDao;
 import com.pavlenko.kyrylo.model.dao.impl.query.UserQueries;
+import com.pavlenko.kyrylo.model.dao.impl.util.DBUtil;
 import com.pavlenko.kyrylo.model.dao.mapper.UserMapper;
 import com.pavlenko.kyrylo.model.entity.User;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
@@ -21,7 +22,6 @@ public class UserDaoImpl implements UserDao {
     private final UserMapper userMapper = new UserMapper();
     private final DataSource ds;
     private static final String ERROR_MASSAGE = "Error message: {}";
-    private static final String CLOSE_MESSAGES = "Can not close connection, resultSet or statement";
 
     public UserDaoImpl(DataSource dataSource) {
         this.ds = dataSource;
@@ -60,12 +60,7 @@ public class UserDaoImpl implements UserDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (rs != null) rs.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
-
+            DBUtil.closeResources(rs);
         }
     }
 
@@ -73,7 +68,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> findAll() throws DataBaseException {
         try (Connection con = ds.getConnection();
              Statement statement = con.createStatement();
-             ResultSet rs = statement.executeQuery(UserQueries.FIND_ALL_USERS);) {
+             ResultSet rs = statement.executeQuery(UserQueries.FIND_ALL_USERS)) {
             List<User> userList = new ArrayList<>();
 
 
@@ -111,11 +106,7 @@ public class UserDaoImpl implements UserDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (rs != null) rs.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
+            DBUtil.closeResources(rs);
         }
     }
 
@@ -157,11 +148,7 @@ public class UserDaoImpl implements UserDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (rs != null) rs.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
+            DBUtil.closeResources(rs);
         }
     }
 }

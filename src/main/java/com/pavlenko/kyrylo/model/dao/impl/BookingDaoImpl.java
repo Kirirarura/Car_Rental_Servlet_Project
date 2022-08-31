@@ -3,6 +3,7 @@ package com.pavlenko.kyrylo.model.dao.impl;
 import com.pavlenko.kyrylo.model.dao.BookingDao;
 import com.pavlenko.kyrylo.model.dao.impl.query.BookingQueries;
 import com.pavlenko.kyrylo.model.dao.impl.query.CarQueries;
+import com.pavlenko.kyrylo.model.dao.impl.util.DBUtil;
 import com.pavlenko.kyrylo.model.dao.mapper.BookingMapper;
 import com.pavlenko.kyrylo.model.entity.Booking;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
@@ -24,7 +25,7 @@ public class BookingDaoImpl implements BookingDao {
     private static final String ERROR_MASSAGE = "Error message: {}";
     private static final String ROLLBACK_FAILED_MASSAGE = "Rollback failed, {}";
     private static final String ROLLBACK_MASSAGE = "Rollback {}";
-    private static final String CLOSE_MESSAGES = "Can not close connection, resultSet or statement";
+
 
 
     public BookingDaoImpl(DataSource ds) {
@@ -102,31 +103,9 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ROLLBACK_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (con != null) con.close();
-                if (createStatement != null) createStatement.close();
-                if (editCarStatusStatement != null) editCarStatusStatement.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
-
+            DBUtil.closeResources(con, createStatement, editCarStatusStatement);
         }
 
-    }
-
-    private void createBookingShortcut(Booking entity, PreparedStatement createStatement) throws SQLException {
-        createStatement.setInt(1, Math.toIntExact(entity.getUser().getId()));
-        createStatement.setInt(2, Math.toIntExact(entity.getCar().getCarId()));
-        createStatement.setString(3, entity.getUserDetails());
-        if (entity.isWithDriver()) {
-            createStatement.setInt(4, 0);
-        } else {
-            createStatement.setInt(4, 1);
-        }
-        createStatement.setDate(5, Date.valueOf(entity.getStartDate()));
-        createStatement.setDate(6, Date.valueOf(entity.getEndDate()));
-        createStatement.setBigDecimal(7, entity.getPrice());
-        createStatement.executeUpdate();
     }
 
     @Override
@@ -146,11 +125,7 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (rs != null) rs.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
+            DBUtil.closeResources(rs);
         }
     }
 
@@ -171,11 +146,7 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (rs != null) rs.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
+            DBUtil.closeResources(rs);
         }
     }
 
@@ -212,14 +183,7 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ROLLBACK_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (con != null) con.close();
-                if (terminateStatement != null) terminateStatement.close();
-                if (editCarStatusStatement != null) editCarStatusStatement.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
-
+            DBUtil.closeResources(con, terminateStatement, editCarStatusStatement);
         }
     }
 
@@ -284,14 +248,7 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ROLLBACK_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (con != null) con.close();
-                if (registerReturnStatement != null) registerReturnStatement.close();
-                if (editCarStatusStatement != null) editCarStatusStatement.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
-
+            DBUtil.closeResources(con, registerReturnStatement, editCarStatusStatement);
         }
     }
 
@@ -336,15 +293,7 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ROLLBACK_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (con != null) con.close();
-                if (addDeclineInfoStatement != null) addDeclineInfoStatement.close();
-                if (editBookingStatusStatement != null) editBookingStatusStatement.close();
-                if (editCarStatusStatement != null) editCarStatusStatement.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
-
+            DBUtil.closeResources(con, addDeclineInfoStatement, editBookingStatusStatement, editCarStatusStatement);
         }
     }
 
@@ -364,11 +313,7 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            try {
-                if (rs != null) rs.close();
-            } catch (SQLException e) {
-                logger.error(CLOSE_MESSAGES, e);
-            }
+            DBUtil.closeResources(rs);
         }
     }
 
@@ -385,5 +330,18 @@ public class BookingDaoImpl implements BookingDao {
         }
     }
 
-
+    private void createBookingShortcut(Booking entity, PreparedStatement createStatement) throws SQLException {
+        createStatement.setInt(1, Math.toIntExact(entity.getUser().getId()));
+        createStatement.setInt(2, Math.toIntExact(entity.getCar().getCarId()));
+        createStatement.setString(3, entity.getUserDetails());
+        if (entity.isWithDriver()) {
+            createStatement.setInt(4, 0);
+        } else {
+            createStatement.setInt(4, 1);
+        }
+        createStatement.setDate(5, Date.valueOf(entity.getStartDate()));
+        createStatement.setDate(6, Date.valueOf(entity.getEndDate()));
+        createStatement.setBigDecimal(7, entity.getPrice());
+        createStatement.executeUpdate();
+    }
 }
