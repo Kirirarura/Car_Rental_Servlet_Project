@@ -18,6 +18,8 @@ import com.pavlenko.kyrylo.model.dao.UserDao;
 import com.pavlenko.kyrylo.model.dao.impl.BookingDaoImpl;
 import com.pavlenko.kyrylo.model.dao.impl.CarDaoImpl;
 import com.pavlenko.kyrylo.model.dao.impl.UserDaoImpl;
+import com.pavlenko.kyrylo.model.entity.util.PasswordEncoder;
+import com.pavlenko.kyrylo.model.entity.util.Pbkdf2PasswordEncoder;
 import com.pavlenko.kyrylo.model.service.BookingService;
 import com.pavlenko.kyrylo.model.service.CarService;
 import com.pavlenko.kyrylo.model.service.UserService;
@@ -75,8 +77,10 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
     }
 
     private void initServices(ServletContext context) {
+        PasswordEncoder passwordEncoder = new Pbkdf2PasswordEncoder();
+
         UserDao userDao = new UserDaoImpl((DataSource) context.getAttribute(DATASOURCE));
-        UserService userService = new UserService(userDao);
+        UserService userService = new UserService(passwordEncoder, userDao);
         context.setAttribute(USER_SERVICE, userService);
 
         CarDao carDao = new CarDaoImpl((DataSource) context.getAttribute(DATASOURCE));

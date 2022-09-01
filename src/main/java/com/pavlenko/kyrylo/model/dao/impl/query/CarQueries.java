@@ -2,7 +2,8 @@ package com.pavlenko.kyrylo.model.dao.impl.query;
 
 public class CarQueries {
 
-    private CarQueries() {}
+    private CarQueries() {
+    }
 
     private static final String UPDATE_CARS = "UPDATE cars";
     private static final String WHERE_ID = " WHERE c_id = ?";
@@ -42,7 +43,7 @@ public class CarQueries {
                     " WHERE id = ?";
 
     public static final String UPDATE_CAR_PRICE =
-             UPDATE_CARS +
+            UPDATE_CARS +
                     " SET price = ?" +
                     WHERE_ID;
 

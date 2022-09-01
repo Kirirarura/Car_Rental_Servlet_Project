@@ -24,7 +24,7 @@ public class Booking implements Serializable {
     public Booking() {
     }
 
-    public Booking(BookingDto bookingDto){
+    public Booking(BookingDto bookingDto) {
         this.user = bookingDto.getUser();
         this.car = bookingDto.getCar();
         this.userDetails = bookingDto.getUserDetails();
@@ -50,6 +50,7 @@ public class Booking implements Serializable {
         this.declineInfo = declineInfo;
         this.additionalFee = additionalFee;
     }
+
     public Long getId() {
         return id;
     }
@@ -194,20 +195,23 @@ public class Booking implements Serializable {
             this.endDate = endDate;
             return this;
         }
-        public BookingBuilder price(BigDecimal price){
+
+        public BookingBuilder price(BigDecimal price) {
             this.price = price;
             return this;
         }
-        public BookingBuilder additionalFee(BigDecimal fee){
+
+        public BookingBuilder additionalFee(BigDecimal fee) {
             this.additionalFee = fee;
             return this;
         }
-        public BookingBuilder declineInfo(String declineInfo){
+
+        public BookingBuilder declineInfo(String declineInfo) {
             this.declineInfo = declineInfo;
             return this;
         }
 
-        public Booking build(){
+        public Booking build() {
             return new Booking(
                     this.id,
                     this.user,
@@ -224,7 +228,7 @@ public class Booking implements Serializable {
         }
     }
 
-    private BigDecimal calculatePrice(BigDecimal price, LocalDate startDate, LocalDate endDate, boolean withDriver){
+    private BigDecimal calculatePrice(BigDecimal price, LocalDate startDate, LocalDate endDate, boolean withDriver) {
         Period period = Period.between(startDate, endDate);
         BigDecimal days = new BigDecimal(period.getDays());
 

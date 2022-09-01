@@ -124,9 +124,9 @@ class BookingServiceTest {
 
     @Test
     void testDeclineRequest() throws DataBaseException {
-        bookingService.declineRequest(1L, "descroption", 1L);
+        bookingService.declineRequest(1L, "description", 1L);
         verify(bookingDao, times(1))
-                .addDecliningInfo(1L,"descroption", 1L, 5L, 1L);
+                .addDecliningInfo(1L,"description", 1L, 5L, 1L);
     }
 
     @Test

@@ -27,7 +27,6 @@ public class BookingDaoImpl implements BookingDao {
     private static final String ROLLBACK_MASSAGE = "Rollback {}";
 
 
-
     public BookingDaoImpl(DataSource ds) {
         this.ds = ds;
     }
