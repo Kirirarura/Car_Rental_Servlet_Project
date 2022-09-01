@@ -19,7 +19,9 @@ import org.apache.logging.log4j.Logger;
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class CarDaoImpl implements CarDao {
 
@@ -77,7 +79,7 @@ public class CarDaoImpl implements CarDao {
     public List<Car> findAll() throws DataBaseException {
         try (Connection con = ds.getConnection();
              Statement statement = con.createStatement();
-             ResultSet rs = statement.executeQuery(CarQueries.FIND_ALL_FROM_CARS)){
+             ResultSet rs = statement.executeQuery(CarQueries.FIND_ALL_FROM_CARS)) {
             List<Car> carsList = new ArrayList<>();
             while (rs.next()) {
                 Car car = carMapper.extractFromResultSet(rs);
@@ -158,8 +160,6 @@ public class CarDaoImpl implements CarDao {
             throw new DataBaseException();
         }
     }
-
-
 
 
     @Override
@@ -277,7 +277,7 @@ public class CarDaoImpl implements CarDao {
             statement.setInt(1, Math.toIntExact(carId));
             rs = statement.executeQuery();
             int statusId = 0;
-            if (rs.next()){
+            if (rs.next()) {
                 statusId = rs.getInt("car_status_id");
             }
             return statusId;

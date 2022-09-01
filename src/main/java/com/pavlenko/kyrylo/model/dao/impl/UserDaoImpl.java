@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
             statement.setInt(1, Math.toIntExact(id));
             rs = statement.executeQuery();
             User user = null;
-            if (rs.next()){
+            if (rs.next()) {
                 user = userMapper.extractFromResultSet(rs);
             }
             return user;

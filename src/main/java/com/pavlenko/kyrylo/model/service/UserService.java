@@ -4,6 +4,7 @@ import com.pavlenko.kyrylo.model.dao.UserDao;
 import com.pavlenko.kyrylo.model.dto.UserDto;
 import com.pavlenko.kyrylo.model.entity.Role;
 import com.pavlenko.kyrylo.model.entity.User;
+import com.pavlenko.kyrylo.model.entity.util.PasswordEncoder;
 import com.pavlenko.kyrylo.model.exeption.AuthenticationException;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.exeption.EmailIsAlreadyRegisteredException;
@@ -20,9 +21,11 @@ import java.util.Optional;
 public class UserService {
 
     private final Logger logger = LogManager.getLogger(UserService.class);
+    private final PasswordEncoder passwordEncoder;
     private final UserDao userDao;
 
-    public UserService(UserDao userDao) {
+    public UserService(PasswordEncoder passwordEncoder, UserDao userDao) {
+        this.passwordEncoder = passwordEncoder;
         this.userDao = userDao;
     }
 
@@ -46,7 +49,8 @@ public class UserService {
      * @throws DataBaseException Indicates that error occurred during database accessing.
      */
     public User authentication(String email, String password) throws UserIsBlockedException, AuthenticationException, DataBaseException {
-        Optional<User> optionalUser = userDao.findByUsernameAndPassword(email, password);
+        String encodedPass = passwordEncoder.encode(password);
+        Optional<User> optionalUser = userDao.findByUsernameAndPassword(email, encodedPass);
 
         if (optionalUser.isPresent()){
             if (!optionalUser.get().isBlocked()){
@@ -72,6 +76,7 @@ public class UserService {
     public void registerNewAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException, DataBaseException {
         checkEmailIsUnique(userDto.getEmail());
         User user = new User(userDto, Role.RoleEnum.CUSTOMER);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userDao.create(user);
         logger.info("New user account {} has been created", user);
     }
@@ -87,6 +92,7 @@ public class UserService {
     public void registerNewManagerAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException, DataBaseException {
         checkEmailIsUnique(userDto.getEmail());
         User user = new User(userDto, Role.RoleEnum.MANAGER);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userDao.create(user);
         logger.info("New manager account {} has been created", user);
     }

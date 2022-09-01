@@ -1,16 +1,12 @@
 package com.pavlenko.kyrylo.model.dao.impl.query;
 
-import com.pavlenko.kyrylo.model.dao.impl.CarDaoImpl;
 import com.pavlenko.kyrylo.model.entity.Brand;
 import com.pavlenko.kyrylo.model.entity.Quality;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
 public class CatalogQueryBuilder {
 
-    private static final Logger logger = LogManager.getLogger(CatalogQueryBuilder.class);
     private static final String WHERE = " WHERE";
     private static final String AND = " AND";
     private static final String BRAND_TYPE = " brand_id = (SELECT id FROM brands WHERE brand_name = '%s')";

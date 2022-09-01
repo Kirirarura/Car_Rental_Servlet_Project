@@ -2,7 +2,8 @@ package com.pavlenko.kyrylo.model.dao.impl.query;
 
 public class UserQueries {
 
-    private UserQueries() {}
+    private UserQueries() {
+    }
 
     private static final String WHERE_USER_ID = " WHERE users.u_id = ?";
 

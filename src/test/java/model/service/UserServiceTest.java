@@ -3,6 +3,8 @@ package model.service;
 import com.pavlenko.kyrylo.model.dao.UserDao;
 import com.pavlenko.kyrylo.model.dto.UserDto;
 import com.pavlenko.kyrylo.model.entity.User;
+import com.pavlenko.kyrylo.model.entity.util.PasswordEncoder;
+import com.pavlenko.kyrylo.model.entity.util.Pbkdf2PasswordEncoder;
 import com.pavlenko.kyrylo.model.exeption.AuthenticationException;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.exeption.EmailIsAlreadyRegisteredException;
@@ -20,7 +22,8 @@ import static org.mockito.Mockito.times;
 class UserServiceTest {
 
     UserDao userDao = mock(UserDao.class);
-    UserService userService = new UserService(userDao);
+    PasswordEncoder passwordEncoder = new Pbkdf2PasswordEncoder();
+    UserService userService = new UserService(passwordEncoder, userDao);
 
 
     private static final String EMAIL = "random.mail@gmail.com";

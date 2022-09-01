@@ -15,7 +15,7 @@ public class CarStarsHandler extends TagSupport {
     private String carQuality;
 
     @Override
-    public int doStartTag() throws JspException {
+    public int doStartTag() {
         StringBuilder stars = new StringBuilder();
         JspWriter out = pageContext.getOut();
 

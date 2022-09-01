@@ -23,7 +23,9 @@ public class DBUtil {
                 con.close();
             }
             for (Statement statement : statements) {
-                statement.close();
+                if (statement != null) {
+                    statement.close();
+                }
             }
         } catch (SQLException e) {
             logger.error(CLOSE_MESSAGES, e);
@@ -35,6 +37,7 @@ public class DBUtil {
             try {
                 resultSet.close();
             } catch (SQLException e) {
+                logger.error(CLOSE_MESSAGES, e);
                 throw new DataBaseException();
             }
         }
