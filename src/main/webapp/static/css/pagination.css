@@ -10,19 +10,23 @@
     box-shadow: 0 5px 25px rgb(1, 1, 1 , 10% );
 }
 
-.pagination li a{
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.2rem;
-    line-height: 45px;
-}
-
 .prev-page, .next-page {
+    color: white;
     background: teal;
+    padding: 5px;
     width: 80px;
     border-radius: 45px;
+    border: none;
     cursor: pointer;
     transition: 0.5s ease;
+}
+
+.prev-page:disabled{
+    background: grey;
+}
+
+.next-page:disabled{
+    background: grey;
 }
 
 .prev-page:hover {
@@ -33,17 +37,12 @@
     transform: translateX(5px);
 }
 
-.current-page, .dots {
-    background: #ccc;
-    width: 45px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
 .active-pagination{
     background: rgb(0, 89, 89);
 }
-
-.disable {
-    background: #ccc;
+.pageNumber {
+    color: white;
+    background: rgb(0, 145, 145);
+    border-radius: 50%;
+    padding: 5px 10px;
 }

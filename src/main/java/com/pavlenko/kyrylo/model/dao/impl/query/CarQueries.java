@@ -7,6 +7,7 @@ public class CarQueries {
 
     private static final String UPDATE_CARS = "UPDATE cars";
     private static final String WHERE_ID = " WHERE c_id = ?";
+    public static final String LIMIT_OFFSET = " LIMIT ? OFFSET ?";
 
     public static final String CREATE_CAR =
             "INSERT INTO cars (" +
@@ -18,6 +19,12 @@ public class CarQueries {
 
     public static final String FIND_ALL_FROM_CARS =
             "SELECT * FROM cars" +
+                    " INNER JOIN brands ON cars.brand_id = brands.id" +
+                    " INNER JOIN quality_class ON cars.quality_class_id = quality_class.id" +
+                    " INNER JOIN car_status ON cars.car_status_id = car_status.id";
+
+    public static final String FIND_ALL_COUNT_FROM_CARS =
+            "SELECT COUNT(*) FROM cars" +
                     " INNER JOIN brands ON cars.brand_id = brands.id" +
                     " INNER JOIN quality_class ON cars.quality_class_id = quality_class.id" +
                     " INNER JOIN car_status ON cars.car_status_id = car_status.id";

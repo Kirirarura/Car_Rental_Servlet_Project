@@ -7,14 +7,13 @@ import com.pavlenko.kyrylo.model.entity.Car;
 import com.pavlenko.kyrylo.model.entity.CarStatus;
 import com.pavlenko.kyrylo.model.entity.Quality;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
+import com.pavlenko.kyrylo.model.service.util.PaginationInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Manages business logic related to the car.
@@ -22,8 +21,7 @@ import java.util.stream.Collectors;
 public class CarService {
 
     private static final String PRICE = "price";
-    private static final String NAME = "name";
-    private static final String DESC = "desc";
+    private static final int PAGE_SIZE = 6;
     private final CarDao carDao;
     private final Logger logger = LogManager.getLogger(CarService.class);
 
@@ -50,11 +48,9 @@ public class CarService {
      *
      * @param filterParam Map with filters, that can contains Brand, Quality or nothing.
      * @param role User role that effects output.
-     * @param sort Sorting parameter.
-     * @param order Order parameter for sorting.
      * @throws DataBaseException Indicates that error occurred during database accessing.
      */
-    public List<Car> findAllCars(Map<String, String> filterParam, String role, String sort, String order) throws DataBaseException {
+    public List<Car> findAllCars(Map<String, String> filterParam, String role) throws DataBaseException {
         List<Car> carList;
 
         if (role.equals("ADMIN")) {
@@ -62,7 +58,25 @@ public class CarService {
         } else {
             carList = carDao.findAllCarsWithFilters(filterParam, false);
         }
-        return sortedCarList(carList, sort, order);
+        return carList;
+    }
+
+    public PaginationInfo getPaginationResultData(
+            Map<String, String> filterParameters, int pageNum, String role)
+            throws DataBaseException {
+
+        boolean adminRequest = false;
+        int offSet = PAGE_SIZE * (pageNum - 1);
+        if (role.equals("ADMIN")){
+            adminRequest = true;
+        }
+        PaginationInfo paginationResultData =
+                carDao.getPaginationResultData(filterParameters, PAGE_SIZE, offSet, adminRequest);
+
+        int pagesCount = (int) Math.ceil((double) paginationResultData.getCarsCount()  / PAGE_SIZE);
+        paginationResultData.setPagesCount(pagesCount);
+
+        return paginationResultData;
     }
 
     public List<Quality> findAllQualityClasses() throws DataBaseException {
@@ -115,49 +129,6 @@ public class CarService {
         Car car = new Car(carDto);
         carDao.create(car);
         logger.info("New car was added...");
-    }
-
-    /**
-     * Sorting of catalog according to sort, order parameters
-     *
-     * @param input Car list received from database.
-     * @param sort Sort parameter [Price, Name].
-     * @param order Order of sorting.
-     */
-    private List<Car> sortedCarList(List<Car> input, String sort, String order) {
-        List<Car> carList;
-        if (sort.equals(PRICE)) {
-            if (order.equals(DESC)) {
-                carList = input.stream()
-                        .sorted(Comparator.comparing(Car::getPrice).reversed())
-                        .collect(Collectors.toList());
-            } else {
-                carList = input.stream()
-                        .sorted(Comparator.comparing(Car::getPrice))
-                        .collect(Collectors.toList());
-            }
-        } else if (sort.equals(NAME)) {
-            if (order.equals(DESC)) {
-                carList = input.stream()
-                        .sorted(Comparator.comparing(Car::getModelName).reversed())
-                        .collect(Collectors.toList());
-            } else {
-                carList = input.stream()
-                        .sorted(Comparator.comparing(Car::getModelName))
-                        .collect(Collectors.toList());
-            }
-        } else {
-            if (order.equals(DESC)) {
-                carList = input.stream()
-                        .sorted(Comparator.comparing(Car::getCarId).reversed())
-                        .collect(Collectors.toList());
-            } else {
-                carList = input.stream()
-                        .sorted(Comparator.comparing(Car::getCarId))
-                        .collect(Collectors.toList());
-            }
-        }
-        return carList;
     }
 
     public boolean checkCarStatusAvailable(Long carId) throws DataBaseException {
