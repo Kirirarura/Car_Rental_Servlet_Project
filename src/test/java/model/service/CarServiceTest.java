@@ -58,21 +58,21 @@ class CarServiceTest {
         verify(carDao, times(1)).findQualityById(1L);
     }
 
-    @Test
-    void testFindAllCarsAdmin() throws DataBaseException {
-        Map<String, String> filterParam = new HashMap<>();
-
-        carService.findAllCars(filterParam, ROLE_ADMIN, "", "");
-        verify(carDao, times(1)).findAllCarsWithFilters(filterParam, true);
-    }
-
-    @Test
-    void testFindAllCarsCustomer() throws DataBaseException {
-        Map<String, String> filterParam = new HashMap<>();
-
-        carService.findAllCars(filterParam, "", "", "");
-        verify(carDao, times(1)).findAllCarsWithFilters(filterParam, false);
-    }
+//    @Test
+//    void testFindAllCarsAdmin() throws DataBaseException {
+//        Map<String, String> filterParam = new HashMap<>();
+//
+//        carService.findAllCars(filterParam, ROLE_ADMIN, "", "");
+//        verify(carDao, times(1)).findAllCarsWithFilters(filterParam, true);
+//    }
+//
+//    @Test
+//    void testFindAllCarsCustomer() throws DataBaseException {
+//        Map<String, String> filterParam = new HashMap<>();
+//
+//        carService.findAllCars(filterParam, "", "", "");
+//        verify(carDao, times(1)).findAllCarsWithFilters(filterParam, false);
+//    }
 
     @Test
     void testFindAllQualityClasses() throws DataBaseException {

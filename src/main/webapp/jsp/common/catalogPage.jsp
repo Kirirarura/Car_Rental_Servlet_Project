@@ -41,9 +41,9 @@
         </div>
         <div class="filter-form-item">
             <p><fmt:message key="catalog.order"/></p>
-            <p><input class="filter-checkbox-order" type="checkbox" name="asc"> <fmt:message key="catalog.order.asc"/>
+            <p><input class="filter-checkbox-order" type="checkbox" name="ASC"> <fmt:message key="catalog.order.asc"/>
             </p>
-            <p><input class="filter-checkbox-order" type="checkbox" name="desc"> <fmt:message key="catalog.order.desc"/>
+            <p><input class="filter-checkbox-order" type="checkbox" name="DESC"> <fmt:message key="catalog.order.desc"/>
             </p>
         </div>
         <div class="filter-form-item">
@@ -136,11 +136,20 @@
     </section>
 
     <div class="pagination">
+        <c:if test="${requestScope.pagesNumber > 0}">
+            <ul class="pagination-list text-center justify-content-center">
+                <li><button type="button" class="prev-page" <c:if test="${requestScope.activePageNumber <= 1}">disabled</c:if> id="prevPageButton">Prev</button> </li>
+
+                <li value="${requestScope.activePageNumber}" class="pageNumber" id="pageNumber">${requestScope.activePageNumber}</li>
+
+                <li><button type="button" class="next-page" <c:if test="${requestScope.activePageNumber >= requestScope.pagesNumber}">disabled</c:if> id="nextPageButton">Next</button> </li>
+            </ul>
+        </c:if>
     </div>
 </main>
 
 <footer>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/pagination.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/paginationNew.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.19/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/static/js/messages/infoLoadingMessages.js"></script>

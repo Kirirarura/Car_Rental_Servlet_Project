@@ -13,6 +13,7 @@ import com.pavlenko.kyrylo.model.entity.Car;
 import com.pavlenko.kyrylo.model.entity.CarStatus;
 import com.pavlenko.kyrylo.model.entity.Quality;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
+import com.pavlenko.kyrylo.model.service.util.PaginationInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -161,6 +162,71 @@ public class CarDaoImpl implements CarDao {
         }
     }
 
+    @Override
+    public PaginationInfo getPaginationResultData
+            (Map<String, String> filterFieldMap, int limit, int offset, boolean adminRequest)
+            throws DataBaseException {
+        try {
+            PaginationInfo paginationInfo = new PaginationInfo();
+
+            List<Car> carList = findAllUsingFilterAndPagination(filterFieldMap, limit, offset, adminRequest);
+            int carsQuantity = findFilteredCarsQuantity(filterFieldMap, adminRequest);
+
+            paginationInfo.setCarListPage(carList);
+            paginationInfo.setCarsCount(carsQuantity);
+
+            return paginationInfo;
+        } catch (DataBaseException e) {
+            logger.error(ERROR_MASSAGE, e.getMessage());
+            throw new DataBaseException();
+        }
+
+    }
+
+    private List<Car> findAllUsingFilterAndPagination(
+            Map<String, String> filterFieldMap, int limit, int offSet, boolean adminRequest)
+            throws DataBaseException {
+
+        String queryWithFilters = CatalogQueryBuilder
+                .buildCarQueryFilterForFindAll(filterFieldMap, adminRequest);
+        String queryWithFiltersAndPagination = queryWithFilters + CarQueries.LIMIT_OFFSET;
+        ResultSet rs = null;
+        try (Connection con = ds.getConnection();
+             PreparedStatement statement = con.prepareStatement(queryWithFiltersAndPagination)) {
+            List<Car> carList = new ArrayList<>();
+            statement.setInt(1, limit);
+            statement.setInt(2, offSet);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Car car = carMapper.extractFromResultSet(rs);
+                carList.add(car);
+            }
+            return carList;
+        } catch (SQLException e) {
+            logger.error(ERROR_MASSAGE, e.getMessage());
+            throw new DataBaseException();
+        }finally {
+            DBUtil.closeResources(rs);
+        }
+    }
+
+    private int findFilteredCarsQuantity(Map<String, String> filterFieldMap, boolean adminRequest)
+            throws DataBaseException {
+        String findAllWithFilterCount = CatalogQueryBuilder.buildCarQueryFilterForFindAllCount
+                (filterFieldMap, adminRequest);
+        try (Connection con = ds.getConnection();
+             Statement statement = con.createStatement();
+             ResultSet resultSet = statement.executeQuery(findAllWithFilterCount)) {
+            if (resultSet.next()) {
+                return resultSet.getInt("count(*)");
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            logger.error("{}, when trying to find cars quantity", e.getMessage());
+            throw new DataBaseException();
+        }
+    }
 
     @Override
     public Brand findBrandById(Long id) throws DataBaseException {

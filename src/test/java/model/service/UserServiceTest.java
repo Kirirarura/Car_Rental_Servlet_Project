@@ -55,14 +55,16 @@ class UserServiceTest {
 
     @Test
     void testAuthenticationShouldNotThrowException() throws DataBaseException {
-        when(userDao.findByUsernameAndPassword(EMAIL, PASSWORD)).thenReturn(Optional.of(UNBLOCKED_USER));
+        String password = passwordEncoder.encode(PASSWORD);
+        when(userDao.findByUsernameAndPassword(EMAIL, password)).thenReturn(Optional.of(UNBLOCKED_USER));
 
         assertDoesNotThrow(() -> userService.authentication(EMAIL, PASSWORD));
     }
 
     @Test
     void testAuthenticationShouldThrowIsBlockedException() throws DataBaseException {
-        when(userDao.findByUsernameAndPassword(EMAIL, PASSWORD)).thenReturn(Optional.of(BLOCKED_USER));
+        String password = passwordEncoder.encode(PASSWORD);
+        when(userDao.findByUsernameAndPassword(EMAIL, password)).thenReturn(Optional.of(BLOCKED_USER));
 
         assertThrows(
                 UserIsBlockedException.class,
