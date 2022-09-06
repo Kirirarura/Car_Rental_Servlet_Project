@@ -44,22 +44,13 @@ public class CarService {
 
 
     /**
-     * Manages catalog loading.
+     * Manages catalog loading with filtering and sorting.
      *
-     * @param filterParam Map with filters, that can contains Brand, Quality or nothing.
+     * @param filterParameters Map with filters, that can contains Brand, Quality or nothing.
+     * @param pageNum Integer that indicates current page.
      * @param role User role that effects output.
      * @throws DataBaseException Indicates that error occurred during database accessing.
      */
-    public List<Car> findAllCars(Map<String, String> filterParam, String role) throws DataBaseException {
-        List<Car> carList;
-
-        if (role.equals("ADMIN")) {
-            carList = carDao.findAllCarsWithFilters(filterParam, true);
-        } else {
-            carList = carDao.findAllCarsWithFilters(filterParam, false);
-        }
-        return carList;
-    }
 
     public PaginationInfo getPaginationResultData(
             Map<String, String> filterParameters, int pageNum, String role)
@@ -132,6 +123,6 @@ public class CarService {
     }
 
     public boolean checkCarStatusAvailable(Long carId) throws DataBaseException {
-        return carDao.checkCarStatusId(carId) == 1;
+        return carDao.checkStatus(carId) == 1;
     }
 }
