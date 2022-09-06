@@ -38,8 +38,12 @@
 }
 
 .active-pagination{
-    background: rgb(0, 89, 89);
-}
+    color: white;
+    background: rgb(0, 145, 145);
+    border-radius: 50%;
+    padding: 5px 10px;}
+
+
 .pageNumber {
     color: white;
     background: rgb(0, 145, 145);

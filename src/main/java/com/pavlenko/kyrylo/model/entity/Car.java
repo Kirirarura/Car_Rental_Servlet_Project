@@ -1,5 +1,6 @@
 package com.pavlenko.kyrylo.model.entity;
 
+import com.pavlenko.kyrylo.model.builder.CarBuilder;
 import com.pavlenko.kyrylo.model.dto.CarDto;
 
 import java.io.Serializable;
@@ -93,59 +94,10 @@ public class Car implements Serializable {
         this.description = description;
     }
 
-    public static Car.CarBuilder builder() {
+    public static CarBuilder builder() {
         return new CarBuilder();
     }
-    public static class CarBuilder {
-        private Long id;
-        private String modelName;
-        private BigDecimal price;
-        private Brand brand;
-        private Quality qualityClass;
-        private CarStatus status;
-        private String description;
 
-        public CarBuilder id(Long id){
-            this.id = id;
-            return this;
-        }
-        public CarBuilder modelName(String modelName){
-            this.modelName = modelName;
-            return this;
-        }
-        public CarBuilder price(BigDecimal price){
-            this.price = price;
-            return this;
-        }
-        public CarBuilder brand(Brand brand){
-            this.brand = brand;
-            return this;
-        }
-        public CarBuilder qualityClass(Quality qualityClass){
-            this.qualityClass = qualityClass;
-            return this;
-        }
-        public CarBuilder status(CarStatus status){
-            this.status = status;
-            return this;
-        }
-        public CarBuilder description(String description){
-            this.description = description;
-            return this;
-        }
-
-        public Car build(){
-            return new Car(
-                    this.id,
-                    this.modelName,
-                    this.price,
-                    this.brand,
-                    this.qualityClass,
-                    this.status,
-                    this.description
-            );
-        }
-    }
 
     @Override
     public boolean equals(Object o) {

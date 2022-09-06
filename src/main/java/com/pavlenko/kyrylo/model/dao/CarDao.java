@@ -17,14 +17,13 @@ public interface CarDao extends GenericDao<Car>{
     List<CarStatus> findAllStatuses() throws DataBaseException;
     List<Brand> findAllBrands() throws DataBaseException;
     PaginationInfo getPaginationResultData(Map<String, String> filterFieldMap, int limit, int offset, boolean adminRequest) throws DataBaseException;
-    List<Car> findAllCarsWithFilters(Map<String, String> filterParam, boolean adminRequest) throws DataBaseException;
     Brand findBrandById(Long carId) throws DataBaseException;
     Quality findQualityById(Long carId) throws DataBaseException;
     void editCarPrice(BigDecimal input, Long carId) throws DataBaseException;
     void editCarDescription(Long carId, String input) throws DataBaseException;
     void editCarStatus(Long carId, Long inputId) throws DataBaseException;
     void editCarQuality(Long carId, Long inputId) throws DataBaseException;
-    int checkCarStatusId(Long carId) throws DataBaseException;
+    int checkStatus(Long carId) throws DataBaseException;
 
 
 }

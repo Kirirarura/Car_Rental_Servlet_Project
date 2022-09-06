@@ -39,7 +39,6 @@ public class CarDaoImpl implements CarDao {
         this.ds = ds;
     }
 
-
     @Override
     public void create(Car entity) throws DataBaseException {
         try (Connection con = ds.getConnection();
@@ -92,26 +91,6 @@ public class CarDaoImpl implements CarDao {
             throw new DataBaseException();
         }
     }
-
-    @Override
-    public List<Car> findAllCarsWithFilters(Map<String, String> filterParam, boolean adminRequest) throws DataBaseException {
-        String queryWithFilters = CatalogQueryBuilder.buildCarQueryFilterForFindAll(filterParam, adminRequest);
-        try (Connection con = ds.getConnection();
-             Statement statement = con.createStatement();
-             ResultSet rs = statement.executeQuery(queryWithFilters)) {
-            List<Car> carsList = new ArrayList<>();
-            while (rs.next()) {
-                Car car = carMapper.extractFromResultSet(rs);
-                carsList.add(car);
-            }
-            return carsList;
-        } catch (SQLException e) {
-            logger.error(ERROR_MASSAGE, e.getMessage());
-            throw new DataBaseException();
-        }
-    }
-
-
     public List<Quality> findAllQualityClasses() throws DataBaseException {
         try (Connection con = ds.getConnection();
              Statement statement = con.createStatement();
@@ -336,7 +315,7 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public int checkCarStatusId(Long carId) throws DataBaseException {
+    public int checkStatus(Long carId) throws DataBaseException {
         ResultSet rs = null;
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(CarQueries.SELECT_CAR_STATUS)) {
