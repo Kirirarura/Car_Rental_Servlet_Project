@@ -10,7 +10,9 @@ import com.pavlenko.kyrylo.model.dto.CarDto;
 import com.pavlenko.kyrylo.model.entity.Brand;
 import com.pavlenko.kyrylo.model.entity.Quality;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
+import com.pavlenko.kyrylo.model.service.BrandService;
 import com.pavlenko.kyrylo.model.service.CarService;
+import com.pavlenko.kyrylo.model.service.QualityService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,11 +24,15 @@ import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 public class PostAddNewCarCommand implements Command {
 
     private final CarService carService;
+    private final QualityService qualityService;
+    private final BrandService brandService;
     private final CarDetailsMapper carDetailsMapper = new CarDetailsMapper();
     private static final String BRAND = "brandId";
     private static final String QUALITY = "qualityId";
-    public PostAddNewCarCommand(CarService carService) {
+    public PostAddNewCarCommand(CarService carService, QualityService qualityService, BrandService brandService) {
         this.carService = carService;
+        this.qualityService = qualityService;
+        this.brandService = brandService;
     }
 
     /**
@@ -40,8 +46,8 @@ public class PostAddNewCarCommand implements Command {
         Long qualityId = Long.valueOf(request.getParameter(QUALITY));
         CarDto carDto = null;
         try {
-            Brand brand = carService.findBrandById(brandId);
-            Quality quality = carService.findQualityById(qualityId);
+            Brand brand = brandService.findBrandById(brandId);
+            Quality quality = qualityService.findQualityById(qualityId);
             carDto = carDetailsMapper.fetchUserDtoFromRequest(request, brand, quality);
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, StatusesContainer.FAILED_ADD_CAR_EXCEPTION);

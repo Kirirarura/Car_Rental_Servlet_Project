@@ -1,7 +1,5 @@
 package com.pavlenko.kyrylo.controller.validator.statuses;
 
-import com.pavlenko.kyrylo.controller.exeption.car.PriceNegativeException;
-
 public final class StatusesContainer {
     private StatusesContainer() {}
 

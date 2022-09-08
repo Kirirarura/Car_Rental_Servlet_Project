@@ -27,7 +27,6 @@ class CarServiceTest {
     private static final String CAR_MODEL = "model";
     private static final String CAR_PRICE = "50";
     private static final String CAR_DESCRIPTION = "description";
-    private static final String ROLE_ADMIN = "ADMIN";
     private static final String PRICE = "price";
     private static final String STATUS = "status";
     private static final String QUALITY = "quality";
@@ -46,39 +45,6 @@ class CarServiceTest {
         verify(carDao, times(1)).findById(1L);
     }
 
-    @Test
-    void testFindBrandById() throws DataBaseException {
-        carService.findBrandById(1L);
-        verify(carDao, times(1)).findBrandById(1L);
-    }
-
-    @Test
-    void testFindQualityById() throws DataBaseException {
-        carService.findQualityById(1L);
-        verify(carDao, times(1)).findQualityById(1L);
-    }
-
-//    @Test
-//    void testFindAllCarsAdmin() throws DataBaseException {
-//        Map<String, String> filterParam = new HashMap<>();
-//
-//        carService.findAllCars(filterParam, ROLE_ADMIN, "", "");
-//        verify(carDao, times(1)).findAllCarsWithFilters(filterParam, true);
-//    }
-//
-//    @Test
-//    void testFindAllCarsCustomer() throws DataBaseException {
-//        Map<String, String> filterParam = new HashMap<>();
-//
-//        carService.findAllCars(filterParam, "", "", "");
-//        verify(carDao, times(1)).findAllCarsWithFilters(filterParam, false);
-//    }
-
-    @Test
-    void testFindAllQualityClasses() throws DataBaseException {
-        carService.findAllQualityClasses();
-        verify(carDao, times(1)).findAllQualityClasses();
-    }
 
     @Test
     void testFindAllStatuses() throws DataBaseException {
@@ -86,11 +52,7 @@ class CarServiceTest {
         verify(carDao, times(1)).findAllStatuses();
     }
 
-    @Test
-    void testFindAllBrands() throws DataBaseException {
-        carService.findAllBrands();
-        verify(carDao, times(1)).findAllBrands();
-    }
+
 
     @Test
     void testEditCarInfoPriceCase() throws DataBaseException {

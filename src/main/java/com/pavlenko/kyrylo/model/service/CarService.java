@@ -2,10 +2,8 @@ package com.pavlenko.kyrylo.model.service;
 
 import com.pavlenko.kyrylo.model.dao.CarDao;
 import com.pavlenko.kyrylo.model.dto.CarDto;
-import com.pavlenko.kyrylo.model.entity.Brand;
 import com.pavlenko.kyrylo.model.entity.Car;
 import com.pavlenko.kyrylo.model.entity.CarStatus;
-import com.pavlenko.kyrylo.model.entity.Quality;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.service.util.PaginationInfo;
 import org.apache.logging.log4j.LogManager;
@@ -32,14 +30,6 @@ public class CarService {
     public Car findById(Long id) throws DataBaseException {
         return carDao.findById(id);
 
-    }
-
-    public Brand findBrandById(Long id) throws DataBaseException {
-        return carDao.findBrandById(id);
-    }
-
-    public Quality findQualityById(Long id) throws DataBaseException {
-        return carDao.findQualityById(id);
     }
 
 
@@ -70,16 +60,8 @@ public class CarService {
         return paginationResultData;
     }
 
-    public List<Quality> findAllQualityClasses() throws DataBaseException {
-        return carDao.findAllQualityClasses();
-    }
-
     public List<CarStatus> findAllStatuses() throws DataBaseException {
         return carDao.findAllStatuses();
-    }
-
-    public List<Brand> findAllBrands() throws DataBaseException {
-        return carDao.findAllBrands();
     }
 
     /**
