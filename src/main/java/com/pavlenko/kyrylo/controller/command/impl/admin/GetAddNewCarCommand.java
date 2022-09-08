@@ -6,7 +6,9 @@ import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
 import com.pavlenko.kyrylo.model.entity.Brand;
 import com.pavlenko.kyrylo.model.entity.Quality;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
+import com.pavlenko.kyrylo.model.service.BrandService;
 import com.pavlenko.kyrylo.model.service.CarService;
+import com.pavlenko.kyrylo.model.service.QualityService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -18,10 +20,12 @@ import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
  */
 public class GetAddNewCarCommand implements Command {
 
-    private final CarService carService;
+    private final QualityService qualityService;
+    private final BrandService brandService;
 
-    public GetAddNewCarCommand(CarService carService) {
-        this.carService = carService;
+    public GetAddNewCarCommand(QualityService qualityService, BrandService brandService) {
+        this.qualityService = qualityService;
+        this.brandService = brandService;
     }
 
     /**
@@ -32,8 +36,8 @@ public class GetAddNewCarCommand implements Command {
     public String execute(HttpServletRequest request) {
 
         try {
-            List<Brand> brandList = carService.findAllBrands();
-            List<Quality> qualityClassList = carService.findAllQualityClasses();
+            List<Brand> brandList = brandService.findAllBrands();
+            List<Quality> qualityClassList = qualityService.findAllQualityClasses();
             request.getSession().setAttribute("brandList", brandList);
             request.getSession().setAttribute("qualityClassList", qualityClassList);
         } catch (DataBaseException e) {

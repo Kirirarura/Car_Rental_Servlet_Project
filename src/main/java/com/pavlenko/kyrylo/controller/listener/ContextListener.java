@@ -12,17 +12,11 @@ import com.pavlenko.kyrylo.controller.command.impl.guest.PostLoginCommand;
 import com.pavlenko.kyrylo.controller.command.impl.guest.PostRegistrationCommand;
 import com.pavlenko.kyrylo.controller.command.impl.manager.*;
 import com.pavlenko.kyrylo.controller.util.UriPath;
-import com.pavlenko.kyrylo.model.dao.BookingDao;
-import com.pavlenko.kyrylo.model.dao.CarDao;
-import com.pavlenko.kyrylo.model.dao.UserDao;
-import com.pavlenko.kyrylo.model.dao.impl.BookingDaoImpl;
-import com.pavlenko.kyrylo.model.dao.impl.CarDaoImpl;
-import com.pavlenko.kyrylo.model.dao.impl.UserDaoImpl;
+import com.pavlenko.kyrylo.model.dao.*;
+import com.pavlenko.kyrylo.model.dao.impl.*;
 import com.pavlenko.kyrylo.model.entity.util.PasswordEncoder;
 import com.pavlenko.kyrylo.model.entity.util.Pbkdf2PasswordEncoder;
-import com.pavlenko.kyrylo.model.service.BookingService;
-import com.pavlenko.kyrylo.model.service.CarService;
-import com.pavlenko.kyrylo.model.service.UserService;
+import com.pavlenko.kyrylo.model.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,6 +43,8 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
     private static final String DATASOURCE = "dataSource";
     private static final String USER_SERVICE = "userService";
     private static final String CAR_SERVICE = "carService";
+    private static final String QUALITY_SERVICE = "qualityService";
+    private static final String BRAND_SERVICE = "brandService";
     private static final String BOOKING_SERVICE = "bookingService";
 
 
@@ -66,7 +62,7 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
 
     private void initDatasource(ServletContext context) {
         String dataSourceName = context.getInitParameter(DATASOURCE);
-        Context jndiContext = null;
+        Context jndiContext;
         try {
             jndiContext = (Context) new InitialContext().lookup("java:/comp/env");
             DataSource dataSource = (DataSource) jndiContext.lookup(dataSourceName);
@@ -86,6 +82,14 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         CarDao carDao = new CarDaoImpl((DataSource) context.getAttribute(DATASOURCE));
         CarService carService = new CarService(carDao);
         context.setAttribute(CAR_SERVICE, carService);
+
+        QualityClassDao qualityClassDao = new QualityClassDaoImpl((DataSource) context.getAttribute(DATASOURCE));
+        QualityService qualityService = new QualityService(qualityClassDao);
+        context.setAttribute(QUALITY_SERVICE, qualityService);
+
+        BrandDao brandDao = new BrandDaoImpl((DataSource) context.getAttribute(DATASOURCE));
+        BrandService brandService = new BrandService(brandDao);
+        context.setAttribute(BRAND_SERVICE, brandService);
 
         BookingDao bookingDao = new BookingDaoImpl((DataSource) context.getAttribute(DATASOURCE));
         BookingService bookingService = new BookingService(bookingDao);
@@ -107,20 +111,36 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         commands.put(UriPath.LOGIN, new GetLoginCommand());
         commands.put(UriPath.LOGOUT, new GetLogOutCommand());
         commands.put(UriPath.REGISTRATION, new GetRegistrationCommand());
-        commands.put(UriPath.CATALOG, new GetCatalogCommand((CarService) context.getAttribute(CAR_SERVICE)));
+        commands.put(UriPath.CATALOG, new GetCatalogCommand(
+                (CarService) context.getAttribute(CAR_SERVICE),
+                (QualityService) context.getAttribute(QUALITY_SERVICE),
+                (BrandService) context.getAttribute(BRAND_SERVICE)));
         commands.put(UriPath.INDEX, new GetHomeCommand());
-        commands.put(UriPath.ADMIN_USER_LIST, new GetAllUsersCommand((UserService) context.getAttribute(USER_SERVICE)));
+        commands.put(UriPath.ADMIN_USER_LIST,
+                new GetAllUsersCommand(
+                (UserService) context.getAttribute(USER_SERVICE)));
         commands.put(UriPath.ADMIN_REGISTER_MANAGER, new GetManagerRegistrationCommand());
-        commands.put(UriPath.ADMIN_CAR_EDIT, new GetEditCarCommand((CarService) context.getAttribute(CAR_SERVICE)));
+        commands.put(UriPath.ADMIN_CAR_EDIT,
+                new GetEditCarCommand(
+                (CarService) context.getAttribute(CAR_SERVICE),
+                (QualityService) context.getAttribute(QUALITY_SERVICE)));
         commands.put(UriPath.ADMIN_ADD_NEW_CAR,
-                new GetAddNewCarCommand((CarService) context.getAttribute(CAR_SERVICE)));
-        commands.put(UriPath.CUSTOMER_RENT_CAR, new GetRentCarCommand((CarService) context.getAttribute(CAR_SERVICE)));
+                new GetAddNewCarCommand(
+                (QualityService) context.getAttribute(QUALITY_SERVICE),
+                (BrandService) context.getAttribute(BRAND_SERVICE)));
+        commands.put(UriPath.CUSTOMER_RENT_CAR,
+                new GetRentCarCommand(
+                (CarService) context.getAttribute(CAR_SERVICE)));
         commands.put(UriPath.CUSTOMER_REQUESTS,
-                new GetRentRequestsCommand((BookingService) context.getAttribute(BOOKING_SERVICE), (CarService) context.getAttribute(CAR_SERVICE)));
+                new GetRentRequestsCommand(
+                (BookingService) context.getAttribute(BOOKING_SERVICE),
+                (CarService) context.getAttribute(CAR_SERVICE)));
         commands.put(UriPath.MANAGER_ALL_REQUESTS,
-                new GetAllRequestsCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
+                new GetAllRequestsCommand(
+                (BookingService) context.getAttribute(BOOKING_SERVICE)));
         commands.put(UriPath.MANAGER_MY_REQUESTS,
-                new GetMyRequestsCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));
+                new GetMyRequestsCommand(
+                        (BookingService) context.getAttribute(BOOKING_SERVICE)));
         commands.put(UriPath.MANAGER_REGISTER_RETURN, new GetRegisterReturnCommand());
     }
 
@@ -138,7 +158,10 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         commands.put(UriPath.ADMIN_CAR_DELETE,
                 new PostDeleteCarCommand((CarService) context.getAttribute(CAR_SERVICE)));
         commands.put(UriPath.ADMIN_ADD_NEW_CAR,
-                new PostAddNewCarCommand((CarService) context.getAttribute(CAR_SERVICE)));
+                new PostAddNewCarCommand(
+                        (CarService) context.getAttribute(CAR_SERVICE),
+                        (QualityService) context.getAttribute(QUALITY_SERVICE),
+                        (BrandService) context.getAttribute(BRAND_SERVICE)));
         commands.put(UriPath.CUSTOMER_RENT_CAR,
                 new PostRentCarCommand(
                         (BookingService) context.getAttribute(BOOKING_SERVICE),

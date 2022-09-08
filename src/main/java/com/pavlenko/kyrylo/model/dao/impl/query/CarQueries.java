@@ -32,22 +32,9 @@ public class CarQueries {
     public static final String FIND_CAR_BY_ID =
             FIND_ALL_FROM_CARS + WHERE_ID;
 
-    public static final String FIND_ALL_QUALITY_CLASSES =
-            "SELECT * FROM quality_class";
-
-    public static final String FIND_QUALITY_CLASS_BY_ID =
-            FIND_ALL_QUALITY_CLASSES +
-                    " WHERE id = ?";
 
     public static final String FIND_ALL_CAR_STATUSES =
             "SELECT * FROM car_status";
-
-    public static final String FIND_ALL_BRANDS =
-            "SELECT * FROM brands";
-
-    public static final String FIND_BRAND_BY_ID =
-            FIND_ALL_BRANDS +
-                    " WHERE id = ?";
 
     public static final String UPDATE_CAR_PRICE =
             UPDATE_CARS +
