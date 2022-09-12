@@ -42,7 +42,8 @@ public class CarDaoImpl implements CarDao {
             statement.setBigDecimal(2, entity.getPrice());
             statement.setString(3, String.valueOf(entity.getBrand().getValue()));
             statement.setString(4, entity.getQualityClass().getValue().name());
-            statement.setString(5, entity.getDescription());
+            statement.setString(5, entity.getDescriptionEn());
+            statement.setString(6, entity.getDescriptionUa());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -181,8 +182,6 @@ public class CarDaoImpl implements CarDao {
             throw new DataBaseException();
         }
     }
-
-
     @Override
     public void editCarStatus(Long id, Long inputId) throws DataBaseException {
         try (Connection con = ds.getConnection();
@@ -211,9 +210,23 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public void editCarDescription(Long id, String input) throws DataBaseException {
+    public void editCarDescriptionEn(Long id, String input) throws DataBaseException {
         try (Connection con = ds.getConnection();
-             PreparedStatement statement = con.prepareStatement(CarQueries.UPDATE_CAR_DESCRIPTION)) {
+             PreparedStatement statement = con.prepareStatement(CarQueries.UPDATE_CAR_DESCRIPTION_EN)) {
+            statement.setString(1, input);
+            statement.setInt(2, Math.toIntExact(id));
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            logger.error(EDIT_ERROR_MESSAGE, id, e.getMessage());
+            throw new DataBaseException();
+        }
+    }
+
+    @Override
+    public void editCarDescriptionUa(Long id, String input) throws DataBaseException {
+        try (Connection con = ds.getConnection();
+             PreparedStatement statement = con.prepareStatement(CarQueries.UPDATE_CAR_DESCRIPTION_UA)) {
             statement.setString(1, input);
             statement.setInt(2, Math.toIntExact(id));
             statement.executeUpdate();

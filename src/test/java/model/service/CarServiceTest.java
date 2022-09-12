@@ -26,7 +26,8 @@ class CarServiceTest {
     private static final Quality CAR_QUALITY = new Quality(Quality.QualityEnum.getRandomQuality());
     private static final String CAR_MODEL = "model";
     private static final String CAR_PRICE = "50";
-    private static final String CAR_DESCRIPTION = "description";
+    private static final String CAR_DESCRIPTION_EN = "description";
+    private static final String CAR_DESCRIPTION_UA = "опис";
     private static final String PRICE = "price";
     private static final String STATUS = "status";
     private static final String QUALITY = "quality";
@@ -36,7 +37,8 @@ class CarServiceTest {
             CAR_MODEL,
             CAR_PRICE,
             CAR_QUALITY,
-            CAR_DESCRIPTION
+            CAR_DESCRIPTION_EN,
+            CAR_DESCRIPTION_UA
             );
 
     @Test
@@ -74,10 +76,16 @@ class CarServiceTest {
     }
 
     @Test
-    void testEditCarInfoDescriptionCase() throws DataBaseException {
+    void testEditCarInfoDescriptionEnCase() throws DataBaseException {
         String info = "info";
         carService.editCarInfo("", info , 1L, 1L);
-        verify(carDao, times(1)).editCarDescription(1L, info);
+        verify(carDao, times(1)).editCarDescriptionEn(1L, info);
+    }
+    @Test
+    void testEditCarInfoDescriptionUaCase() throws DataBaseException {
+        String info = "info";
+        carService.editCarInfo("", info , 1L, 1L);
+        verify(carDao, times(1)).editCarDescriptionUa(1L, info);
     }
 
     @Test

@@ -14,7 +14,8 @@ public class CarBuilder {
     private Brand brand;
     private Quality qualityClass;
     private CarStatus status;
-    private String description;
+    private String descriptionEn;
+    private String descriptionUa;
 
     public CarBuilder id(Long id){
         this.id = id;
@@ -40,8 +41,13 @@ public class CarBuilder {
         this.status = status;
         return this;
     }
-    public CarBuilder description(String description){
-        this.description = description;
+    public CarBuilder descriptionEn(String descriptionEn){
+        this.descriptionEn = descriptionEn;
+        return this;
+    }
+
+    public CarBuilder descriptionUa(String descriptionUa){
+        this.descriptionUa = descriptionUa;
         return this;
     }
 
@@ -53,7 +59,8 @@ public class CarBuilder {
                 this.brand,
                 this.qualityClass,
                 this.status,
-                this.description
+                this.descriptionEn,
+                this.descriptionUa
         );
     }
 }

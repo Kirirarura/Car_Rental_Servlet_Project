@@ -61,6 +61,8 @@ public class Brand implements Serializable {
         Hyundai,
         Honda,
         Tesla,
+        Audi,
+        Bentley,
         BMW;
 
         public static Brand.BrandEnum getRandomBrand() {

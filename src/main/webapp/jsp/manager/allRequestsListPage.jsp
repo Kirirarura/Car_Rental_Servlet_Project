@@ -74,8 +74,16 @@
         </c:forEach>
     </div>
 
-    <div class="pagination">
-    </div>
+    <c:choose>
+        <c:when test="${empty sessionScope.bookingList}">
+            <div class="no-results">
+                <h2><fmt:message key="noResults"/></h2>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="pagination"></div>
+        </c:otherwise>
+    </c:choose>
 </main>
 
 <footer>

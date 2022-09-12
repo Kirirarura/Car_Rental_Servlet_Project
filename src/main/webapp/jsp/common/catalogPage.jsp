@@ -2,13 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib uri="/WEB-INF/tld/myTagLib.tld" prefix="myTg"%>
+<%@ taglib uri="/WEB-INF/tld/myTagLib.tld" prefix="myTg" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
 
 <!DOCTYPE>
-<html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalog</title>
@@ -36,7 +36,8 @@
             <p><fmt:message key="catalog.sortBy"/></p>
             <p><input class="filter-checkbox-sort" type="checkbox" name="price"> <fmt:message
                     key="catalog.sortBy.price"/></p>
-            <p><input class="filter-checkbox-sort" type="checkbox" name="name"> <fmt:message key="catalog.sortBy.name"/>
+            <p><input class="filter-checkbox-sort" type="checkbox" name="name"> <fmt:message
+                    key="catalog.sortBy.name"/>
             </p>
         </div>
         <div class="filter-form-item">
@@ -62,7 +63,7 @@
             <select name="qualityValue">
                 <c:forEach items="${qualityClassList}" var="quality" varStatus="loop">
                     <option value="${quality.value}">
-                        <myTg:stars carQuality="${quality.value}"></myTg:stars>
+                        <myTg:stars carQuality="${quality.value}"/>
                     </option>
                 </c:forEach>
             </select>
@@ -96,17 +97,41 @@
                         <c:when test="${car.brand == 'BMW'}">
                             <img src="<c:url value="/static/img/bmw.jpg"/>" alt="Car Image"/>
                         </c:when>
+                        <c:when test="${car.brand == 'Audi'}">
+                            <img src="<c:url value="/static/img/audi.jpg"/>" alt="Car Image"/>
+                        </c:when>
                     </c:choose>
                     <div class="card-item-content">
                         <h2 class="title"><c:out value="${car.brand} ${car.modelName}"/></h2>
                         <p><fmt:message key="catalog.price"/>
                             <c:out value="${car.price}"/>$/<fmt:message key="catalog.perDay"/></p>
-                        <p class="quality"><fmt:message key="catalog.quality"/> <myTg:stars carQuality="${car.qualityClass}"></myTg:stars></p>
+                        <p class="quality"><fmt:message key="catalog.quality"/> <myTg:stars
+                                carQuality="${car.qualityClass}"/></p>
                         <c:if test="${sessionScope.role=='ADMIN'}">
-                            <p><c:out value="${car.status}"/></p>
+                            <p>
+                                <fmt:message key="customer.myRequests.status"/>
+                                <c:choose>
+                                    <c:when test="${car.status == 'AVAILABLE'}">
+                                        <fmt:message key="catalog.status.available"/>
+                                    </c:when>
+                                    <c:when test="${car.status == 'RESERVED'}">
+                                        <fmt:message key="catalog.status.reserved"/>
+                                    </c:when>
+                                    <c:when test="${car.status == 'UNDER_REPAIR'}">
+                                        <fmt:message key="catalog.status.underRepair"/>
+                                    </c:when>
+                                </c:choose>
+                            </p>
                         </c:if>
-                        <p><c:out value="${car.description}"/></p>
 
+                        <c:choose>
+                            <c:when test="${sessionScope.lang == 'en'}">
+                                <p><c:out value="${car.descriptionEn}"/></p>
+                            </c:when>
+                            <c:otherwise>
+                                <p><c:out value="${car.descriptionUa}"/></p>
+                            </c:otherwise>
+                        </c:choose>
 
                         <c:choose>
                             <c:when test="${sessionScope.role=='ADMIN'}">
@@ -138,14 +163,30 @@
     <div class="pagination">
         <c:if test="${requestScope.pagesNumber > 0}">
             <ul class="pagination-list text-center justify-content-center">
-                <li><button type="button" class="prev-page" <c:if test="${requestScope.activePageNumber <= 1}">disabled</c:if> id="prevPageButton">Prev</button> </li>
+                <li>
+                    <button type="button" class="prev-page"
+                            <c:if test="${requestScope.activePageNumber <= 1}">disabled</c:if> id="prevPageButton">Prev
+                    </button>
+                </li>
 
-                <li value="${requestScope.activePageNumber}" class="pageNumber" id="pageNumber">${requestScope.activePageNumber}</li>
+                <li value="${requestScope.activePageNumber}" class="pageNumber"
+                    id="pageNumber">${requestScope.activePageNumber}</li>
 
-                <li><button type="button" class="next-page" <c:if test="${requestScope.activePageNumber >= requestScope.pagesNumber}">disabled</c:if> id="nextPageButton">Next</button> </li>
+                <li>
+                    <button type="button" class="next-page"
+                            <c:if test="${requestScope.activePageNumber >= requestScope.pagesNumber}">disabled</c:if>
+                            id="nextPageButton">Next
+                    </button>
+                </li>
             </ul>
         </c:if>
     </div>
+
+    <c:if test="${empty requestScope.carList}">
+        <div class="no-results">
+            <h2><fmt:message key="noResults"/></h2>
+        </div>
+    </c:if>
 </main>
 
 <footer>

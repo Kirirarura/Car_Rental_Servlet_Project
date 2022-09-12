@@ -1,10 +1,8 @@
 package controller.validators;
 
 import com.pavlenko.kyrylo.controller.validator.AddCarValidator;
-import com.pavlenko.kyrylo.controller.validator.UserValidator;
 import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
 import com.pavlenko.kyrylo.model.dto.CarDto;
-import com.pavlenko.kyrylo.model.dto.UserDto;
 import com.pavlenko.kyrylo.model.entity.Brand;
 import com.pavlenko.kyrylo.model.entity.Quality;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +22,8 @@ class AddCarValidatorTest {
     private static final String CORRECT_MODEL = "Some fancy model";
     private static final String CORRECT_PRICE = "50";
     private static final Quality CORRECT_QUALITY = new Quality(Quality.QualityEnum.getRandomQuality());
-    private static final String CORRECT_DESCRIPTION = "Some interesting info";
+    private static final String CORRECT_DESCRIPTION_EN = "Some interesting info";
+    private static final String CORRECT_DESCRIPTION_UA = "Дуже цікава інформація";
 
     private static final String INCORRECT_MODEL = "The longest Model name in the world";
     private static final String INCORRECT_PRICE_INPUT = "OMEGALUL";
@@ -45,8 +44,9 @@ class AddCarValidatorTest {
                 CORRECT_MODEL,
                 CORRECT_PRICE,
                 CORRECT_QUALITY,
-                CORRECT_DESCRIPTION
-        );
+                CORRECT_DESCRIPTION_EN,
+                CORRECT_DESCRIPTION_UA
+                );
     }
 
     @Test
@@ -130,7 +130,7 @@ class AddCarValidatorTest {
     @Test
     void testValidateUserWithIncorrectDescription() {
         final CarDto CAR_WITH_INCORRECT_MODEL = CORRECT_CAR_DTO;
-        CAR_WITH_INCORRECT_MODEL.setDescription(INCORRECT_DESCRIPTION);
+        CAR_WITH_INCORRECT_MODEL.setDescriptionEn(INCORRECT_DESCRIPTION);
 
         boolean isValid = AddCarValidator.validate(CAR_WITH_INCORRECT_MODEL, REQUEST);
 
@@ -142,7 +142,7 @@ class AddCarValidatorTest {
     @Test
     void testValidateUserWithIncorrectDescriptionEmpty() {
         final CarDto CAR_WITH_INCORRECT_MODEL = CORRECT_CAR_DTO;
-        CAR_WITH_INCORRECT_MODEL.setDescription(INCORRECT_INPUT_EMPTY);
+        CAR_WITH_INCORRECT_MODEL.setDescriptionEn(INCORRECT_INPUT_EMPTY);
 
         boolean isValid = AddCarValidator.validate(CAR_WITH_INCORRECT_MODEL, REQUEST);
 

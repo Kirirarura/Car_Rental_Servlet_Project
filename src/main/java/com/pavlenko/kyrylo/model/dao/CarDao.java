@@ -17,7 +17,8 @@ public interface CarDao extends GenericDao<Car> {
 
     void editCarPrice(BigDecimal input, Long carId) throws DataBaseException;
 
-    void editCarDescription(Long carId, String input) throws DataBaseException;
+    void editCarDescriptionEn(Long carId, String input) throws DataBaseException;
+    void editCarDescriptionUa(Long carId, String input) throws DataBaseException;
 
     void editCarStatus(Long carId, Long inputId) throws DataBaseException;
 

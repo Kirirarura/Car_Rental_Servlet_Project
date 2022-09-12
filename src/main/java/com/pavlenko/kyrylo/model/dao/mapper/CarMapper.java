@@ -21,9 +21,9 @@ public class CarMapper {
                 .brand(brandMapper.extractFromResultSet(rs))
                 .qualityClass(qualityMapper.extractFromResultSet(rs))
                 .status(carStatusMapper.extractFromResultSet(rs))
-                .description(rs.getString(Fields.DESCRIPTION))
+                .descriptionEn(rs.getString(Fields.DESCRIPTION_EN))
+                .descriptionUa(rs.getString(Fields.DESCRIPTION_UA))
                 .build();
-
     }
 
 }

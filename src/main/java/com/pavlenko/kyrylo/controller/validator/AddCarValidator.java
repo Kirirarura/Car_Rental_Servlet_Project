@@ -38,7 +38,8 @@ public class AddCarValidator {
             checkPriceInput(carDto.getPrice());
             checkPriceNegativeInput(carDto.getPrice());
             checkPriceSize(carDto.getPrice());
-            checkDescriptionSize(carDto.getDescription());
+            checkDescriptionSize(carDto.getDescriptionEn());
+            checkDescriptionSize(carDto.getDescriptionUa());
             return true;
         } catch (WrongInputException e) {
             logger.warn("Wrong input");

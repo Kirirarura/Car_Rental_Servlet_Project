@@ -2,7 +2,6 @@ package com.pavlenko.kyrylo.model.dao.impl;
 
 import com.pavlenko.kyrylo.model.dao.BrandDao;
 import com.pavlenko.kyrylo.model.dao.impl.query.BrandQueries;
-import com.pavlenko.kyrylo.model.dao.impl.query.CarQueries;
 import com.pavlenko.kyrylo.model.dao.impl.util.DBUtil;
 import com.pavlenko.kyrylo.model.dao.mapper.BrandMapper;
 import com.pavlenko.kyrylo.model.entity.Brand;

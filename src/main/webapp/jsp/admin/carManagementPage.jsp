@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib uri="/WEB-INF/tld/myTagLib.tld" prefix="myTg"%>
+<%@ taglib uri="/WEB-INF/tld/myTagLib.tld" prefix="myTg" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="messages"/>
@@ -50,7 +50,7 @@
                     <select name="inputID">
                         <c:forEach items="${qualityClassList}" var="qualityClass" varStatus="loop">
                             <option value="${qualityClass.id}">
-                                <myTg:stars carQuality="${qualityClass.value}"></myTg:stars>
+                                <myTg:stars carQuality="${qualityClass.value}"/>
                             </option>
                         </c:forEach>
                     </select>
@@ -80,12 +80,26 @@
         </form>
         <form action="${pageContext.request.contextPath}/Admin/editCar" method="post">
             <div class="form-control">
-                <label><fmt:message key="carManagement.currentDescription"/> <c:out value="${car.description}"/>
-                    <input type="text" placeholder="<fmt:message key="carManagement.currentDescription.placeHolder"/>"
+                <label><fmt:message key="carManagement.currentDescription"/> <c:out value="${car.descriptionEn}"/>
+                    <input type="text"
+                           placeholder="<fmt:message key="carManagement.currentDescription.placeHolder.en"/>"
                            name="input" required="required">
                 </label>
                 <input name="id" value="${car.carId}" type="hidden">
-                <input name="label" value="description" type="hidden">
+                <input name="label" value="descriptionEn" type="hidden">
+                <input name="inputID" value="0" type="hidden">
+                <input type="submit" class="btn" value="<fmt:message key="carManagement.button"/>">
+            </div>
+        </form>
+        <form action="${pageContext.request.contextPath}/Admin/editCar" method="post">
+            <div class="form-control">
+                <label><fmt:message key="carManagement.currentDescription"/> <c:out value="${car.descriptionUa}"/>
+                    <input type="text"
+                           placeholder="<fmt:message key="carManagement.currentDescription.placeHolder.ua"/>"
+                           name="input" required="required">
+                </label>
+                <input name="id" value="${car.carId}" type="hidden">
+                <input name="label" value="descriptionUa" type="hidden">
                 <input name="inputID" value="0" type="hidden">
                 <input type="submit" class="btn" value="<fmt:message key="carManagement.button"/>">
             </div>

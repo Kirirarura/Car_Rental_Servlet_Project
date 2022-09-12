@@ -23,10 +23,14 @@ public class EditCarValidator {
     private static final int DESCRIPTION_MAX_SIZE = 50;
     private static final int DESCRIPTION_MIN_SIZE = 4;
     private static final String PRICE = "price";
+    private static final String DESCRIPTION_EN = "descriptionEn";
+    private static final String DESCRIPTION_UA = "descriptionUa";
+
 
     private static final Logger logger = LogManager.getLogger(EditCarValidator.class);
 
-    private EditCarValidator() {}
+    private EditCarValidator() {
+    }
 
     /**
      * Validates car price input or description input, depending on the label.
@@ -40,7 +44,8 @@ public class EditCarValidator {
             checkPriceInput(label, input);
             checkPriceNegativeInput(label, input);
             checkPriceSize(label, input);
-            checkDescriptionSize(label, input);
+            checkDescriptionSizeEn(label, input);
+            checkDescriptionSizeUa(label, input);
             return true;
         } catch (WrongInputException e) {
             logger.error("Wrong input");
@@ -60,6 +65,7 @@ public class EditCarValidator {
         }
         return false;
     }
+
     private static void checkPriceInput(String label, String input) throws WrongInputException, EmptyFieldException {
         if (fieldIsEmpty(input)) {
             throw new EmptyFieldException();
@@ -72,33 +78,40 @@ public class EditCarValidator {
             }
         }
     }
+
     private static void checkPriceNegativeInput(String label, String input) throws PriceNegativeException {
-        if (label.equals(PRICE)) {
-            if (new BigDecimal(input).signum() <= 0){
-                throw new PriceNegativeException();
-            }
+        if (label.equals(PRICE) && new BigDecimal(input).signum() <= 0) {
+            throw new PriceNegativeException();
         }
     }
+
     private static void checkPriceSize(String label, String input) throws EmptyFieldException, PriceSizeOutOfBoundsException {
         if (fieldIsEmpty(input)) {
             throw new EmptyFieldException();
         }
-        if (label.equals(PRICE)) {
-            if ((input.length() > PRICE_MAX_SIZE) || (input.length() < PRICE_MIN_SIZE)){
-                throw new PriceSizeOutOfBoundsException();
-            }
+        if (label.equals(PRICE) && (input.length() > PRICE_MAX_SIZE) || (input.length() < PRICE_MIN_SIZE)) {
+            throw new PriceSizeOutOfBoundsException();
         }
     }
-    private static void checkDescriptionSize(String label, String input) throws EmptyFieldException, DescriptionSizeOutOfBoundsException {
+
+    private static void checkDescriptionSizeEn(String label, String input) throws EmptyFieldException, DescriptionSizeOutOfBoundsException {
         if (fieldIsEmpty(input)) {
             throw new EmptyFieldException();
         }
-        if (label.equals("description")){
-            if ((input.length() > DESCRIPTION_MAX_SIZE) || (input.length() < DESCRIPTION_MIN_SIZE)){
-                throw new DescriptionSizeOutOfBoundsException();
-            }
+        if ((label.equals(DESCRIPTION_EN)) && ((input.length() > DESCRIPTION_MAX_SIZE) || (input.length() < DESCRIPTION_MIN_SIZE))) {
+            throw new DescriptionSizeOutOfBoundsException();
         }
     }
+
+    private static void checkDescriptionSizeUa(String label, String input) throws EmptyFieldException, DescriptionSizeOutOfBoundsException {
+        if (fieldIsEmpty(input)) {
+            throw new EmptyFieldException();
+        }
+        if ((label.equals(DESCRIPTION_UA)) && ((input.length() > DESCRIPTION_MAX_SIZE) || (input.length() < DESCRIPTION_MIN_SIZE))) {
+            throw new DescriptionSizeOutOfBoundsException();
+        }
+    }
+
     private static boolean fieldIsEmpty(String field) {
         return field == null || field.trim().isEmpty();
     }

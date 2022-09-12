@@ -43,8 +43,28 @@
                                 value="${booking.price}"/></h3>
                     </div>
                     <div class="details">
-                        <h2 class="primaryInfo"><fmt:message key="customer.myRequests.status"/> <c:out
-                                value="${booking.bookingStatus}"/></h2>
+                        <h2 class="primaryInfo"><fmt:message key="customer.myRequests.status"/>
+                            <c:choose>
+                                <c:when test="${booking.bookingStatus == 'PENDING_REVIEW'}">
+                                    <fmt:message key="status.pendingReview"/>
+                                </c:when>
+                                <c:when test="${booking.bookingStatus == 'ON_REVIEW'}">
+                                    <fmt:message key="status.onReview"/>
+                                </c:when>
+                                <c:when test="${booking.bookingStatus == 'ACTIVE'}">
+                                    <fmt:message key="status.active"/>
+                                </c:when>
+                                <c:when test="${booking.bookingStatus == 'TERMINATED'}">
+                                    <fmt:message key="status.terminated"/>
+                                </c:when>
+                                <c:when test="${booking.bookingStatus == 'DECLINED'}">
+                                    <fmt:message key="status.declined"/>
+                                </c:when>
+                                <c:when test="${booking.bookingStatus == 'FINISHED'}">
+                                    <fmt:message key="status.finished"/>
+                                </c:when>
+                            </c:choose>
+                        </h2>
                     </div>
                     <c:if test="${booking.bookingStatus == 'DECLINED'}">
                         <div class="details">
@@ -87,8 +107,16 @@
         </c:forEach>
     </div>
 
-    <div class="pagination">
-    </div>
+    <c:choose>
+        <c:when test="${empty requestScope.bookingList}">
+            <div class="no-results">
+                <h2><fmt:message key="noResults"/></h2>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="pagination"></div>
+        </c:otherwise>
+    </c:choose>
 </main>
 
 <footer>
