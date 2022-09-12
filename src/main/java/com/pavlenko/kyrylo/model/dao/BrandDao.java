@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface BrandDao {
     Brand findBrandById(Long id) throws DataBaseException;
+
     List<Brand> findAllBrands() throws DataBaseException;
 }

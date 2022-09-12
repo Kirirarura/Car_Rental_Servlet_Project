@@ -19,6 +19,9 @@ import java.util.Map;
 public class CarService {
 
     private static final String PRICE = "price";
+    private static final String DESCRIPTION_EN = "descriptionEn";
+    private static final String DESCRIPTION_UA = "descriptionUa";
+
     private static final int PAGE_SIZE = 6;
     private final CarDao carDao;
     private final Logger logger = LogManager.getLogger(CarService.class);
@@ -85,9 +88,16 @@ public class CarService {
                 BigDecimal bigDecimalInput = new BigDecimal(input);
                 carDao.editCarPrice(bigDecimalInput, id);
                 break;
-            default:
-                carDao.editCarDescription(id, input);
+            case DESCRIPTION_EN:
+                carDao.editCarDescriptionEn(id,input);
                 break;
+            case DESCRIPTION_UA:
+                carDao.editCarDescriptionUa(id, input);
+                break;
+            default:
+                logger.info("An error occurred");
+                break;
+
         }
         logger.info("Car with id {} has been edited...", id);
     }

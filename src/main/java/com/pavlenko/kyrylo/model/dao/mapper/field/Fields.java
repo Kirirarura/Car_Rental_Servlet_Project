@@ -25,7 +25,8 @@ public class Fields {
     public static final String CAR_ID = "c_id";
     public static final String MODEL_NAME = "model_name";
     public static final String PRICE = "price";
-    public static final String DESCRIPTION = "description";
+    public static final String DESCRIPTION_EN = "description_en";
+    public static final String DESCRIPTION_UA = "description_ua";
 
 
     // ----- Brand --------

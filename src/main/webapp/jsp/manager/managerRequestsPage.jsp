@@ -66,7 +66,16 @@
                     <div class="responses">
                         <div class="details">
                             <h2 class="primaryInfo"><fmt:message key="manager.myRequests.status"/></h2>
-                            <h3 class="secondaryInfo"><c:out value="${booking.bookingStatus}"/></h3>
+                            <h3 class="secondaryInfo">
+                                <c:choose>
+                                    <c:when test="${booking.bookingStatus == 'ON_REVIEW'}">
+                                        <fmt:message key="status.onReview"/>
+                                    </c:when>
+                                    <c:when test="${booking.bookingStatus == 'ACTIVE'}">
+                                        <fmt:message key="status.active"/>
+                                    </c:when>
+                                </c:choose>
+                            </h3>
                         </div>
                         <c:choose>
                             <c:when test="${booking.bookingStatus.toString() == 'ON_REVIEW'}">
@@ -138,8 +147,16 @@
     </div>
     </c:forEach>
 
-    <div class="pagination">
-    </div>
+    <c:choose>
+        <c:when test="${empty sessionScope.bookingList}">
+            <div class="no-results">
+                <h2><fmt:message key="noResults"/></h2>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="pagination"></div>
+        </c:otherwise>
+    </c:choose>
 </main>
 
 <footer>

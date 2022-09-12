@@ -3,8 +3,8 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tf" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.lang}" />
-<fmt:setBundle basename="messages" />
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages"/>
 
 <!DOCTYPE>
 <html>
@@ -26,7 +26,7 @@
     <input type="hidden" id="status" value="<%= request.getAttribute("status")%>">
     <input type="hidden" id="lang" value="<%= session.getAttribute("lang")%>">
 
-    <h1><fmt:message key="userManagement.title"/> </h1>
+    <h1><fmt:message key="userManagement.title"/></h1>
     <div class="card-content">
         <c:forEach var="user" items="${requestScope.userList}">
             <div class="card-item">
@@ -63,14 +63,24 @@
         </c:forEach>
     </div>
 
-    <div class="pagination">
-    </div>
+
+    <c:choose>
+        <c:when test="${empty requestScope.userList}">
+            <div class="no-results">
+                <h2><fmt:message key="noResults"/></h2>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="pagination"></div>
+        </c:otherwise>
+    </c:choose>
 </main>
 
 <footer>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/pagination.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.19/dist/sweetalert2.all.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/messages/infoLoadingMessages.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/js/messages/infoLoadingMessages.js"></script>
 </footer>
 </body>
 </html>

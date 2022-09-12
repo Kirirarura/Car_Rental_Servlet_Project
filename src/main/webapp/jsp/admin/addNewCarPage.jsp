@@ -65,11 +65,18 @@
                 </label>
             </div>
             <div class="form-control">
-                <label><fmt:message key="addNewCar.description"/>
-                    <input type="text" placeholder="<fmt:message key="addNewCar.description.placeHolder"/>"
-                           name="description" required="required">
+                <label><fmt:message key="addNewCar.description.en"/>
+                    <input type="text" placeholder="<fmt:message key="addNewCar.description.placeHolder.en"/>"
+                           name="descriptionEn" required="required">
                 </label>
             </div>
+            <div class="form-control">
+                <label><fmt:message key="addNewCar.description.ua"/>
+                    <input type="text" placeholder="<fmt:message key="addNewCar.description.placeHolder.ua"/>"
+                           name="descriptionUa" required="required">
+                </label>
+            </div>
+
             <div class="form-control">
                 <input type="submit" class="btn" value="<fmt:message key="addNewCar.button"/>">
             </div>

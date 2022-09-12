@@ -11,7 +11,7 @@ public class CatalogMapper {
 
     private static final String SORT = "Sort";
     private static final String PRICE = "price";
-    private static final String NAME = "name";
+    private static final String MODEL = "model_name";
     private static final String ORDER = "Order";
     private static final String ASC = "ASC";
     private static final String DESC = "DESC";
@@ -34,8 +34,8 @@ public class CatalogMapper {
         }
         if (request.getParameter(PRICE) != null){
             filterParameters.put(SORT, PRICE);
-        } else if (request.getParameter(NAME) != null){
-            filterParameters.put(SORT, NAME);
+        } else if (request.getParameter("name") != null){
+            filterParameters.put(SORT, MODEL);
         }
         if (request.getParameter(ASC) != null){
             filterParameters.put(ORDER, ASC);

@@ -11,11 +11,11 @@ public class CarQueries {
 
     public static final String CREATE_CAR =
             "INSERT INTO cars (" +
-                    "model_name, price, brand_id, quality_class_id, description" +
+                    "model_name, price, brand_id, quality_class_id, description_en, description_ua" +
                     ") values (?, ?, " +
                     "(SELECT id FROM brands WHERE brand_name = ?), " +
                     "(SELECT id FROM quality_class WHERE quality_class_name = ?)," +
-                    "?)";
+                    "?, ?)";
 
     public static final String FIND_ALL_FROM_CARS =
             "SELECT * FROM cars" +
@@ -49,9 +49,14 @@ public class CarQueries {
             UPDATE_CARS +
                     " SET car_status_id = ?" +
                     WHERE_ID;
-    public static final String UPDATE_CAR_DESCRIPTION =
+    public static final String UPDATE_CAR_DESCRIPTION_EN =
             UPDATE_CARS +
-                    " SET description = ?" +
+                    " SET description_en = ?" +
+                    WHERE_ID;
+
+    public static final String UPDATE_CAR_DESCRIPTION_UA =
+            UPDATE_CARS +
+                    " SET description_ua = ?" +
                     WHERE_ID;
 
     public static final String DELETE_CAR_BY_ID =

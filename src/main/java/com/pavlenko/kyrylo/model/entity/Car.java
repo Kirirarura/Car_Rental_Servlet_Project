@@ -16,18 +16,21 @@ public class Car implements Serializable {
     private Brand brand;
     private Quality qualityClass;
     private CarStatus status;
-    private String description;
+    private String descriptionEn;
+    private String descriptionUa;
     public Car() {
     }
 
-    public Car(Long carId, String modelName, BigDecimal price, Brand brand, Quality qualityClass, CarStatus status, String description) {
+    public Car(Long carId, String modelName, BigDecimal price, Brand brand,
+               Quality qualityClass, CarStatus status, String descriptionEn, String descriptionUa) {
         this.carId = carId;
         this.modelName = modelName;
         this.price = price;
         this.brand = brand;
         this.qualityClass = qualityClass;
         this.status = status;
-        this.description = description;
+        this.descriptionEn = descriptionEn;
+        this.descriptionUa = descriptionUa;
     }
 
     public Car(CarDto carDto){
@@ -35,7 +38,8 @@ public class Car implements Serializable {
         this.modelName = carDto.getModel();
         this.price = new BigDecimal(carDto.getPrice());
         this.qualityClass = carDto.getQualityClass();
-        this.description = carDto.getDescription();
+        this.descriptionEn = carDto.getDescriptionEn();
+        this.descriptionUa = carDto.getDescriptionUa();
     }
 
     public Long getCarId() {
@@ -86,12 +90,20 @@ public class Car implements Serializable {
         this.status = status;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptionEn() {
+        return descriptionEn;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
+    }
+
+    public String getDescriptionUa() {
+        return descriptionUa;
+    }
+
+    public void setDescriptionUa(String descriptionUa) {
+        this.descriptionUa = descriptionUa;
     }
 
     public static CarBuilder builder() {
@@ -104,12 +116,12 @@ public class Car implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return Objects.equals(getCarId(), car.getCarId()) && Objects.equals(getModelName(), car.getModelName()) && Objects.equals(getPrice(), car.getPrice()) && Objects.equals(getBrand(), car.getBrand()) && Objects.equals(getQualityClass(), car.getQualityClass()) && Objects.equals(getStatus(), car.getStatus()) && Objects.equals(getDescription(), car.getDescription());
+        return Objects.equals(getCarId(), car.getCarId()) && Objects.equals(getModelName(), car.getModelName()) && Objects.equals(getPrice(), car.getPrice()) && Objects.equals(getBrand(), car.getBrand()) && Objects.equals(getQualityClass(), car.getQualityClass()) && Objects.equals(getStatus(), car.getStatus()) && Objects.equals(getDescriptionEn(), car.getDescriptionEn());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCarId(), getModelName(), getPrice(), getBrand(), getQualityClass(), getStatus(), getDescription());
+        return Objects.hash(getCarId(), getModelName(), getPrice(), getBrand(), getQualityClass(), getStatus(), getDescriptionEn());
     }
 
     @Override

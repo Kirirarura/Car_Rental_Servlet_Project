@@ -53,7 +53,10 @@ public class PostAddNewCarCommand implements Command {
             request.setAttribute(STATUS, StatusesContainer.FAILED_ADD_CAR_EXCEPTION);
         }
 
-        boolean isValid = AddCarValidator.validate(carDto, request);
+        boolean isValid = false;
+        if (carDto != null) {
+            isValid = AddCarValidator.validate(carDto, request);
+        }
         if (isValid) {
             try {
                 carService.registerNewCar(carDto);

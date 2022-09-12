@@ -48,6 +48,7 @@ public class GetEditCarCommand implements Command {
             request.setAttribute(STATUS, StatusesContainer.CAR_INFO_LOADING_EXCEPTION);
         }
 
+
         return JspFilePath.ADMIN_CAR_MANAGEMENT;
     }
 }

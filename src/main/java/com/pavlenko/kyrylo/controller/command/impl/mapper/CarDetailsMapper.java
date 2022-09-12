@@ -13,7 +13,8 @@ public class CarDetailsMapper {
 
     private static final String MODEL = "model";
     private static final String PRICE = "price";
-    private static final String DESCRIPTION = "description";
+    private static final String DESCRIPTION_EN = "descriptionEn";
+    private static final String DESCRIPTION_UA = "descriptionUa";
 
 
     public CarDto fetchUserDtoFromRequest(HttpServletRequest req, Brand brand, Quality quality) {
@@ -22,7 +23,8 @@ public class CarDetailsMapper {
                 req.getParameter(MODEL),
                 req.getParameter(PRICE),
                 quality,
-                req.getParameter(DESCRIPTION)
+                req.getParameter(DESCRIPTION_EN),
+                req.getParameter(DESCRIPTION_UA)
         );
     }
 }

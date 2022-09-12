@@ -10,17 +10,19 @@ public class CarDto {
     private String model;
     private String price;
     private Quality qualityClass;
-    private String description;
+    private String descriptionEn;
+    private String descriptionUa;
 
     public CarDto() {
     }
 
-    public CarDto(Brand brand, String model, String price, Quality qualityClass, String description) {
+    public CarDto(Brand brand, String model, String price, Quality qualityClass, String descriptionEn, String descriptionUa) {
         this.brand = brand;
         this.model = model;
         this.price = price;
         this.qualityClass = qualityClass;
-        this.description = description;
+        this.descriptionUa = descriptionUa;
+        this.descriptionEn = descriptionEn;
     }
 
     public Brand getBrand() {
@@ -55,12 +57,20 @@ public class CarDto {
         this.qualityClass = qualityClass;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptionEn() {
+        return descriptionEn;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
+    }
+
+    public String getDescriptionUa() {
+        return descriptionUa;
+    }
+
+    public void setDescriptionUa(String descriptionUa) {
+        this.descriptionUa = descriptionUa;
     }
 
     @Override
@@ -68,11 +78,11 @@ public class CarDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CarDto carDto = (CarDto) o;
-        return Objects.equals(getBrand(), carDto.getBrand()) && Objects.equals(getModel(), carDto.getModel()) && Objects.equals(getPrice(), carDto.getPrice()) && Objects.equals(getQualityClass(), carDto.getQualityClass()) && Objects.equals(getDescription(), carDto.getDescription());
+        return Objects.equals(getBrand(), carDto.getBrand()) && Objects.equals(getModel(), carDto.getModel()) && Objects.equals(getPrice(), carDto.getPrice()) && Objects.equals(getQualityClass(), carDto.getQualityClass()) && Objects.equals(getDescriptionEn(), carDto.getDescriptionEn());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getBrand(), getModel(), getPrice(), getQualityClass(), getDescription());
+        return Objects.hash(getBrand(), getModel(), getPrice(), getQualityClass(), getDescriptionEn());
     }
 }
