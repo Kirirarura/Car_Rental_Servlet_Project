@@ -3,6 +3,7 @@ package com.pavlenko.kyrylo.controller.command.impl.common;
 import com.pavlenko.kyrylo.controller.command.Command;
 import com.pavlenko.kyrylo.controller.command.impl.mapper.CatalogMapper;
 import com.pavlenko.kyrylo.controller.util.JspFilePath;
+import com.pavlenko.kyrylo.controller.validator.FieldValidator;
 import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
 import com.pavlenko.kyrylo.model.entity.Brand;
 import com.pavlenko.kyrylo.model.entity.Quality;
@@ -70,16 +71,13 @@ public class GetCatalogCommand implements Command {
     private int getActivePageNumber(HttpServletRequest request) {
         String pageNumberString = request.getParameter(PAGE);
 
-        if (!fieldIsEmpty(pageNumberString)) {
+        if (!FieldValidator.fieldIsEmpty(pageNumberString)) {
             return Integer.parseInt(pageNumberString);
         } else {
             return START_PAGE_NUMBER;
         }
     }
 
-    public static boolean fieldIsEmpty(String field) {
-        return field == null || field.trim().isEmpty();
-    }
 
 
 }

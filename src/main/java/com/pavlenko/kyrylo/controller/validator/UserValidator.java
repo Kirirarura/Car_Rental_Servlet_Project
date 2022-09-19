@@ -69,7 +69,7 @@ public class UserValidator {
     }
 
     private static void checkPasswordSize(String password) throws PasswordSizeOutOfBoundsException, EmptyFieldException {
-        if (fieldIsEmpty(password)) {
+        if (FieldValidator.fieldIsEmpty(password)) {
             throw new EmptyFieldException();
         }
 
@@ -81,7 +81,7 @@ public class UserValidator {
     }
 
     private static void checkPasswordMatch(String password, String repeatPassword) throws PasswordMatchException, EmptyFieldException {
-        if (fieldIsEmpty(password) || fieldIsEmpty(repeatPassword)) {
+        if (FieldValidator.fieldIsEmpty(password) || FieldValidator.fieldIsEmpty(repeatPassword)) {
             throw new EmptyFieldException();
         }
         if (!password.equals(repeatPassword)) {
@@ -90,7 +90,7 @@ public class UserValidator {
     }
 
     private static void checkFirstNameSize(String firstName) throws EmptyFieldException, FirstNameSizeOutOfBoundsException {
-        if (fieldIsEmpty(firstName)) {
+        if (FieldValidator.fieldIsEmpty(firstName)) {
             throw new EmptyFieldException();
         }
         if (firstName.length() > FIRST_NAME_MAX_SIZE) {
@@ -99,7 +99,7 @@ public class UserValidator {
     }
 
     private static void checkLastNameSize(String lastName) throws EmptyFieldException, LastNameSizeOutOfBoundsException {
-        if (fieldIsEmpty(lastName)) {
+        if (FieldValidator.fieldIsEmpty(lastName)) {
             throw new EmptyFieldException();
         }
         if (lastName.length() > LAST_NAME_MAX_SIZE) {
@@ -108,7 +108,7 @@ public class UserValidator {
     }
 
     private static void checkEmailSize(String email) throws EmptyFieldException, EmailSizeOutOfBoundsException {
-        if (fieldIsEmpty(email)) {
+        if (FieldValidator.fieldIsEmpty(email)) {
             throw new EmptyFieldException();
         }
         if (email.length() > EMAIL_MAX_SIZE) {
@@ -123,9 +123,5 @@ public class UserValidator {
         if (!matcher.matches()) {
             throw new EmailNotMatchPatternException();
         }
-    }
-
-    private static boolean fieldIsEmpty(String field) {
-        return field == null || field.trim().isEmpty();
     }
 }

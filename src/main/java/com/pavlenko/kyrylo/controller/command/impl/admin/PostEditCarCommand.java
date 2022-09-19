@@ -7,8 +7,6 @@ import com.pavlenko.kyrylo.controller.validator.EditCarValidator;
 import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.service.CarService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,8 +21,6 @@ public class PostEditCarCommand implements Command {
     private static final String LABEL = "label";
     private static final String INPUT = "input";
     private static final String INPUT_ID = "inputID";
-
-    private final Logger logger = LogManager.getLogger(PostEditCarCommand.class);
     public PostEditCarCommand(CarService carService) {
         this.carService = carService;
     }
@@ -52,7 +48,7 @@ public class PostEditCarCommand implements Command {
                 return UriPath.REDIRECT + UriPath.CATALOG;
             } catch (DataBaseException e) {
                 request.setAttribute(STATUS, StatusesContainer.FAILED_EDIT_CAR_EXCEPTION);
-                logger.error("Failed to edit car details, because: {}", e.getMessage());
+
             }
         }
         return JspFilePath.ADMIN_CAR_MANAGEMENT;

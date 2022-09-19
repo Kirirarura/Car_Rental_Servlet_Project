@@ -64,7 +64,7 @@ public class AddCarValidator {
     }
 
     private static void checkModelSize(String input) throws EmptyFieldException, ModelOutOfBoundsException {
-        if (fieldIsEmpty(input)) {
+        if (FieldValidator.fieldIsEmpty(input)) {
             throw new EmptyFieldException();
         }
 
@@ -74,7 +74,7 @@ public class AddCarValidator {
     }
 
     private static void checkPriceInput(String input) throws WrongInputException, EmptyFieldException {
-        if (fieldIsEmpty(input)) {
+        if (FieldValidator.fieldIsEmpty(input)) {
             throw new EmptyFieldException();
         }
 
@@ -93,7 +93,7 @@ public class AddCarValidator {
 
 
     private static void checkPriceSize(String input) throws EmptyFieldException, PriceSizeOutOfBoundsException {
-        if (fieldIsEmpty(input)) {
+        if (FieldValidator.fieldIsEmpty(input)) {
             throw new EmptyFieldException();
         }
 
@@ -103,7 +103,7 @@ public class AddCarValidator {
     }
 
     private static void checkDescriptionSize(String input) throws EmptyFieldException, DescriptionSizeOutOfBoundsException {
-        if (fieldIsEmpty(input)) {
+        if (FieldValidator.fieldIsEmpty(input)) {
             throw new EmptyFieldException();
         }
 
@@ -111,9 +111,5 @@ public class AddCarValidator {
             throw new DescriptionSizeOutOfBoundsException();
         }
 
-    }
-
-    private static boolean fieldIsEmpty(String field) {
-        return field == null || field.trim().isEmpty();
     }
 }

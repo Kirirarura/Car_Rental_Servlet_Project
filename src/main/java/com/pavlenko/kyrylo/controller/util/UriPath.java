@@ -5,7 +5,6 @@ public final class UriPath {
     private UriPath() {}
 
     public static final String ROOT = "/";
-    public static final String PROJECT_NAME = "/Car_Rental_Servlet_Project_war_exploded";
     public static final String REDIRECT = "redirect:";
     public static final String CUSTOMER_PREFIX = "/Customer";
     public static final String MANAGER_PREFIX = "/Manager";

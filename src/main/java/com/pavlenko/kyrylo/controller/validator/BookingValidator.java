@@ -58,7 +58,7 @@ public class BookingValidator {
     }
 
     private static void checkUserDetails(String input) throws EmptyFieldException, PassportDataFormatException {
-        if (fieldIsEmpty(input)){
+        if (FieldValidator.fieldIsEmpty(input)){
             throw new EmptyFieldException();
         }
         Pattern pattern = Pattern.compile(PASSPORT_REGEX);
@@ -71,7 +71,7 @@ public class BookingValidator {
     }
 
     private static void checkFirstDate(String startDate) throws DatesPeriodException, EmptyFieldException {
-        if (fieldIsEmpty(startDate)){
+        if (FieldValidator.fieldIsEmpty(startDate)){
             throw new EmptyFieldException();
         }
 
@@ -83,7 +83,7 @@ public class BookingValidator {
     }
 
     private static void checkRentPeriodFormat(String startDate, String endDate) throws EmptyFieldException, DatesFormatException {
-        if (fieldIsEmpty(startDate) || fieldIsEmpty(endDate)){
+        if (FieldValidator.fieldIsEmpty(startDate) || FieldValidator.fieldIsEmpty(endDate)){
             throw new EmptyFieldException();
         }
 
@@ -101,10 +101,6 @@ public class BookingValidator {
         if (period.getDays() <= 0) {
             throw new DatesPeriodException();
         }
-    }
-
-    private static boolean fieldIsEmpty(String field) {
-        return field == null || field.trim().isEmpty();
     }
 
 }
