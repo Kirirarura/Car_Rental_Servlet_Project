@@ -43,16 +43,13 @@ public class DeclineBookingValidator {
     }
 
     private static void checkDeclineInfo(String input) throws EmptyFieldException, DescriptionSizeOutOfBoundsException {
-        if (fieldIsEmpty(input)) {
+        if (FieldValidator.fieldIsEmpty(input)) {
             throw new EmptyFieldException();
         }
 
         if ((input.length() > DECLINE_INFO_MAX_SIZE) || (input.length() < DECLINE_INFO_MIN_SIZE)) {
             throw new DescriptionSizeOutOfBoundsException();
         }
-    }
-    private static boolean fieldIsEmpty(String field) {
-        return field == null || field.trim().isEmpty();
     }
 
 }

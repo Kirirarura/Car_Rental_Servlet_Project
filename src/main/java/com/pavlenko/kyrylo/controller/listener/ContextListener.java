@@ -12,10 +12,6 @@ import com.pavlenko.kyrylo.controller.command.impl.guest.PostLoginCommand;
 import com.pavlenko.kyrylo.controller.command.impl.guest.PostRegistrationCommand;
 import com.pavlenko.kyrylo.controller.command.impl.manager.*;
 import com.pavlenko.kyrylo.controller.util.UriPath;
-import com.pavlenko.kyrylo.model.dao.*;
-import com.pavlenko.kyrylo.model.dao.impl.*;
-import com.pavlenko.kyrylo.model.entity.util.PasswordEncoder;
-import com.pavlenko.kyrylo.model.entity.util.Pbkdf2PasswordEncoder;
 import com.pavlenko.kyrylo.model.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,7 +35,6 @@ import java.util.Map;
 public class ContextListener implements ServletContextListener, HttpSessionListener {
 
     private static final Logger logger = LogManager.getLogger(ContextListener.class);
-
     private static final String DATASOURCE = "dataSource";
     private static final String USER_SERVICE = "userService";
     private static final String CAR_SERVICE = "carService";
@@ -73,27 +68,22 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
     }
 
     private void initServices(ServletContext context) {
-        PasswordEncoder passwordEncoder = new Pbkdf2PasswordEncoder();
+        ServiceFactory serviceFactory = new ServiceFactoryImpl((DataSource) context.getAttribute(DATASOURCE));
 
-        UserDao userDao = new UserDaoImpl((DataSource) context.getAttribute(DATASOURCE));
-        UserService userService = new UserService(passwordEncoder, userDao);
+        UserService userService = serviceFactory.createUserService();
         context.setAttribute(USER_SERVICE, userService);
 
-        CarDao carDao = new CarDaoImpl((DataSource) context.getAttribute(DATASOURCE));
-        CarService carService = new CarService(carDao);
+        CarService carService = serviceFactory.createCarService();
         context.setAttribute(CAR_SERVICE, carService);
 
-        QualityClassDao qualityClassDao = new QualityClassDaoImpl((DataSource) context.getAttribute(DATASOURCE));
-        QualityService qualityService = new QualityService(qualityClassDao);
+        BookingService bookingService = serviceFactory.createBookingService();
+        context.setAttribute(BOOKING_SERVICE, bookingService);
+
+        QualityService qualityService = serviceFactory.createQualityService();
         context.setAttribute(QUALITY_SERVICE, qualityService);
 
-        BrandDao brandDao = new BrandDaoImpl((DataSource) context.getAttribute(DATASOURCE));
-        BrandService brandService = new BrandService(brandDao);
+        BrandService brandService = serviceFactory.createBrandService();
         context.setAttribute(BRAND_SERVICE, brandService);
-
-        BookingDao bookingDao = new BookingDaoImpl((DataSource) context.getAttribute(DATASOURCE));
-        BookingService bookingService = new BookingService(bookingDao);
-        context.setAttribute(BOOKING_SERVICE, bookingService);
     }
 
     private void initCommands(ServletContext context) {

@@ -33,8 +33,6 @@ public class DispatcherServlet extends HttpServlet {
         super.init(config);
         getCommands = (Map<String, Command>) config.getServletContext().getAttribute("getCommands");
         postCommands = (Map<String, Command>) config.getServletContext().getAttribute("postCommands");
-
-
     }
 
     /**
