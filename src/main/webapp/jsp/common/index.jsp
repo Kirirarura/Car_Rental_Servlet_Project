@@ -25,12 +25,19 @@
                 <h2><fmt:message key="index.firstTitle"/> </h2>
                 <h2><fmt:message key="index.secondTitle"/></h2>
                 <p><fmt:message key="index.text"/></p>
-                <a href="${pageContext.request.contextPath}/catalog"><fmt:message key="index.link"/></a>
+                <c:choose>
+                    <c:when test="${sessionScope.role == 'MANAGER'}">
+                        <a href="${pageContext.request.contextPath}/Manager/allRequests"><fmt:message key="index.link"/></a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/catalog"><fmt:message key="index.link"/></a>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </section>
     </main>
-    <footer>
-
+    <footer class="footer">
+        <%@ include file="../partial/footer.jspf" %>
     </footer>
 </body>
 </html>

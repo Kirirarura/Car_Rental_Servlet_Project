@@ -15,13 +15,19 @@
     <%@ include file="/jsp/partial/head.jspf" %>
 </head>
 <body>
-<tf:chooseHeader role="${sessionScope.role}"/>
-
-<div class="container">
-    <div class="row text-center">
-        <p><fmt:message key="manager.error.title"/> </p>
-        <a href="${pageContext.request.contextPath}/Manager/allRequests"> <fmt:message key="manager.error.back"/></a>
+<header>
+    <tf:chooseHeader role="${sessionScope.role}"/>
+</header>
+<main>
+    <div class="container">
+        <div class="row text-center">
+            <p><fmt:message key="manager.error.title"/> </p>
+            <a href="${pageContext.request.contextPath}/Manager/allRequests"> <fmt:message key="manager.error.back"/></a>
+        </div>
     </div>
-</div>
+</main>
+<footer class="footer">
+    <%@ include file="../partial/footer.jspf" %>
+</footer>
 </body>
 </html>

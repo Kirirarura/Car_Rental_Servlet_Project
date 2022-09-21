@@ -73,7 +73,7 @@ public class AuthenticationFilter implements Filter {
     }
 
     private boolean checkManagerAccess(String uri) {
-        return uri.startsWith(MANAGER_PREFIX) || uri.equals(LOGOUT);
+        return uri.startsWith(MANAGER_PREFIX) || uri.equals(LOGOUT) || uri.equals(INDEX);
     }
 
     private boolean checkAdminAccess(String uri) {
@@ -91,6 +91,7 @@ public class AuthenticationFilter implements Filter {
     private boolean checkResources(String uri) {
         return uri.startsWith(STATIC_RESOURCES_PREFIX);
     }
+
     @Override
     public void destroy() {
         Filter.super.destroy();
