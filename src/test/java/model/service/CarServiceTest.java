@@ -7,12 +7,9 @@ import com.pavlenko.kyrylo.model.entity.Car;
 import com.pavlenko.kyrylo.model.entity.Quality;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.service.CarService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.mockito.Mockito.*;
 
@@ -78,13 +75,15 @@ class CarServiceTest {
     @Test
     void testEditCarInfoDescriptionEnCase() throws DataBaseException {
         String info = "info";
-        carService.editCarInfo("", info , 1L, 1L);
+        String label = "descriptionEn";
+        carService.editCarInfo(label, info , 1L, 1L);
         verify(carDao, times(1)).editCarDescriptionEn(1L, info);
     }
     @Test
     void testEditCarInfoDescriptionUaCase() throws DataBaseException {
         String info = "info";
-        carService.editCarInfo("", info , 1L, 1L);
+        String label = "descriptionUa";
+        carService.editCarInfo(label, info , 1L, 1L);
         verify(carDao, times(1)).editCarDescriptionUa(1L, info);
     }
 

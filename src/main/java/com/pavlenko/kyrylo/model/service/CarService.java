@@ -21,7 +21,6 @@ public class CarService {
     private static final String PRICE = "price";
     private static final String DESCRIPTION_EN = "descriptionEn";
     private static final String DESCRIPTION_UA = "descriptionUa";
-
     private static final int PAGE_SIZE = 6;
     private final CarDao carDao;
     private final Logger logger = LogManager.getLogger(CarService.class);
@@ -40,8 +39,8 @@ public class CarService {
      * Manages catalog loading with filtering and sorting.
      *
      * @param filterParameters Map with filters, that can contains Brand, Quality or nothing.
-     * @param pageNum Integer that indicates current page.
-     * @param role User role that effects output.
+     * @param pageNum          Integer that indicates current page.
+     * @param role             User role that effects output.
      * @throws DataBaseException Indicates that error occurred during database accessing.
      */
 
@@ -51,13 +50,13 @@ public class CarService {
 
         boolean adminRequest = false;
         int offSet = PAGE_SIZE * (pageNum - 1);
-        if (role.equals("ADMIN")){
+        if (role.equals("ADMIN")) {
             adminRequest = true;
         }
         PaginationInfo paginationResultData =
                 carDao.getPaginationResultData(filterParameters, PAGE_SIZE, offSet, adminRequest);
 
-        int pagesCount = (int) Math.ceil((double) paginationResultData.getCarsCount()  / PAGE_SIZE);
+        int pagesCount = (int) Math.ceil((double) paginationResultData.getCarsCount() / PAGE_SIZE);
         paginationResultData.setPagesCount(pagesCount);
 
         return paginationResultData;
@@ -70,9 +69,9 @@ public class CarService {
     /**
      * Manages editing of car details.
      *
-     * @param label Indicates what information that is going to be edited.
-     * @param input New information that is going to be edited.
-     * @param id ID of car that is going to be edited.
+     * @param label   Indicates what information that is going to be edited.
+     * @param input   New information that is going to be edited.
+     * @param id      ID of car that is going to be edited.
      * @param inputID ID of Status, Quality to edit.
      * @throws DataBaseException Indicates that error occurred during database accessing.
      */
@@ -89,7 +88,7 @@ public class CarService {
                 carDao.editCarPrice(bigDecimalInput, id);
                 break;
             case DESCRIPTION_EN:
-                carDao.editCarDescriptionEn(id,input);
+                carDao.editCarDescriptionEn(id, input);
                 break;
             case DESCRIPTION_UA:
                 carDao.editCarDescriptionUa(id, input);
