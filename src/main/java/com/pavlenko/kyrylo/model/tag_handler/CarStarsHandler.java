@@ -2,7 +2,6 @@ package com.pavlenko.kyrylo.model.tag_handler;
 
 import com.pavlenko.kyrylo.model.entity.Quality;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
@@ -33,5 +32,7 @@ public class CarStarsHandler extends TagSupport {
         return SKIP_BODY;
     }
 
-    public void setCarQuality(String quality) {this.carQuality = quality;}
+    public void setCarQuality(String quality) {
+        this.carQuality = quality;
+    }
 }

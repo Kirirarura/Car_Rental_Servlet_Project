@@ -16,7 +16,8 @@ class EditCarValidatorTest {
 
 
     private static final String PRICE = "price";
-    private static final String DESCRIPTION = "description";
+    private static final String DESCRIPTION_EN = "descriptionEn";
+    private static final String DESCRIPTION_UA = "descriptionUa";
     private static final String CORRECT_PRICE_INPUT = "50";
     private static final String CORRECT_DESCRIPTION_INPUT = "Some interesting info";
     private static final String EMPTY_INPUT = "";
@@ -34,7 +35,7 @@ class EditCarValidatorTest {
 
     @Test
     void testValidateShouldReturnTrueDescriptionCase() {
-        assertTrue(EditCarValidator.validate(DESCRIPTION, CORRECT_DESCRIPTION_INPUT, REQUEST));
+        assertTrue(EditCarValidator.validate(DESCRIPTION_EN, CORRECT_DESCRIPTION_INPUT, REQUEST));
     }
 
     @Test
@@ -65,8 +66,8 @@ class EditCarValidatorTest {
     }
 
     @Test
-    void testValidateEditCarWithIncorrectDescriptionInput(){
-        boolean isValid = EditCarValidator.validate(DESCRIPTION, INCORRECT_DESCRIPTION_INPUT, REQUEST);
+    void testValidateEditCarWithIncorrectDescriptionEnInput(){
+        boolean isValid = EditCarValidator.validate(DESCRIPTION_EN, INCORRECT_DESCRIPTION_INPUT, REQUEST);
         assertFalse(isValid);
 
         verify(REQUEST, times(1))
@@ -74,8 +75,26 @@ class EditCarValidatorTest {
     }
 
     @Test
-    void testValidateEditCarWithIncorrectDescriptionInputEmpty(){
-        boolean isValid = EditCarValidator.validate(DESCRIPTION, EMPTY_INPUT, REQUEST);
+    void testValidateEditCarWithIncorrectDescriptionEnInputEmpty(){
+        boolean isValid = EditCarValidator.validate(DESCRIPTION_EN, EMPTY_INPUT, REQUEST);
+        assertFalse(isValid);
+
+        verify(REQUEST, times(1))
+                .setAttribute("status", StatusesContainer.EMPTY_FIELD_EXCEPTION);
+    }
+
+    @Test
+    void testValidateEditCarWithIncorrectDescriptionUaInput(){
+        boolean isValid = EditCarValidator.validate(DESCRIPTION_UA, INCORRECT_DESCRIPTION_INPUT, REQUEST);
+        assertFalse(isValid);
+
+        verify(REQUEST, times(1))
+                .setAttribute("status", StatusesContainer.DESCRIPTION_SIZE_OUT_OF_BOUNDS_EXCEPTION);
+    }
+
+    @Test
+    void testValidateEditCarWithIncorrectDescriptionUaInputEmpty(){
+        boolean isValid = EditCarValidator.validate(DESCRIPTION_UA, EMPTY_INPUT, REQUEST);
         assertFalse(isValid);
 
         verify(REQUEST, times(1))
