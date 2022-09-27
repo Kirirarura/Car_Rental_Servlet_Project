@@ -6,7 +6,7 @@ public class CarQueries {
     }
 
     private static final String UPDATE_CARS = "UPDATE cars";
-    private static final String WHERE_ID = " WHERE c_id = ?";
+    private static final String WHERE_ID = " WHERE cars.id = ?";
     public static final String LIMIT_OFFSET = " LIMIT ? OFFSET ?";
 
     public static final String CREATE_CAR =

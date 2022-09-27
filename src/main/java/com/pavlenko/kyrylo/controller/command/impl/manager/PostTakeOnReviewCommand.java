@@ -18,7 +18,6 @@ import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 public class PostTakeOnReviewCommand implements Command {
 
     BookingService bookingService;
-    private static final String USER_ID = "userId";
     public PostTakeOnReviewCommand(BookingService bookingService) {
         this.bookingService = bookingService;
     }

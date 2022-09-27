@@ -8,5 +8,6 @@ import java.util.List;
 public interface QualityClassDao {
 
     List<Quality> findAllQualityClasses() throws DataBaseException;
+
     Quality findQualityById(Long id) throws DataBaseException;
 }

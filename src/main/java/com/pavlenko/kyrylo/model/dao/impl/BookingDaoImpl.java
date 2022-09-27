@@ -35,8 +35,18 @@ public class BookingDaoImpl implements BookingDao {
     public void create(Booking entity) throws DataBaseException {
         try (Connection con = ds.getConnection();
              PreparedStatement statement = con.prepareStatement(BookingQueries.CREATE_BOOKING)) {
-            createBookingShortcut(entity, statement);
-            logger.info("Created new booking...");
+            statement.setInt(1, Math.toIntExact(entity.getUser().getId()));
+            statement.setInt(2, Math.toIntExact(entity.getCar().getCarId()));
+            statement.setString(3, entity.getUserDetails());
+            if (entity.isWithDriver()) {
+                statement.setInt(4, 0);
+            } else {
+                statement.setInt(4, 1);
+            }
+            statement.setDate(5, Date.valueOf(entity.getStartDate()));
+            statement.setDate(6, Date.valueOf(entity.getEndDate()));
+            statement.setBigDecimal(7, entity.getPrice());
+            statement.executeUpdate();
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
@@ -82,8 +92,7 @@ public class BookingDaoImpl implements BookingDao {
             editCarStatusStatement = con.prepareStatement(CarQueries.UPDATE_CAR_STATUS);
 
             con.setAutoCommit(false);
-            createBookingShortcut(entity, createStatement);
-
+            create(entity);
             editCarStatusStatement.setInt(1, Math.toIntExact(carStatusId));
             editCarStatusStatement.setInt(2, Math.toIntExact(carId));
             editCarStatusStatement.executeUpdate();
@@ -327,20 +336,5 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
         }
-    }
-
-    private void createBookingShortcut(Booking entity, PreparedStatement createStatement) throws SQLException {
-        createStatement.setInt(1, Math.toIntExact(entity.getUser().getId()));
-        createStatement.setInt(2, Math.toIntExact(entity.getCar().getCarId()));
-        createStatement.setString(3, entity.getUserDetails());
-        if (entity.isWithDriver()) {
-            createStatement.setInt(4, 0);
-        } else {
-            createStatement.setInt(4, 1);
-        }
-        createStatement.setDate(5, Date.valueOf(entity.getStartDate()));
-        createStatement.setDate(6, Date.valueOf(entity.getEndDate()));
-        createStatement.setBigDecimal(7, entity.getPrice());
-        createStatement.executeUpdate();
     }
 }

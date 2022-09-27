@@ -18,9 +18,7 @@ import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 public class PostEditCarCommand implements Command {
 
     private final CarService carService;
-    private static final String LABEL = "label";
-    private static final String INPUT = "input";
-    private static final String INPUT_ID = "inputID";
+
     public PostEditCarCommand(CarService carService) {
         this.carService = carService;
     }
@@ -43,8 +41,8 @@ public class PostEditCarCommand implements Command {
             try {
                 carService.editCarInfo(label, input, id, inputID);
                 request.getSession().removeAttribute(ID);
-                request.getSession().removeAttribute("qualityClassList");
-                request.getSession().removeAttribute("statusList");
+                request.getSession().removeAttribute(QUALITY_CLASS_LIST);
+                request.getSession().removeAttribute(STATUS_LIST);
                 return UriPath.REDIRECT + UriPath.CATALOG;
             } catch (DataBaseException e) {
                 request.setAttribute(STATUS, StatusesContainer.FAILED_EDIT_CAR_EXCEPTION);

@@ -96,10 +96,9 @@
                     <form action="${pageContext.request.contextPath}/Customer/terminate" method="post" name="terminate">
                         <input type="text" name="bookingId" value="${booking.id}" hidden="hidden">
                         <input type="text" name="carId" value="${booking.car.carId}" hidden="hidden">
-
                         <div class="block">
                             <input type="submit" class="btn"
-                                   value="<fmt:message key="customer.myRequests.cancelButton"/>">
+                                   value="<fmt:message key="cancelButton"/>">
                         </div>
                     </form>
                 </c:if>
@@ -124,8 +123,6 @@
 
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/pagination.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.19/dist/sweetalert2.all.min.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/static/js/messages/infoLoadingMessages.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/static/js/messages/customerMessages.js"></script>
 </footer>

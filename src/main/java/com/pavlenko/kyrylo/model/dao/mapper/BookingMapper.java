@@ -15,10 +15,10 @@ public class BookingMapper {
 
     public Booking extractFromResultSet(ResultSet rs) throws SQLException {
         return Booking.builder()
-                .id(rs.getLong(Fields.ID))
-                .user(userMapper.extractFromResultSet(rs))
-                .bookingStatus(bookingStatusMapper.extractFromResultSet(rs))
-                .car(carMapper.extractFromResultSet(rs))
+                .id(rs.getLong(Fields.BOOKING_ID))
+                .user(userMapper.extractFromResultSet(rs, Fields.BOOKING_USER_ID))
+                .bookingStatus(bookingStatusMapper.extractFromResultSet(rs, Fields.BOOKING_STATUS_ID))
+                .car(carMapper.extractFromResultSet(rs, Fields.BOOKING_CAR_ID))
                 .userDetails(rs.getString(Fields.BOOKING_USER_DETAILS))
                 .withDriver(rs.getInt(Fields.BOOKING_WITH_DRIVER))
                 .startDate(LocalDate.parse(rs.getString(Fields.BOOKING_START_DATE)))

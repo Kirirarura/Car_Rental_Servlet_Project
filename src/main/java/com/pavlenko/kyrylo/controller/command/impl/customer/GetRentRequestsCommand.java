@@ -11,7 +11,7 @@ import com.pavlenko.kyrylo.model.service.CarService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 /**
  * Returns page with all requests of log in user.
@@ -20,8 +20,7 @@ public class GetRentRequestsCommand implements Command {
 
     BookingService bookingService;
     CarService carService;
-    private static final String USER_ID = "userId";
-    private static final String BOOKING_LIST = "bookingList";
+
 
     public GetRentRequestsCommand(BookingService bookingService, CarService carService) {
         this.bookingService = bookingService;

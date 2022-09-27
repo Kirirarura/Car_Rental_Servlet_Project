@@ -14,4 +14,11 @@ public class QualityMapper {
                 Quality.QualityEnum.valueOf(rs.getString(Fields.QUALITY))
         );
     }
+
+    public Quality extractFromResultSet(ResultSet rs, String id) throws SQLException {
+        return new Quality(
+                rs.getLong(id),
+                Quality.QualityEnum.valueOf(rs.getString(Fields.QUALITY))
+        );
+    }
 }

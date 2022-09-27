@@ -10,14 +10,13 @@ import com.pavlenko.kyrylo.model.service.BookingService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 /**
  * Returns page with all requests, pool of users requests
  */
 public class GetAllRequestsCommand implements Command {
 
-    private static final String BOOKING_LIST = "bookingList";
     BookingService bookingService;
 
     public GetAllRequestsCommand(BookingService bookingService) {

@@ -16,7 +16,17 @@ public class UserMapper {
                 .firstname(rs.getString(Fields.FIRST_NAME))
                 .lastName((rs.getString(Fields.LAST_NAME)))
                 .email(rs.getString(Fields.EMAIL))
-                .role(roleMapper.extractFromResultSet(rs))
+                .role(roleMapper.extractFromResultSet(rs, Fields.USER_ROLE_ID))
+                .isBlocked(rs.getInt(Fields.IS_BLOCKED))
+                .build();
+    }
+    public User extractFromResultSet(ResultSet rs, String id) throws SQLException {
+        return User.builder()
+                .id(rs.getLong(id))
+                .firstname(rs.getString(Fields.FIRST_NAME))
+                .lastName((rs.getString(Fields.LAST_NAME)))
+                .email(rs.getString(Fields.EMAIL))
+                .role(roleMapper.extractFromResultSet(rs, Fields.USER_ROLE_ID))
                 .isBlocked(rs.getInt(Fields.IS_BLOCKED))
                 .build();
     }

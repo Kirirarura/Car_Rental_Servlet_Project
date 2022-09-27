@@ -116,12 +116,20 @@ public class Car implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return Objects.equals(getCarId(), car.getCarId()) && Objects.equals(getModelName(), car.getModelName()) && Objects.equals(getPrice(), car.getPrice()) && Objects.equals(getBrand(), car.getBrand()) && Objects.equals(getQualityClass(), car.getQualityClass()) && Objects.equals(getStatus(), car.getStatus()) && Objects.equals(getDescriptionEn(), car.getDescriptionEn());
+        return Objects.equals(getCarId(),
+                car.getCarId()) && Objects.equals(getModelName(),
+                car.getModelName()) && Objects.equals(getPrice(),
+                car.getPrice()) && Objects.equals(getBrand(),
+                car.getBrand()) && Objects.equals(getQualityClass(),
+                car.getQualityClass()) && Objects.equals(getStatus(),
+                car.getStatus()) && Objects.equals(getDescriptionEn(),
+                car.getDescriptionEn()) && Objects.equals(getDescriptionUa(),
+                car.getDescriptionUa());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCarId(), getModelName(), getPrice(), getBrand(), getQualityClass(), getStatus(), getDescriptionEn());
+        return Objects.hash(getCarId(), getModelName(), getPrice(), getBrand(), getQualityClass(), getStatus(), getDescriptionEn(), getDescriptionUa());
     }
 
     @Override

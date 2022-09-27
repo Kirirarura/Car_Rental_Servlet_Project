@@ -8,7 +8,7 @@ import com.pavlenko.kyrylo.model.service.BookingService;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 /**
  * Process additional payment.
@@ -16,8 +16,6 @@ import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 public class PostAdditionalPaymentCommand implements Command {
 
     BookingService bookingService;
-
-    private static final String BOOKING_ID = "bookingId";
 
     public PostAdditionalPaymentCommand(BookingService bookingService) {
         this.bookingService = bookingService;

@@ -8,14 +8,13 @@ import com.pavlenko.kyrylo.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.ID;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 /**
  * Process blocking and unblocking user.
  */
 public class PostBlockUnblockUserCommand implements Command {
 
-    private static final String IS_BLOCKED = "isBlocked";
     private final UserService userService;
 
     public PostBlockUnblockUserCommand(UserService userService) {

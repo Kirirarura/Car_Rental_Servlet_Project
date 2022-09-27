@@ -5,14 +5,14 @@ public class BookingQueries {
     private BookingQueries() {
     }
 
-    private static final String WHERE_ID = " WHERE b_id = ?";
+    private static final String WHERE_ID = " WHERE id = ?";
     private static final String UPDATE = "UPDATE booking";
     private static final String FIND_ALL =
             "SELECT * FROM booking" +
                     " INNER JOIN booking_status ON booking.status_id = booking_status.id" +
-                    " INNER JOIN users ON booking.user_id = users.u_id" +
+                    " INNER JOIN users ON booking.user_id = users.id" +
                     " INNER JOIN roles ON users.roles_id=roles.id" +
-                    " INNER JOIN cars ON booking.car_id = cars.c_id" +
+                    " INNER JOIN cars ON booking.car_id = cars.id" +
                     " INNER JOIN brands ON cars.brand_id = brands.id" +
                     " INNER JOIN quality_class ON cars.quality_class_id = quality_class.id" +
                     " INNER JOIN car_status ON cars.car_status_id = car_status.id";

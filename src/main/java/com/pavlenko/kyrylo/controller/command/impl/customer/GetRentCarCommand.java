@@ -27,7 +27,7 @@ public class GetRentCarCommand implements Command {
 
         try {
             Car car = carService.findById(Long.valueOf(request.getParameter(ID)));
-            request.getSession().setAttribute("car", car);
+            request.getSession().setAttribute(CAR, car);
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, StatusesContainer.CAR_INFO_LOADING_EXCEPTION);
         }

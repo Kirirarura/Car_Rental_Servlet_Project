@@ -10,7 +10,7 @@ import com.pavlenko.kyrylo.model.service.BookingService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 /**
  * Return page with requests on which the logged-in manager is working.
@@ -18,10 +18,6 @@ import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 public class GetMyRequestsCommand implements Command {
 
     BookingService bookingService;
-
-    private static final String BOOKING_LIST = "bookingList";
-    private static final String USER_ID = "userId";
-
 
     public GetMyRequestsCommand(BookingService bookingService) {
         this.bookingService = bookingService;

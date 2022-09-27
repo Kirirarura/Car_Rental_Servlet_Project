@@ -14,4 +14,11 @@ public class BookingStatusMapper {
                 BookingStatus.BookingEnum.valueOf(rs.getString(Fields.BOOKING_STATUS))
         );
     }
+
+    public BookingStatus extractFromResultSet(ResultSet rs, String id) throws SQLException {
+        return new BookingStatus(
+                rs.getLong(id),
+                BookingStatus.BookingEnum.valueOf(rs.getString(Fields.BOOKING_STATUS))
+        );
+    }
 }

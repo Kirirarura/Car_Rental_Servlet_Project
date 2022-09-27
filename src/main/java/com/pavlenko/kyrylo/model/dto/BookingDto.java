@@ -3,19 +3,21 @@ package com.pavlenko.kyrylo.model.dto;
 import com.pavlenko.kyrylo.model.entity.Car;
 import com.pavlenko.kyrylo.model.entity.User;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
-public class BookingDto {
+public class BookingDto implements Serializable {
     private User user;
     private Car car;
     private String userDetails;
     private boolean withDriver;
     private String startDate;
     private String endDate;
-    private String price;
+    private BigDecimal price;
 
     public BookingDto(User user, Car car, String userDetails, boolean withDriver, String startDate, String endDate,
-                      String price) {
+                      BigDecimal price) {
         this.user = user;
         this.car = car;
         this.userDetails = userDetails;
@@ -29,7 +31,7 @@ public class BookingDto {
         return user;
     }
 
-    public void setUserId(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -37,7 +39,7 @@ public class BookingDto {
         return car;
     }
 
-    public void setCarId(Car car) {
+    public void setCar(Car car) {
         this.car = car;
     }
 
@@ -73,14 +75,13 @@ public class BookingDto {
         this.endDate = endDate;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
 
     @Override
     public boolean equals(Object o) {

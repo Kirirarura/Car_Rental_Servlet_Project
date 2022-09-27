@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import javax.servlet.http.HttpServletRequest;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -30,7 +31,7 @@ class BookingValidatorTest {
     private static final boolean CORRECT_WITH_DRIVER = true;
     private static final String CORRECT_START_DATE = String.valueOf(LocalDate.now());
     private static final String CORRECT_END_DATE = String.valueOf(LocalDate.now().plusDays(3));
-    private static final String CORRECT_PRICE = "50";
+    private static final BigDecimal CORRECT_PRICE = new BigDecimal(50);
 
 
     private static final String INCORRECT_INPUT_EMPTY = "";

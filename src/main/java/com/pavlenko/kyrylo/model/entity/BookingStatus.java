@@ -7,13 +7,6 @@ public class BookingStatus implements Serializable {
     private Long id;
     private BookingStatus.BookingEnum value;
 
-    public BookingStatus() {
-    }
-
-    public BookingStatus(BookingEnum value) {
-        this.value = value;
-    }
-
     public BookingStatus(Long id, BookingEnum value) {
         this.id = id;
         this.value = value;

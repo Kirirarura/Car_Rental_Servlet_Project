@@ -13,4 +13,10 @@ public class CarStatusMapper {
                 CarStatus.CarStatusEnum.valueOf(rs.getString(Fields.CAR_STATUS))
         );
     }
+    public CarStatus extractFromResultSet(ResultSet rs, String id) throws SQLException {
+        return new CarStatus(
+                rs.getLong(id),
+                CarStatus.CarStatusEnum.valueOf(rs.getString(Fields.CAR_STATUS))
+        );
+    }
 }

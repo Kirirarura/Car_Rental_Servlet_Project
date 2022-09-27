@@ -13,8 +13,7 @@ import com.pavlenko.kyrylo.model.service.QualityService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.ID;
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 
 /**
@@ -24,6 +23,7 @@ public class GetEditCarCommand implements Command {
 
     private final CarService carService;
     private final QualityService qualityService;
+
 
     public GetEditCarCommand(CarService carService, QualityService qualityService) {
         this.carService = carService;
@@ -41,9 +41,9 @@ public class GetEditCarCommand implements Command {
             List<Quality> qualityClassList = qualityService.findAllQualityClasses();
             List<CarStatus> statusList = carService.findAllStatuses();
 
-            request.getSession().setAttribute("car", car);
-            request.getSession().setAttribute("qualityClassList", qualityClassList);
-            request.getSession().setAttribute("statusList", statusList);
+            request.getSession().setAttribute(CAR, car);
+            request.getSession().setAttribute(QUALITY_CLASS_LIST, qualityClassList);
+            request.getSession().setAttribute(STATUS_LIST, statusList);
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, StatusesContainer.CAR_INFO_LOADING_EXCEPTION);
         }

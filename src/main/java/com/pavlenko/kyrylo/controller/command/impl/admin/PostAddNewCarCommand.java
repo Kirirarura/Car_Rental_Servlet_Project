@@ -6,6 +6,7 @@ import com.pavlenko.kyrylo.controller.util.JspFilePath;
 import com.pavlenko.kyrylo.controller.util.UriPath;
 import com.pavlenko.kyrylo.controller.validator.AddCarValidator;
 import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
+import com.pavlenko.kyrylo.model.dao.mapper.field.Fields;
 import com.pavlenko.kyrylo.model.dto.CarDto;
 import com.pavlenko.kyrylo.model.entity.Brand;
 import com.pavlenko.kyrylo.model.entity.Quality;
@@ -16,7 +17,7 @@ import com.pavlenko.kyrylo.model.service.QualityService;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 /**
  * Process adding new car.
@@ -27,8 +28,7 @@ public class PostAddNewCarCommand implements Command {
     private final QualityService qualityService;
     private final BrandService brandService;
     private final CarDetailsMapper carDetailsMapper = new CarDetailsMapper();
-    private static final String BRAND = "brandId";
-    private static final String QUALITY = "qualityId";
+
     public PostAddNewCarCommand(CarService carService, QualityService qualityService, BrandService brandService) {
         this.carService = carService;
         this.qualityService = qualityService;
@@ -42,8 +42,8 @@ public class PostAddNewCarCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
 
-        Long brandId = Long.valueOf(request.getParameter(BRAND));
-        Long qualityId = Long.valueOf(request.getParameter(QUALITY));
+        Long brandId = Long.valueOf(request.getParameter(BRAND_ID));
+        Long qualityId = Long.valueOf(request.getParameter(QUALITY_ID));
         CarDto carDto = null;
         try {
             Brand brand = brandService.findBrandById(brandId);
