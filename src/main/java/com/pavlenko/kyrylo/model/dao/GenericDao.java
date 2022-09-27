@@ -4,10 +4,13 @@ import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 
 import java.util.List;
 
-public interface GenericDao<T>{
+public interface GenericDao<T> {
 
     void create(T entity) throws DataBaseException;
+
     T findById(Long id) throws DataBaseException;
+
     List<T> findAll() throws DataBaseException;
+
     void delete(long id) throws DataBaseException;
 }

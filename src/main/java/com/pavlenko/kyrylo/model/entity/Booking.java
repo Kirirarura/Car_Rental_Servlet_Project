@@ -6,7 +6,6 @@ import com.pavlenko.kyrylo.model.dto.BookingDto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Objects;
 
 public class Booking implements Serializable {
@@ -32,8 +31,7 @@ public class Booking implements Serializable {
         this.withDriver = bookingDto.isWithDriver();
         this.startDate = LocalDate.parse(bookingDto.getStartDate());
         this.endDate = LocalDate.parse(bookingDto.getEndDate());
-        this.price = calculatePrice(new BigDecimal(bookingDto.getPrice()), LocalDate.parse(bookingDto.getStartDate()),
-                LocalDate.parse(bookingDto.getEndDate()), bookingDto.isWithDriver());
+        this.price = bookingDto.getPrice();
     }
 
     public Booking(Long id, User user, BookingStatus bookingStatus, Car car, String userDetails,
@@ -145,19 +143,6 @@ public class Booking implements Serializable {
         return new BookingBuilder();
     }
 
-
-    private BigDecimal calculatePrice(BigDecimal price, LocalDate startDate, LocalDate endDate, boolean withDriver) {
-        Period period = Period.between(startDate, endDate);
-        BigDecimal days = new BigDecimal(period.getDays());
-
-        BigDecimal result = price.multiply(days);
-        if (withDriver) {
-            result = result.add(days.multiply(BigDecimal.valueOf(10)));
-        }
-
-        return result;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -183,6 +168,8 @@ public class Booking implements Serializable {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", price=" + price +
+                ", declineInfo='" + declineInfo + '\'' +
+                ", additionalFee=" + additionalFee +
                 '}';
     }
 }

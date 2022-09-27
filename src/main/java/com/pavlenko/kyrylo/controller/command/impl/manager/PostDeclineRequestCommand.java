@@ -10,7 +10,7 @@ import com.pavlenko.kyrylo.model.service.BookingService;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 /**
  * Process declining of user request.
@@ -18,9 +18,6 @@ import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
 public class PostDeclineRequestCommand implements Command {
 
     BookingService bookingService;
-    public static final String DECLINE_DESCRIPTION = "declineDescription";
-    public static final String BOOKING_ID = "bookingId";
-    public static final String CAR_ID = "carId";
 
     public PostDeclineRequestCommand(BookingService bookingService) {
         this.bookingService = bookingService;

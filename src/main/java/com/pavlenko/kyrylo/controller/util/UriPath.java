@@ -21,6 +21,7 @@ public final class UriPath {
     public static final String ADMIN_CAR_EDIT = ADMIN_PREFIX + "/editCar";
     public static final String ADMIN_CAR_DELETE = ADMIN_PREFIX + "/deleteCar";
     public static final String ADMIN_ADD_NEW_CAR = ADMIN_PREFIX + "/addNewCar";
+    public static final String CUSTOMER_CHECK_RENT = CUSTOMER_PREFIX + "/checkRent";
     public static final String CUSTOMER_RENT_CAR = CUSTOMER_PREFIX + "/rent";
     public static final String CUSTOMER_REQUESTS = CUSTOMER_PREFIX + "/myRequests";
     public static final String CUSTOMER_TERMINATE_REQUEST = CUSTOMER_PREFIX + "/terminate";

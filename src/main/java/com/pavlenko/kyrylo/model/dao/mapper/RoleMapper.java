@@ -13,4 +13,10 @@ public class RoleMapper {
                 Role.RoleEnum.valueOf(rs.getString(Fields.ROLE))
         );
     }
+    public Role extractFromResultSet(ResultSet rs, String id) throws SQLException {
+        return new Role(
+                rs.getLong(id),
+                Role.RoleEnum.valueOf(rs.getString(Fields.ROLE))
+        );
+    }
 }

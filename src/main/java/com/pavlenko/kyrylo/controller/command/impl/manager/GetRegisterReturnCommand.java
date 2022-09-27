@@ -5,15 +5,13 @@ import com.pavlenko.kyrylo.controller.util.JspFilePath;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
+
 
 /**
  * Returns register return page.
  */
 public class GetRegisterReturnCommand implements Command {
-
-    private static final String BOOKING_ID = "bookingId";
-    public static final String CAR_ID = "carId";
-
 
     @Override
     public String execute(HttpServletRequest request) {

@@ -18,9 +18,21 @@ public class CarMapper {
                 .id(rs.getLong(Fields.CAR_ID))
                 .modelName(rs.getString(Fields.MODEL_NAME))
                 .price(rs.getBigDecimal(Fields.PRICE))
-                .brand(brandMapper.extractFromResultSet(rs))
-                .qualityClass(qualityMapper.extractFromResultSet(rs))
-                .status(carStatusMapper.extractFromResultSet(rs))
+                .brand(brandMapper.extractFromResultSet(rs, Fields.CAR_BRAND_ID))
+                .qualityClass(qualityMapper.extractFromResultSet(rs, Fields.CAR_QUALITY_ID))
+                .status(carStatusMapper.extractFromResultSet(rs, Fields.CAR_CAR_STATUS_ID))
+                .descriptionEn(rs.getString(Fields.DESCRIPTION_EN))
+                .descriptionUa(rs.getString(Fields.DESCRIPTION_UA))
+                .build();
+    }
+    public Car extractFromResultSet(ResultSet rs, String id) throws SQLException {
+        return Car.builder()
+                .id(rs.getLong(id))
+                .modelName(rs.getString(Fields.MODEL_NAME))
+                .price(rs.getBigDecimal(Fields.PRICE))
+                .brand(brandMapper.extractFromResultSet(rs, Fields.CAR_BRAND_ID))
+                .qualityClass(qualityMapper.extractFromResultSet(rs, Fields.CAR_QUALITY_ID))
+                .status(carStatusMapper.extractFromResultSet(rs, Fields.CAR_CAR_STATUS_ID))
                 .descriptionEn(rs.getString(Fields.DESCRIPTION_EN))
                 .descriptionUa(rs.getString(Fields.DESCRIPTION_UA))
                 .build();

@@ -28,7 +28,7 @@
         <h1><fmt:message key="customer.registerRent.title"/></h1>
         <p><fmt:message key="customer.registerRent.car"/> <c:out value="${car.brand} ${car.modelName}"/>,
             <fmt:message key="customer.registerRent.price"/> <c:out value="${car.price}"/>)</p>
-        <form action="${pageContext.request.contextPath}/Customer/rent" method="post">
+        <form action="${pageContext.request.contextPath}/Customer/checkRent" method="get">
             <input name="carPrice" value="${car.price}" type="hidden">
             <div class="form-control">
                 <label><fmt:message key="customer.registerRent.passport"/>

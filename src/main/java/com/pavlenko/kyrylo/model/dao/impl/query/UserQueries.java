@@ -5,7 +5,7 @@ public class UserQueries {
     private UserQueries() {
     }
 
-    private static final String WHERE_USER_ID = " WHERE users.u_id = ?";
+    private static final String WHERE_USER_ID = " WHERE users.id = ?";
 
     public static final String CREATE_USER =
             "INSERT INTO users (" +

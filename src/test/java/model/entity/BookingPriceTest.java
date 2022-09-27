@@ -17,7 +17,7 @@ class BookingPriceTest {
     private static final LocalDate START_DATE = LocalDate.now();
     private static final LocalDate END_DATE = START_DATE.plusDays(3);
     private static final String USER_DETAILS = "123456789";
-    private static final String PRICE = "50";
+    private static final BigDecimal PRICE = new BigDecimal(50);
 
     private BookingDto BOOKING_DTO;
 

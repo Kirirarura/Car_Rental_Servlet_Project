@@ -6,6 +6,8 @@ import com.pavlenko.kyrylo.model.entity.Booking;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 /**
@@ -29,6 +31,17 @@ public class BookingService {
         Booking booking = new Booking(bookingDto);
         bookingDao.registerNewBooking(booking, bookingDto.getCar().getCarId(), 2L);
 
+    }
+
+    public BigDecimal calculatePrice(BigDecimal price, LocalDate startDate, LocalDate endDate, boolean withDriver) {
+        Period period = Period.between(startDate, endDate);
+        BigDecimal days = new BigDecimal(period.getDays());
+
+        BigDecimal result = price.multiply(days);
+        if (withDriver) {
+            result = result.add(days.multiply(BigDecimal.valueOf(10)));
+        }
+        return result;
     }
 
     /**

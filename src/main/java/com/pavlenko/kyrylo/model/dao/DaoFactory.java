@@ -16,7 +16,9 @@ public abstract class DaoFactory {
     public abstract CarDao createCarDao(DataSource ds);
 
     public abstract BookingDao createBookingDao(DataSource ds);
+
     public abstract QualityClassDao createQualityClassDao(DataSource ds);
+
     public abstract BrandDao createBrandDao(DataSource ds);
 
     public static DaoFactory getInstance() {

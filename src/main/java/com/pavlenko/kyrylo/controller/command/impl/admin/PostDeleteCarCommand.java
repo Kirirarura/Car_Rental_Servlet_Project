@@ -5,8 +5,6 @@ import com.pavlenko.kyrylo.controller.util.JspFilePath;
 import com.pavlenko.kyrylo.controller.util.UriPath;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.service.CarService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,9 +14,6 @@ import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.ID;
  * Process deleting a car.
  */
 public class PostDeleteCarCommand implements Command {
-
-
-    Logger logger = LogManager.getLogger(PostDeleteCarCommand.class);
     private final CarService carService;
 
     public PostDeleteCarCommand(CarService carService) {

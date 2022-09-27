@@ -17,8 +17,7 @@ import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 public class PostTerminateRequestCommand implements Command {
 
     BookingService bookingService;
-    public static final String BOOKING_ID = "bookingId";
-    public static final String CAR_ID = "carId";
+
 
     public PostTerminateRequestCommand(BookingService bookingService) {
         this.bookingService = bookingService;

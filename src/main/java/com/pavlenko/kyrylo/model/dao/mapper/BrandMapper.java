@@ -14,4 +14,11 @@ public class BrandMapper {
                 Brand.BrandEnum.valueOf(rs.getString(Fields.BRAND))
         );
     }
+
+    public Brand extractFromResultSet(ResultSet rs, String id) throws SQLException {
+        return new Brand(
+                rs.getLong(id),
+                Brand.BrandEnum.valueOf(rs.getString(Fields.BRAND))
+        );
+    }
 }

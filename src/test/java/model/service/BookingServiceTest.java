@@ -26,7 +26,7 @@ class BookingServiceTest {
     private static final boolean WITH_DRIVER = true;
     private static final String START_DATE = String.valueOf(LocalDate.now());
     private static final String END_DATE = String.valueOf(LocalDate.now().plusDays(3));
-    private static final String PRICE = "50";
+    private static final BigDecimal PRICE = new BigDecimal(50);
 
     private static final BookingDto BOOKING_DTO = new BookingDto(
             USER,

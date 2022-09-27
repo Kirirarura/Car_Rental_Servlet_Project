@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 
 /**
@@ -30,11 +30,12 @@ public class GetCatalogCommand implements Command {
     private final QualityService qualityService;
     private final BrandService brandService;
     private final CatalogMapper catalogMapper = new CatalogMapper();
-    private static final String CAR_LIST = "carList";
+
     private static final Integer START_PAGE_NUMBER = 1;
     private static final String PAGES_NUMBER = "pagesNumber";
     private static final String PAGE = "page";
     private static final String ROLE_ATTRIBUTE = "role";
+
 
 
 
@@ -58,8 +59,8 @@ public class GetCatalogCommand implements Command {
 
             List<Brand> brandList = brandService.findAllBrands();
             List<Quality> qualityClassList = qualityService.findAllQualityClasses();
-            request.getSession().setAttribute("brandList", brandList);
-            request.getSession().setAttribute("qualityClassList", qualityClassList);
+            request.getSession().setAttribute(BRAND_LIST, brandList);
+            request.getSession().setAttribute(QUALITY_CLASS_LIST, qualityClassList);
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, StatusesContainer.CAR_INFO_LOADING_EXCEPTION);
         }

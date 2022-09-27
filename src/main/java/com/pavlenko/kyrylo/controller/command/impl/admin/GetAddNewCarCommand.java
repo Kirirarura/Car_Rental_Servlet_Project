@@ -7,13 +7,12 @@ import com.pavlenko.kyrylo.model.entity.Brand;
 import com.pavlenko.kyrylo.model.entity.Quality;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.service.BrandService;
-import com.pavlenko.kyrylo.model.service.CarService;
 import com.pavlenko.kyrylo.model.service.QualityService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 /**
  * Returns add new car page.
@@ -38,8 +37,8 @@ public class GetAddNewCarCommand implements Command {
         try {
             List<Brand> brandList = brandService.findAllBrands();
             List<Quality> qualityClassList = qualityService.findAllQualityClasses();
-            request.getSession().setAttribute("brandList", brandList);
-            request.getSession().setAttribute("qualityClassList", qualityClassList);
+            request.getSession().setAttribute(BRAND_LIST, brandList);
+            request.getSession().setAttribute(QUALITY_CLASS_LIST, qualityClassList);
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, StatusesContainer.CAR_INFO_LOADING_EXCEPTION);
         }

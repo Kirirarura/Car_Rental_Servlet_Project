@@ -121,6 +121,11 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         commands.put(UriPath.CUSTOMER_RENT_CAR,
                 new GetRentCarCommand(
                 (CarService) context.getAttribute(CAR_SERVICE)));
+        commands.put(UriPath.CUSTOMER_CHECK_RENT,
+                new GetCheckRentCarCommand(
+                        (BookingService) context.getAttribute(BOOKING_SERVICE),
+                        (UserService) context.getAttribute(USER_SERVICE),
+                        (CarService) context.getAttribute(CAR_SERVICE)));
         commands.put(UriPath.CUSTOMER_REQUESTS,
                 new GetRentRequestsCommand(
                 (BookingService) context.getAttribute(BOOKING_SERVICE),
@@ -155,7 +160,6 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         commands.put(UriPath.CUSTOMER_RENT_CAR,
                 new PostRentCarCommand(
                         (BookingService) context.getAttribute(BOOKING_SERVICE),
-                        (UserService) context.getAttribute(USER_SERVICE),
                         (CarService) context.getAttribute(CAR_SERVICE)));
         commands.put(UriPath.CUSTOMER_TERMINATE_REQUEST,
                 new PostTerminateRequestCommand((BookingService) context.getAttribute(BOOKING_SERVICE)));

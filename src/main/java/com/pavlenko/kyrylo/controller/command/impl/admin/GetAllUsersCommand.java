@@ -9,7 +9,7 @@ import com.pavlenko.kyrylo.model.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 
 /**
@@ -17,7 +17,7 @@ import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
  */
 public class GetAllUsersCommand implements Command {
     private final UserService userService;
-    private static final String USER_LIST = "userList";
+
 
     public GetAllUsersCommand(UserService userService) {
         this.userService = userService;

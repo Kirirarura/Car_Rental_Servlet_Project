@@ -12,17 +12,14 @@ import com.pavlenko.kyrylo.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.STATUS;
+import static com.pavlenko.kyrylo.controller.util.ConstantsContainer.*;
 
 /**
  * Process login.
  */
 public class PostLoginCommand implements Command {
 
-    private static final String EMAIL = "email";
-    private static final String PASSWORD = "password";
-    private static final String USER_ID = "userId";
-    private static final String ROLE = "role";
+
     private final UserService userService;
 
     public PostLoginCommand(UserService userService) {
