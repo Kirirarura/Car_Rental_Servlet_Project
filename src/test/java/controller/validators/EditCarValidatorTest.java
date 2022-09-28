@@ -34,8 +34,13 @@ class EditCarValidatorTest {
     }
 
     @Test
-    void testValidateShouldReturnTrueDescriptionCase() {
+    void testValidateShouldReturnTrueDescriptionEnCase() {
         assertTrue(EditCarValidator.validate(DESCRIPTION_EN, CORRECT_DESCRIPTION_INPUT, REQUEST));
+    }
+
+    @Test
+    void testValidateShouldReturnTrueDescriptionUaCase() {
+        assertTrue(EditCarValidator.validate(DESCRIPTION_UA, CORRECT_DESCRIPTION_INPUT, REQUEST));
     }
 
     @Test
@@ -66,6 +71,15 @@ class EditCarValidatorTest {
     }
 
     @Test
+    void testValidateEditCarWithIncorrectPriceInputEmpty(){
+        boolean isValid = EditCarValidator.validate(PRICE, EMPTY_INPUT, REQUEST);
+        assertFalse(isValid);
+
+        verify(REQUEST, times(1))
+                .setAttribute("status", StatusesContainer.EMPTY_FIELD_EXCEPTION);
+    }
+
+    @Test
     void testValidateEditCarWithIncorrectDescriptionEnInput(){
         boolean isValid = EditCarValidator.validate(DESCRIPTION_EN, INCORRECT_DESCRIPTION_INPUT, REQUEST);
         assertFalse(isValid);
@@ -75,30 +89,12 @@ class EditCarValidatorTest {
     }
 
     @Test
-    void testValidateEditCarWithIncorrectDescriptionEnInputEmpty(){
-        boolean isValid = EditCarValidator.validate(DESCRIPTION_EN, EMPTY_INPUT, REQUEST);
-        assertFalse(isValid);
-
-        verify(REQUEST, times(1))
-                .setAttribute("status", StatusesContainer.EMPTY_FIELD_EXCEPTION);
-    }
-
-    @Test
     void testValidateEditCarWithIncorrectDescriptionUaInput(){
         boolean isValid = EditCarValidator.validate(DESCRIPTION_UA, INCORRECT_DESCRIPTION_INPUT, REQUEST);
         assertFalse(isValid);
 
         verify(REQUEST, times(1))
                 .setAttribute("status", StatusesContainer.DESCRIPTION_SIZE_OUT_OF_BOUNDS_EXCEPTION);
-    }
-
-    @Test
-    void testValidateEditCarWithIncorrectDescriptionUaInputEmpty(){
-        boolean isValid = EditCarValidator.validate(DESCRIPTION_UA, EMPTY_INPUT, REQUEST);
-        assertFalse(isValid);
-
-        verify(REQUEST, times(1))
-                .setAttribute("status", StatusesContainer.EMPTY_FIELD_EXCEPTION);
     }
 
 

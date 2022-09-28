@@ -101,12 +101,12 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return email.equals(user.email);
+        return isBlocked() == user.isBlocked() && Objects.equals(getId(), user.getId()) && Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getLastName(), user.getLastName()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getRole(), user.getRole());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email);
+        return Objects.hash(getId(), getFirstName(), getLastName(), getEmail(), getPassword(), getRole(), isBlocked());
     }
 
     @Override

@@ -75,8 +75,10 @@ public class UserService {
      */
     public void registerNewAccount(UserDto userDto) throws EmailIsAlreadyRegisteredException, DataBaseException {
         checkEmailIsUnique(userDto.getEmail());
+
         User user = new User(userDto, Role.RoleEnum.CUSTOMER);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
         userDao.create(user);
         logger.info("New user account {} has been created", user);
     }
