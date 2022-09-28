@@ -24,7 +24,6 @@ public class GetRentCarCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-
         try {
             Car car = carService.findById(Long.valueOf(request.getParameter(ID)));
             request.getSession().setAttribute(CAR, car);

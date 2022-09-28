@@ -6,7 +6,7 @@
     margin: 0;
 }
 
-html{
+html {
     height: 100%;
 }
 
@@ -46,6 +46,10 @@ a {
 
 .button.secondary {
     border-bottom: 1px #444 solid;
+}
+
+.lang-button {
+    cursor: pointer;
 }
 
 
@@ -105,12 +109,6 @@ a {
 .bars::after {
     top: -5px;
 }
-
-/*main h2 {*/
-/*    text-align: center;*/
-/*    color: white;*/
-/*    font-size: 2rem;*/
-/*}*/
 
 .no-results {
     padding: 1rem;

@@ -7,6 +7,7 @@ import com.pavlenko.kyrylo.model.entity.Car;
 import com.pavlenko.kyrylo.model.entity.User;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import com.pavlenko.kyrylo.model.service.BookingService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -38,12 +39,25 @@ class BookingServiceTest {
             PRICE
     );
 
-
     @Test
     void testRegisterNewBooking() throws DataBaseException {
         bookingService.registerNewBooking(BOOKING_DTO);
         Booking booking = new Booking(BOOKING_DTO);
         verify(bookingDao, times(1)).registerNewBooking(booking, null, 2L);
+    }
+
+    @Test
+    void testCalculatePriceCorrect() {
+        BigDecimal result = bookingService.calculatePrice(
+                PRICE, LocalDate.parse(START_DATE), LocalDate.parse(END_DATE), WITH_DRIVER);
+        Assertions.assertEquals(new BigDecimal(180), result);
+    }
+
+    @Test
+    void testCalculatePriceIncorrect() {
+        BigDecimal result = bookingService.calculatePrice(
+                PRICE, LocalDate.parse(START_DATE), LocalDate.parse(END_DATE), WITH_DRIVER);
+        Assertions.assertNotEquals(new BigDecimal(200), result);
     }
 
     @Test
