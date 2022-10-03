@@ -1,4 +1,4 @@
-package com.pavlenko.kyrylo.model.builder;
+package com.pavlenko.kyrylo.model.entity.builder;
 
 import com.pavlenko.kyrylo.model.entity.Role;
 import com.pavlenko.kyrylo.model.entity.User;
@@ -11,6 +11,7 @@ public class UserBuilder {
     private String password;
     private Role role;
     private boolean blocked;
+    private boolean activated;
 
     public UserBuilder id(Long id) {
         this.id = id;
@@ -43,7 +44,11 @@ public class UserBuilder {
     }
 
     public UserBuilder isBlocked(int blocked) {
-        this.blocked = blocked != 1;
+        this.blocked = blocked != 0;
+        return this;
+    }
+    public UserBuilder isActivated(int activated) {
+        this.activated = activated != 0;
         return this;
     }
 
@@ -55,7 +60,8 @@ public class UserBuilder {
                 this.email,
                 this.password,
                 this.role,
-                this.blocked
+                this.blocked,
+                this.activated
         );
     }
 

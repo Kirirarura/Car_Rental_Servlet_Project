@@ -1,6 +1,6 @@
 package com.pavlenko.kyrylo.model.entity;
 
-import com.pavlenko.kyrylo.model.builder.BookingBuilder;
+import com.pavlenko.kyrylo.model.entity.builder.BookingBuilder;
 import com.pavlenko.kyrylo.model.dto.BookingDto;
 
 import java.io.Serializable;

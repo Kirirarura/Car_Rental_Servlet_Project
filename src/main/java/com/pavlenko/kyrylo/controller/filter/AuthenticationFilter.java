@@ -81,7 +81,7 @@ public class AuthenticationFilter implements Filter {
     }
 
     private boolean checkGuestAccess(String uri) {
-        return checkCommonAccess(uri) || uri.equals(LOGIN) || uri.equals(REGISTRATION);
+        return checkCommonAccess(uri) || uri.equals(LOGIN) || uri.equals(REGISTRATION) || uri.equals(ACTIVATE_ACCOUNT);
     }
 
     private boolean checkCommonAccess(String uri) {

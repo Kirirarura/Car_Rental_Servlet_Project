@@ -15,6 +15,7 @@ public final class UriPath {
     public static final String LOGOUT = "/logout";
     public static final String REGISTRATION = "/registration";
     public static final String CATALOG = "/catalog";
+    public static final String ACTIVATE_ACCOUNT = "/ActivateAccount";
     public static final String ADMIN_USER_LIST = ADMIN_PREFIX + "/userList";
     public static final String ADMIN_BLOCK_UNBLOCK_USER = ADMIN_PREFIX + "/blockUnblock";
     public static final String ADMIN_REGISTER_MANAGER = ADMIN_PREFIX + "/registrationManager";

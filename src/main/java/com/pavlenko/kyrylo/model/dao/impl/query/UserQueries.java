@@ -29,6 +29,12 @@ public class UserQueries {
     public static final String FIND_BY_ID =
             FIND_ALL + WHERE_USER_ID;
 
+    public static final String FIND_BY_ID_NOT_ACTIVATED =
+            FIND_ALL + " WHERE email = ? AND is_activated='0'";
+
+    public static final String ACTIVATE_ACCOUNT =
+            "UPDATE users SET is_activated='1' WHERE email=?";
+
     public static final String BLOCK_BY_ID =
             "UPDATE users" +
                     " SET is_blocked = 0" +

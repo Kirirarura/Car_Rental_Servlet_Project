@@ -19,6 +19,7 @@ public final class StatusesContainer {
     public static final String USER_BLOCKED_EXCEPTION = "userBlockedException";
     public static final String FAILED_LOGIN_EXCEPTION = "failedLoginException";
     public static final String AUTHENTICATION_EXCEPTION = "authenticationException";
+    public static final String NOT_VERIFIED_ACCOUNT_EXCEPTION = "notVerifiedAccountException";
 
     // -- Info loading -- //
     public static final String CAR_INFO_LOADING_EXCEPTION = "carInfoLoadingException";

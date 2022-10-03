@@ -1,6 +1,6 @@
 package com.pavlenko.kyrylo.model.entity;
 
-import com.pavlenko.kyrylo.model.builder.UserBuilder;
+import com.pavlenko.kyrylo.model.entity.builder.UserBuilder;
 import com.pavlenko.kyrylo.model.dto.UserDto;
 
 import java.io.Serializable;
@@ -14,11 +14,13 @@ public class User implements Serializable {
     private String password;
     private Role role;
     private boolean blocked;
+    private boolean activated;
 
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String email, String password, Role role, boolean blocked) {
+    public User(Long id, String firstName, String lastName, String email, String password, Role role, boolean blocked,
+                boolean activated) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,6 +28,7 @@ public class User implements Serializable {
         this.password = password;
         this.role = role;
         this.blocked = blocked;
+        this.activated = activated;
     }
 
     public User(UserDto userDto, Role.RoleEnum role) {
@@ -34,6 +37,14 @@ public class User implements Serializable {
         this.email = userDto.getEmail();
         this.password = userDto.getPassword();
         this.role = new Role(role);
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     public Long getId() {
