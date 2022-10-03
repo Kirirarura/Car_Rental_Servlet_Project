@@ -14,6 +14,7 @@ let registrationException = "\u041f\u0456\u0434\u0020\u0447\u0430\u0441\u0020\u0
 let userBlockedException = "\u0426\u0435\u0439\u0020\u043e\u0431\u043b\u0456\u043a\u043e\u0432\u0438\u0439\u0020\u0437\u0430\u043f\u0438\u0441\u0020\u0437\u0430\u0431\u043b\u043e\u043a\u043e\u0432\u0430\u043d\u043e"
 let failedLoginException = "\u041a\u043e\u043c\u0431\u0456\u043d\u0430\u0446\u0456\u044f\u0020\u043b\u043e\u0433\u0456\u043d\u0443\u0020\u0430\u0431\u043e\u0020\u043f\u0430\u0440\u043e\u043b\u044f\u0020\u043d\u0435\u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u0430"
 let authenticationException = "\u041f\u0456\u0434\u0020\u0447\u0430\u0441\u0020\u043f\u0440\u043e\u0446\u0435\u0441\u0443\u0020\u0430\u0432\u0442\u0435\u043d\u0442\u0438\u0444\u0456\u043a\u0430\u0446\u0456\u0457\u0020\u0441\u0442\u0430\u043b\u0430\u0441\u044f\u0020\u043f\u043e\u043c\u0438\u043b\u043a\u0430"
+let notVerifiedAccountException = "\u041f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u044c\u0442\u0435\u0020\u0441\u0432\u0456\u0439\u0020\u043e\u0431\u043b\u0456\u043a\u043e\u0432\u0438\u0439\u0020\u0437\u0430\u043f\u0438\u0441\u002c\u0020\u043c\u0438\u0020\u043d\u0430\u0434\u0456\u0441\u043b\u0430\u043b\u0438\u0020\u043f\u043e\u0441\u0438\u043b\u0430\u043d\u043d\u044f\u0020\u043d\u0430\u0020\u0432\u0430\u0448\u0443\u0020\u0435\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u0443\u0020\u043f\u043e\u0448\u0442\u0443"
 
 // ----- Register messages --------
 if (lang === "ua") {
@@ -88,6 +89,12 @@ if (lang === "ua") {
             showConfirmButton: true
         })
     } else if (status === 'authenticationException') {
+        Swal.fire({
+            icon: 'error',
+            title: authenticationException,
+            showConfirmButton: true
+        })
+    } else if (status === 'notVerifiedAccountException') {
         Swal.fire({
             icon: 'error',
             title: authenticationException,
@@ -172,6 +179,12 @@ else if (lang === "en"){
         Swal.fire({
             icon: 'error',
             title: 'Error occurred during authentication process',
+            showConfirmButton: true
+        })
+    } else if (status === 'notVerifiedAccountException') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Please verify your account, we`ve sent a link to your email',
             showConfirmButton: true
         })
     }

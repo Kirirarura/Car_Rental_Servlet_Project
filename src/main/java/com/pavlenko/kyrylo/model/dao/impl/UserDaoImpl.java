@@ -5,6 +5,7 @@ import com.pavlenko.kyrylo.model.dao.impl.query.UserQueries;
 import com.pavlenko.kyrylo.model.dao.impl.util.DBUtil;
 import com.pavlenko.kyrylo.model.dao.mapper.UserMapper;
 import com.pavlenko.kyrylo.model.entity.User;
+import com.pavlenko.kyrylo.model.entity.util.SendingEmail;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +38,11 @@ public class UserDaoImpl implements UserDao {
             statement.setString(4, entity.getPassword());
             statement.setString(5, entity.getRole().getValue().name());
 
-            statement.executeUpdate();
+            int i = statement.executeUpdate();
+            if (i!=0){
+                SendingEmail se = new SendingEmail(entity.getEmail());
+                se.sentEmail();
+            }
         } catch (SQLException e) {
             logger.error(ERROR_MASSAGE, e.getMessage());
             throw new DataBaseException();
@@ -150,5 +155,27 @@ public class UserDaoImpl implements UserDao {
         } finally {
             DBUtil.closeResources(rs);
         }
+    }
+
+    @Override
+    public boolean accountVerification(String email) throws DataBaseException {
+        ResultSet rs = null;
+        try(Connection con = ds.getConnection();
+        PreparedStatement statement1 = con.prepareStatement(UserQueries.FIND_BY_ID_NOT_ACTIVATED)) {
+            statement1.setString(1, email);
+            rs = statement1.executeQuery();
+            if (rs.next()){
+                PreparedStatement statement2 = con.prepareStatement(UserQueries.ACTIVATE_ACCOUNT);
+                statement2.setString(1, email);
+                int i = statement2.executeUpdate();
+                return i == 1;
+            }
+        } catch (SQLException e) {
+            logger.error(ERROR_MASSAGE, e.getMessage());
+            throw new DataBaseException();
+        } finally {
+            DBUtil.closeResources(rs);
+        }
+        return false;
     }
 }

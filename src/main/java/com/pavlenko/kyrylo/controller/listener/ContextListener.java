@@ -6,10 +6,7 @@ import com.pavlenko.kyrylo.controller.command.impl.common.GetCatalogCommand;
 import com.pavlenko.kyrylo.controller.command.impl.common.GetHomeCommand;
 import com.pavlenko.kyrylo.controller.command.impl.common.GetLogOutCommand;
 import com.pavlenko.kyrylo.controller.command.impl.customer.*;
-import com.pavlenko.kyrylo.controller.command.impl.guest.GetLoginCommand;
-import com.pavlenko.kyrylo.controller.command.impl.guest.GetRegistrationCommand;
-import com.pavlenko.kyrylo.controller.command.impl.guest.PostLoginCommand;
-import com.pavlenko.kyrylo.controller.command.impl.guest.PostRegistrationCommand;
+import com.pavlenko.kyrylo.controller.command.impl.guest.*;
 import com.pavlenko.kyrylo.controller.command.impl.manager.*;
 import com.pavlenko.kyrylo.controller.util.UriPath;
 import com.pavlenko.kyrylo.model.service.*;
@@ -101,6 +98,8 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         commands.put(UriPath.LOGIN, new GetLoginCommand());
         commands.put(UriPath.LOGOUT, new GetLogOutCommand());
         commands.put(UriPath.REGISTRATION, new GetRegistrationCommand());
+        commands.put(UriPath.ACTIVATE_ACCOUNT, new GetActivateAccountCommand(
+                (UserService) context.getAttribute(USER_SERVICE)));
         commands.put(UriPath.CATALOG, new GetCatalogCommand(
                 (CarService) context.getAttribute(CAR_SERVICE),
                 (QualityService) context.getAttribute(QUALITY_SERVICE),

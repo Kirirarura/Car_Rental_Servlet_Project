@@ -7,6 +7,7 @@ import com.pavlenko.kyrylo.controller.validator.statuses.StatusesContainer;
 import com.pavlenko.kyrylo.model.entity.User;
 import com.pavlenko.kyrylo.model.exeption.AuthenticationException;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
+import com.pavlenko.kyrylo.model.exeption.NotActivatedAccountException;
 import com.pavlenko.kyrylo.model.exeption.UserIsBlockedException;
 import com.pavlenko.kyrylo.model.service.UserService;
 
@@ -48,6 +49,9 @@ public class PostLoginCommand implements Command {
             return JspFilePath.LOGIN;
         } catch (DataBaseException e) {
             request.setAttribute(STATUS, StatusesContainer.AUTHENTICATION_EXCEPTION);
+            return JspFilePath.LOGIN;
+        } catch (NotActivatedAccountException e) {
+            request.setAttribute(STATUS, StatusesContainer.NOT_VERIFIED_ACCOUNT_EXCEPTION);
             return JspFilePath.LOGIN;
         }
 

@@ -1,4 +1,4 @@
-package com.pavlenko.kyrylo.model.builder;
+package com.pavlenko.kyrylo.model.entity.builder;
 
 import com.pavlenko.kyrylo.model.entity.Booking;
 import com.pavlenko.kyrylo.model.entity.BookingStatus;

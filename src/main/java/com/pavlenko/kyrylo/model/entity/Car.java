@@ -1,6 +1,6 @@
 package com.pavlenko.kyrylo.model.entity;
 
-import com.pavlenko.kyrylo.model.builder.CarBuilder;
+import com.pavlenko.kyrylo.model.entity.builder.CarBuilder;
 import com.pavlenko.kyrylo.model.dto.CarDto;
 
 import java.io.Serializable;

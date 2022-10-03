@@ -12,6 +12,7 @@ public class Fields {
     public static final String LAST_NAME = "lastname";
     public static final String EMAIL = "email";
     public static final String IS_BLOCKED = "is_blocked";
+    public static final String IS_ACTIVATED = "is_activated";
     public static final String USER_ROLE_ID = "roles_id";
 
 

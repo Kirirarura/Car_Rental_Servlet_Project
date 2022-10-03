@@ -18,6 +18,7 @@ public class UserMapper {
                 .email(rs.getString(Fields.EMAIL))
                 .role(roleMapper.extractFromResultSet(rs, Fields.USER_ROLE_ID))
                 .isBlocked(rs.getInt(Fields.IS_BLOCKED))
+                .isActivated(rs.getInt(Fields.IS_ACTIVATED))
                 .build();
     }
     public User extractFromResultSet(ResultSet rs, String id) throws SQLException {
@@ -28,6 +29,7 @@ public class UserMapper {
                 .email(rs.getString(Fields.EMAIL))
                 .role(roleMapper.extractFromResultSet(rs, Fields.USER_ROLE_ID))
                 .isBlocked(rs.getInt(Fields.IS_BLOCKED))
+                .isActivated(rs.getInt(Fields.IS_ACTIVATED))
                 .build();
     }
 }

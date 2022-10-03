@@ -13,4 +13,6 @@ public interface UserDao extends GenericDao<User> {
     void unblockById(int id) throws DataBaseException;
 
     boolean emailAlreadyExists(String email) throws DataBaseException;
+
+    boolean accountVerification(String email) throws DataBaseException;
 }

@@ -1,4 +1,4 @@
-package com.pavlenko.kyrylo.model.builder;
+package com.pavlenko.kyrylo.model.entity.builder;
 
 import com.pavlenko.kyrylo.model.entity.Brand;
 import com.pavlenko.kyrylo.model.entity.Car;
