@@ -53,8 +53,8 @@ public class CarService {
         if (role.equals("ADMIN")) {
             adminRequest = true;
         }
-        PaginationInfo paginationResultData =
-                carDao.getPaginationResultData(filterParameters, PAGE_SIZE, offSet, adminRequest);
+        PaginationInfo paginationResultData = carDao.getPaginationResultData(
+                filterParameters, PAGE_SIZE, offSet, adminRequest);
 
         int pagesCount = (int) Math.ceil((double) paginationResultData.getCarsCount() / PAGE_SIZE);
         paginationResultData.setPagesCount(pagesCount);

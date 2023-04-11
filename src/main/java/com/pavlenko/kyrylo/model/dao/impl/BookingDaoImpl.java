@@ -84,11 +84,9 @@ public class BookingDaoImpl implements BookingDao {
     public void registerNewBooking(Booking entity, Long carId, Long carStatusId)
             throws DataBaseException {
         Connection con = null;
-        PreparedStatement createStatement = null;
         PreparedStatement editCarStatusStatement = null;
         try {
             con = ds.getConnection();
-            createStatement = con.prepareStatement(BookingQueries.CREATE_BOOKING);
             editCarStatusStatement = con.prepareStatement(CarQueries.UPDATE_CAR_STATUS);
 
             con.setAutoCommit(false);
@@ -111,7 +109,7 @@ public class BookingDaoImpl implements BookingDao {
             logger.error(ROLLBACK_MASSAGE, e.getMessage());
             throw new DataBaseException();
         } finally {
-            DBUtil.closeResources(con, createStatement, editCarStatusStatement);
+            DBUtil.closeResources(con, editCarStatusStatement);
         }
 
     }
