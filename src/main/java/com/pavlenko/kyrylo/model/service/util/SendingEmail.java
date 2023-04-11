@@ -1,4 +1,4 @@
-package com.pavlenko.kyrylo.model.entity.util;
+package com.pavlenko.kyrylo.model.service.util;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class SendingEmail {
 
-    private String userEmail;
+    private final String userEmail;
     private final Logger logger = LogManager.getLogger(SendingEmail.class);
 
     public SendingEmail(String userEmail) {
@@ -38,7 +38,7 @@ public class SendingEmail {
         try {
             message.setFrom(new InternetAddress(fromEmail));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
-            message.setSubject("Car Renting email verification Link");
+            message.setSubject("Car Renting email verification Link (do not reply)");
             message.setText("Verification Link...");
             message.setText("Your verification link: " +
                     "http://localhost:8080/Car_Rental_Servlet_Project_war/ActivateAccount?key1=" + userEmail);

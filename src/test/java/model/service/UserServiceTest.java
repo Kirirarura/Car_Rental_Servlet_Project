@@ -32,14 +32,15 @@ class UserServiceTest {
     private static final String EMAIL = "random.mail@gmail.com";
     private static final String PASSWORD = "Strongest_PASSWORD_31";
 
-    private static final User UNBLOCKED_USER = User.builder()
+    private static final User UNBLOCKED_ACTIVATED_USER = User.builder()
             .id(null)
             .firstname(FIRSTNAME)
             .lastName(LASTNAME)
             .email(EMAIL)
             .password(PASSWORD)
             .role(new Role(Role.RoleEnum.CUSTOMER))
-            .isBlocked(1)
+            .isBlocked(0)
+            .isActivated(1)
             .build();
 
     private static final User UNBLOCKED_MANAGER = User.builder()
@@ -49,7 +50,8 @@ class UserServiceTest {
             .email(EMAIL)
             .password(PASSWORD)
             .role(new Role(Role.RoleEnum.MANAGER))
-            .isBlocked(1)
+            .isBlocked(0)
+            .isActivated(1)
             .build();
 
 
@@ -57,7 +59,8 @@ class UserServiceTest {
             .id(1L)
             .email(EMAIL)
             .password(PASSWORD)
-            .isBlocked(0)
+            .isBlocked(1)
+            .isActivated(1)
             .build();
 
     private static final UserDto USER_DTO = new UserDto(
@@ -71,7 +74,7 @@ class UserServiceTest {
     @Test
     void testAuthenticationShouldNotThrowException() throws DataBaseException {
         String password = passwordEncoder.encode(PASSWORD);
-        when(userDao.findByUsernameAndPassword(EMAIL, password)).thenReturn(Optional.of(UNBLOCKED_USER));
+        when(userDao.findByUsernameAndPassword(EMAIL, password)).thenReturn(Optional.of(UNBLOCKED_ACTIVATED_USER));
 
         assertDoesNotThrow(() -> userService.authentication(EMAIL, PASSWORD));
     }

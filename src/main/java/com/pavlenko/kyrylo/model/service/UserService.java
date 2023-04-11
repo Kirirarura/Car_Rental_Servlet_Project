@@ -41,30 +41,28 @@ public class UserService {
      *
      * @param email    Input from guest that represents user email.
      * @param password Input from guest that represents user password.
-     * @throws UserIsBlockedException  Indicates that user is blocked.
-     * @throws NotActivatedAccountException  Indicates that user is not verified.
-     * @throws AuthenticationException Indicates that credentials was incorrect.
-     * @throws DataBaseException       Indicates that error occurred during database accessing.
+     * @throws UserIsBlockedException       Indicates that user is blocked.
+     * @throws NotActivatedAccountException Indicates that user is not verified.
+     * @throws AuthenticationException      Indicates that credentials was incorrect.
+     * @throws DataBaseException            Indicates that error occurred during database accessing.
      */
     public User authentication(String email, String password)
             throws UserIsBlockedException, AuthenticationException, DataBaseException, NotActivatedAccountException {
         String encodedPass = passwordEncoder.encode(password);
         Optional<User> optionalUser = userDao.findByUsernameAndPassword(email, encodedPass);
-        if (optionalUser.isPresent()) {
-            if (optionalUser.get().isActivated()){
-                if (!optionalUser.get().isBlocked()) {
-                    return optionalUser.get();
-                } else {
-                    logger.warn("User ({}) is blocked", email);
-                    throw new UserIsBlockedException();
-                }
-            } else {
-                logger.warn("User ({}) is not verified", email);
-                throw new NotActivatedAccountException();
-            }
-        } else {
+        if (!optionalUser.isPresent()) {
             logger.warn("The user credentials entered are incorrect");
             throw new AuthenticationException();
+        }
+        if (!optionalUser.get().isActivated()) {
+            logger.warn("User ({}) is not verified", email);
+            throw new NotActivatedAccountException();
+        }
+        if (!optionalUser.get().isBlocked()) {
+            return optionalUser.get();
+        } else {
+            logger.warn("User ({}) is blocked", email);
+            throw new UserIsBlockedException();
         }
     }
 

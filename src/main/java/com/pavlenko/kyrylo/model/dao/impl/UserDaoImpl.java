@@ -5,7 +5,7 @@ import com.pavlenko.kyrylo.model.dao.impl.query.UserQueries;
 import com.pavlenko.kyrylo.model.dao.impl.util.DBUtil;
 import com.pavlenko.kyrylo.model.dao.mapper.UserMapper;
 import com.pavlenko.kyrylo.model.entity.User;
-import com.pavlenko.kyrylo.model.entity.util.SendingEmail;
+import com.pavlenko.kyrylo.model.service.util.SendingEmail;
 import com.pavlenko.kyrylo.model.exeption.DataBaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

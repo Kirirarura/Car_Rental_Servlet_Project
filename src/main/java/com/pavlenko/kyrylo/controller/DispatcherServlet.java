@@ -29,8 +29,7 @@ public class DispatcherServlet extends HttpServlet {
      * Gets commands from a servlet context.
      */
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init(ServletConfig config) {
         getCommands = (Map<String, Command>) config.getServletContext().getAttribute("getCommands");
         postCommands = (Map<String, Command>) config.getServletContext().getAttribute("postCommands");
     }

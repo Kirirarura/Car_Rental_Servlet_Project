@@ -18,10 +18,6 @@ public class AuthenticationFilter implements Filter {
     private static final String USER_ID_ATTRIBUTE = "userId";
     private final Logger logger = LogManager.getLogger(AuthenticationFilter.class);
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
-    }
 
     /**
      * Does nothing if user has access.
@@ -90,10 +86,5 @@ public class AuthenticationFilter implements Filter {
 
     private boolean checkResources(String uri) {
         return uri.startsWith(STATIC_RESOURCES_PREFIX);
-    }
-
-    @Override
-    public void destroy() {
-        Filter.super.destroy();
     }
 }
