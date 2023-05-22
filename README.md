@@ -1,7 +1,7 @@
 # Car Rental Project
 ## Task:
 
---
+
 EN
 --
 There is a list of Cars in the system, for which it is necessary to implement:
@@ -25,7 +25,6 @@ The system administrator has the right to:
 - blocking/unblocking users;
 - registration of managers in the system
 
---
 UA
 --
 В системі існує перелік Автомобілів, для якого необхідно реалізувати:
